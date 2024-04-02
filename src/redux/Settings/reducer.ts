@@ -25,19 +25,18 @@ const settingsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(actions.displayModalSignUpAction, (state, action) => {
       state.displayModalSignUp = true;
-    });
-  //si authentification est réussie
-  /* .addCase(actions.loginAction.fulfilled, (state, action) => {
+    })
+    //si authentification est réussie
+    .addCase(actions.loginAction.fulfilled, (state, action) => {
       state.isConnected = true;
-      state.displayModal = false;
+      state.displayModalLogIn = false;
     })
     //si authentifiaction a échoué
     .addCase(actions.loginAction.rejected, (state, action) => {
       state.isConnected = false;
-      state.displayModal = true;
+      state.displayModalLogIn = true;
       state.errorMessage = action.error.message || 'erreur';
     });
-    */
 });
 
 export default settingsReducer;
