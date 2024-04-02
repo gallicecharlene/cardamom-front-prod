@@ -1,26 +1,19 @@
 import logo from '../../assets/logo.svg';
-
+import AppHeader from '../AppHeader/AppHeader';
+import SearchBar from '../SearchBar/SearchBar';
 import './App.scss';
+import Icone from '../Icone/Icone';
+import Footer from '../Footer/Footer';
+import Deck from '../Deck/Deck';
 
 function App() {
   return (
     <div className="app">
-      <header className="app-header">
-        <img src={logo} className="app-logo" alt="logo" />
-
-        <p>
-          Edit <code>src/components/App/App.tsx</code> and save to reload.
-        </p>
-
-        <a
-          className="app-link"
-          href="https://react.dev/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AppHeader />
+      <SearchBar />
+      <Icone />
+      <Deck />
+      <Footer />
     </div>
   );
 }

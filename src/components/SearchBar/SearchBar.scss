@@ -1,0 +1,22 @@
+.search-bar {
+  display: flex;
+  padding-top: 10vh;
+  margin-left: 50vh;
+}
+
+.search-input {
+  flex-grow: 1;
+  padding: 8px;
+  max-width: 600px;
+}
+
+.search-button {
+  padding: 8px 16px;
+  background-color: #226d68;
+  color: white;
+  margin-right: 30vh;
+}
+
+.search-button:hover {
+  background-color: #185951;
+}
