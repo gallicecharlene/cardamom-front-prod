@@ -3,7 +3,7 @@ import { ChangeEvent, useState, FormEvent } from 'react';
 import './SignUp.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
-import { FaPlus } from 'react-icons/fa6';
+
 import { AppDispatch, RootState } from '../../../redux/store';
 
 function SignUp() {
@@ -25,14 +25,21 @@ function SignUp() {
   const pseudoHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPseudo(event.target.value);
   };
+  const handlePasswordCheck = async (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setPassword('');
+    setNewPassword('');
+    password !== newPassword
+      ? alert('Les mots de passe ne correspondent pas')
+      : handleLogin;
+  };
 
   const handleLogin = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('email =', email);
     console.log('mot de passe = ', password);
     console.log('mot de passe2 = ', newPassword);
-    setNewPassword('');
-    setEmail(''), setPassword('');
+    setEmail('');
   };
 
   const dispatch: AppDispatch = useDispatch();
@@ -51,7 +58,7 @@ function SignUp() {
           <button id="closeButton" onClick={handleDialogDisplay}>
             <IoIosCloseCircle className="react_icon" />
           </button>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handlePasswordCheck}>
             <input
               type="text"
               value={pseudo}
