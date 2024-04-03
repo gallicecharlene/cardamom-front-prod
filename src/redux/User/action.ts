@@ -4,6 +4,7 @@ import { userData } from '../../data';
 type LoginActionPayload = {
   email: string;
   password: string;
+  pseudo: String;
 };
 
 export const loginAction = createAsyncThunk(

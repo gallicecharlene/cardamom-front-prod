@@ -46,7 +46,9 @@ function SignUp() {
   };
 
   const { isConnected } = useSelector((store: RootState) => store.user);
+
   const dispatch: AppDispatch = useDispatch();
+
   const { displayModalSignUp } = useSelector(
     (store: RootState) => store.settings
   );
@@ -57,43 +59,47 @@ function SignUp() {
 
   return (
     <>
-      {displayModalSignUp ? (
-        <div id="Settings">
-          <button id="closeButton" onClick={handleDialogDisplay}>
-            <IoIosCloseCircle className="react_icon" />
-          </button>
-          <form onSubmit={handlePasswordCheck}>
-            <input
-              type="text"
-              value={pseudo}
-              onChange={pseudoHandleChange}
-              placeholder="Pseudo"
-            />
-            <input
-              type="email"
-              value={email}
-              onChange={emailHandleChange}
-              placeholder="Email"
-            />
-            <input
-              type="password"
-              value={password}
-              onChange={passwordHandleChange}
-              placeholder="Mot de passe"
-            />
-            <input
-              type="password"
-              value={newPassword}
-              onChange={newPasswordHandleChange}
-              placeholder="Confirmer le mot de passe"
-            />
-            <button type="submit">Créer un compte</button>
-          </form>
-        </div>
+      {isConnected ? (
+        ''
       ) : (
-        <button onClick={handleDialogDisplay}>
-          {isConnected ? 'Bienvenu machin' : 'SignUp'}
-        </button>
+        <>
+          {displayModalSignUp ? (
+            <div id="Settings">
+              <button id="closeButton" onClick={handleDialogDisplay}>
+                <IoIosCloseCircle className="react_icon" />
+              </button>
+              <form onSubmit={handlePasswordCheck}>
+                <input
+                  type="text"
+                  value={pseudo}
+                  onChange={pseudoHandleChange}
+                  placeholder="Pseudo"
+                />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={emailHandleChange}
+                  placeholder="Email"
+                />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={passwordHandleChange}
+                  placeholder="Mot de passe"
+                />
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={newPasswordHandleChange}
+                  placeholder="Confirmer le mot de passe"
+                />
+                <button type="submit">Créer un compte</button>
+              </form>
+            </div>
+          ) : (
+            <button onClick={handleDialogDisplay}>Sign Up</button>
+          )}
+        </>
       )}
     </>
   );

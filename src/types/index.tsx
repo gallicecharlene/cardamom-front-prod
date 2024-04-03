@@ -5,13 +5,10 @@ export type SettingsState = {
 export interface UserData {
   password: string;
   email: string;
+  pseudo: string;
 }
 export type UserState = {
   isConnected: boolean;
   errorMessage: string;
-  user?: {
-    username: string;
-    password: string;
-    email: string;
-  };
+  user?: UserData;
 };

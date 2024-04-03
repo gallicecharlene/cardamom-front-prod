@@ -10,13 +10,19 @@ import action from '../../../redux/User/action';
 function LogIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const { user } = useSelector((store: RootState) => store.user);
+  const pseudo = user?.pseudo || '';
   const emailHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
   const passwordHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
+  };
+
+  const handleDisconnect = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch({ type: 'settings/DISCONNECT' });
   };
 
   const handleConnect = async (event: FormEvent<HTMLFormElement>) => {
@@ -26,11 +32,15 @@ function LogIn() {
       action.loginAction({
         email,
         password,
+        pseudo,
       })
     );
+    console.log(pseudo);
   };
   const { isConnected } = useSelector((store: RootState) => store.user);
+
   const dispatch: AppDispatch = useDispatch();
+
   const { displayModalLogIn } = useSelector(
     (store: RootState) => store.settings
   );
@@ -40,29 +50,42 @@ function LogIn() {
       : dispatch({ type: 'auth/DISPLAY_MODAL_LOGIN' });
   return (
     <>
-      {displayModalLogIn ? (
-        <div id="Settings">
-          <button id="closeButton" onClick={handleDialogDisplay}>
-            <IoIosCloseCircle className="react_icon" />
-          </button>
-          <form onSubmit={handleConnect}>
-            <input
-              type="email"
-              value={email}
-              onChange={emailHandleChange}
-              placeholder="Email"
-            />
-            <input
-              type="password"
-              value={password}
-              onChange={passwordHandleChange}
-              placeholder="mot"
-            />
-            <button type="submit">Envoyer</button>
-          </form>
-        </div>
+      {isConnected ? (
+        <form onSubmit={handleDisconnect}>
+          <h3>
+            <i>👋 Bienvenue {user?.pseudo}!</i>
+          </h3>
+          <button>Déconnexion</button>
+        </form>
       ) : (
-        <button onClick={handleDialogDisplay}>Log In</button>
+        <>
+          {displayModalLogIn ? (
+            <div id="Settings">
+              <button id="closeButton" onClick={handleDialogDisplay}>
+                <IoIosCloseCircle className="react_icon" />
+              </button>
+              <form onSubmit={handleConnect}>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={emailHandleChange}
+                  placeholder="Email"
+                />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={passwordHandleChange}
+                  placeholder="mot"
+                />
+                <button type="submit">Envoyer</button>
+              </form>
+            </div>
+          ) : (
+            <button onClick={handleDialogDisplay}>
+              {isConnected ? `` : 'LogIn'}
+            </button>
+          )}
+        </>
       )}
     </>
   );
