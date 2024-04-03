@@ -6,9 +6,11 @@ import Signup from './SignUp/SingUp';
 import { useDispatch } from 'react-redux';
 import { UserData } from '../../types';
 
-function AppHeader() {
+function AppHeader({ children }) {
   return (
     <header className="header">
+      <div className="header-content">{children}</div>
+
       <h1>CardAMom</h1>
       <div>
         <Login />
