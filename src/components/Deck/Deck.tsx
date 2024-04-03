@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom';
 import './Deck.scss';
-
 function Deck() {
   return (
-    <div className="deckTest">
-      <button className="bouton">Deck de Test</button>
+    <div className="deck">
+      <Link to="/memoTest" className="button">
+        Lexique portugais
+      </Link>
     </div>
   );
 }

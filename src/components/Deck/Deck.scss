@@ -1,8 +1,11 @@
-.deckTest {
-  margin-top: 10vh;
-}
-
-.bouton {
-  padding: 70px;
+.button {
+  display: inline-flex;
+  padding: 60px 120px;
   background-color: #226d68;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 20vh;
+  margin-top: 10vh;
+  border-radius: 20px;
 }
