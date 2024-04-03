@@ -5,6 +5,10 @@ import './App.scss';
 import Icone from '../Icone/Icone';
 import Footer from '../Footer/Footer';
 import Deck from '../Deck/Deck';
+import { BrowserRouter as Router, Routes } from 'react-router-dom';
+import memoTest from '../MemoTest/memoTest';
+
+import { Link } from 'react-router-dom';
 
 function App() {
   return (
@@ -12,6 +16,7 @@ function App() {
       <AppHeader />
       <SearchBar />
       <Icone />
+
       <Deck />
       <Footer />
     </div>

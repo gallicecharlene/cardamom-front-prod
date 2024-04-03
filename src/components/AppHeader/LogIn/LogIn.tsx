@@ -3,8 +3,9 @@ import { ChangeEvent, useState, FormEvent } from 'react';
 import './LogIn.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
-
+import userReducer from '../../../redux/User/reducer';
 import { AppDispatch, RootState } from '../../../redux/store';
+import action from '../../../redux/User/action';
 
 function LogIn() {
   const [email, setEmail] = useState('');
@@ -18,18 +19,19 @@ function LogIn() {
     setPassword(event.target.value);
   };
 
-  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+  const handleConnect = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('email =', email);
-    console.log('mot de passe = ', password);
 
-    setEmail(''), setPassword('');
-
-    alert('connexion réussie');
+    dispatch(
+      action.loginAction({
+        email,
+        password,
+      })
+    );
   };
-
+  const { isConnected } = useSelector((store: RootState) => store.user);
   const dispatch: AppDispatch = useDispatch();
-  const { displayModalLogIn, isConnected } = useSelector(
+  const { displayModalLogIn } = useSelector(
     (store: RootState) => store.settings
   );
   const handleDialogDisplay = () =>
@@ -43,7 +45,7 @@ function LogIn() {
           <button id="closeButton" onClick={handleDialogDisplay}>
             <IoIosCloseCircle className="react_icon" />
           </button>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleConnect}>
             <input
               type="email"
               value={email}

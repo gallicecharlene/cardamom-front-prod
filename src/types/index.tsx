@@ -1,6 +1,12 @@
 export type SettingsState = {
   displayModalLogIn: boolean;
   displayModalSignUp: boolean;
+};
+export interface UserData {
+  password: string;
+  email: string;
+}
+export type UserState = {
   isConnected: boolean;
   errorMessage: string;
   user?: {
@@ -9,7 +15,3 @@ export type SettingsState = {
     email: string;
   };
 };
-export interface UserData {
-  password: string;
-  email: string;
-}

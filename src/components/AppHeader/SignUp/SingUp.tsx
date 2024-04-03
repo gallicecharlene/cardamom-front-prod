@@ -25,25 +25,29 @@ function SignUp() {
   const pseudoHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPseudo(event.target.value);
   };
+  // Confirmation de mot de passe
   const handlePasswordCheck = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setPassword('');
-    setNewPassword('');
+
     password !== newPassword
       ? alert('Les mots de passe ne correspondent pas')
-      : handleLogin;
+      : handleLogin(event);
   };
-
+  // Gestion user connection
   const handleLogin = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('email =', email);
     console.log('mot de passe = ', password);
     console.log('mot de passe2 = ', newPassword);
     setEmail('');
+    setPseudo('');
+    setPassword('');
+    setNewPassword('');
   };
 
+  const { isConnected } = useSelector((store: RootState) => store.user);
   const dispatch: AppDispatch = useDispatch();
-  const { displayModalSignUp, isConnected } = useSelector(
+  const { displayModalSignUp } = useSelector(
     (store: RootState) => store.settings
   );
   const handleDialogDisplay = () =>
@@ -87,7 +91,9 @@ function SignUp() {
           </form>
         </div>
       ) : (
-        <button onClick={handleDialogDisplay}>SignUp</button>
+        <button onClick={handleDialogDisplay}>
+          {isConnected ? 'Bienvenu machin' : 'SignUp'}
+        </button>
       )}
     </>
   );

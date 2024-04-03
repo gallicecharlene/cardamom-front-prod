@@ -5,9 +5,6 @@ import actions from './action';
 const initialState: SettingsState = {
   displayModalLogIn: false,
   displayModalSignUp: false,
-
-  isConnected: false,
-  errorMessage: '',
 };
 
 const settingsReducer = createReducer(initialState, (builder) => {
@@ -25,17 +22,6 @@ const settingsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(actions.displayModalSignUpAction, (state, action) => {
       state.displayModalSignUp = true;
-    })
-    //si authentification est réussie
-    .addCase(actions.loginAction.fulfilled, (state, action) => {
-      state.isConnected = true;
-      state.displayModalLogIn = false;
-    })
-    //si authentifiaction a échoué
-    .addCase(actions.loginAction.rejected, (state, action) => {
-      state.isConnected = false;
-      state.displayModalLogIn = true;
-      state.errorMessage = action.error.message || 'erreur';
     });
 });
 

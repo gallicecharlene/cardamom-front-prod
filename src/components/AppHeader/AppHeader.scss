@@ -1,18 +1,24 @@
 .header {
   background-color: #226d68;
-  padding: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 20px;
 }
 
 .header h1 {
-  margin: 0;
   text-align: center;
   flex-grow: 1;
-  padding-left: 22vh;
+  padding-left: 0;
+  font-size: 8vh;
+  margin-left: 25px;
 }
 
 .header button {
   margin-left: 10px;
+  margin-right: 10px;
+}
+
+.header-logo {
+  width: 15vh;
 }

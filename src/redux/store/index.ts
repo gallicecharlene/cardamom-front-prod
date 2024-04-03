@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import settings from '../Settings';
-import settingsReducer from '../Settings';
+import user from '../User';
 
 const store = configureStore({
   reducer: {
     settings: settings.reducer, // Reducer des settings (gestion des utilisateur / connexion)
+    user: user.reducer,
   },
   devTools: true, // Mettre devTools sur true permet d'activer l'utilisation de l'extension chrome/firefox REDUX
 });
