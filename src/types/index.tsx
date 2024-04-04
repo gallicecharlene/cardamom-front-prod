@@ -13,3 +13,10 @@ export interface UserData {
   password: string;
   email: string;
 }
+
+export interface Deck {
+  pokedex_id: number;
+  generation: number;
+  category: string;
+  name: string;
+}

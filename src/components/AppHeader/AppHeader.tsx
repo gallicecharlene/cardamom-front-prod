@@ -5,8 +5,13 @@ import Login from './LogIn/LogIn';
 import Signup from './SignUp/SingUp';
 import { useDispatch } from 'react-redux';
 import { UserData } from '../../types';
+import { ReactNode } from 'react';
 
-function AppHeader({ children }) {
+interface AppHeaderProps {
+  children: ReactNode;
+}
+
+function AppHeader({ children }: AppHeaderProps) {
   return (
     <header className="header">
       <div className="header-content">{children}</div>
