@@ -6,14 +6,12 @@ type IdDeckState = {
   list: Deck[];
   isPending: boolean;
   error: string | null;
-  category?: string;
 };
 
 const initialState: IdDeckState = {
   list: [],
   isPending: false,
   error: null,
-  category: '',
 };
 
 const deckReducer = createReducer(initialState, (builder) => {
