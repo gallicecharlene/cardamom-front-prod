@@ -1,10 +1,12 @@
-import { ChangeEvent, useState, FormEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import './SignUp.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
 
 import { AppDispatch, RootState } from '../../../redux/store';
+import action from '../../../redux/Settings/action';
+import userAction from '../../../redux/User/action';
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -43,6 +45,13 @@ function SignUp() {
     setPseudo('');
     setPassword('');
     setNewPassword('');
+    dispatch(
+      userAction.signUpAction({
+        email,
+        password,
+        pseudo,
+      })
+    );
   };
 
   const { isConnected } = useSelector((store: RootState) => store.user);

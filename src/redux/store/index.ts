@@ -4,7 +4,7 @@ import user from '../User';
 
 const store = configureStore({
   reducer: {
-    settings: settings.reducer, // Reducer des settings (gestion des utilisateur / connexion)
+    settings: settings.reducer, // Reducer des settings (modales connection inscription)
     user: user.reducer,
   },
   devTools: true, // Mettre devTools sur true permet d'activer l'utilisation de l'extension chrome/firefox REDUX

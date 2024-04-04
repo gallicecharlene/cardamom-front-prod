@@ -9,6 +9,7 @@ export interface UserData {
 }
 export type UserState = {
   isConnected: boolean;
+  isRegistered: boolean;
   errorMessage: string;
   user?: UserData;
 };

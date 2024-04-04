@@ -4,6 +4,7 @@ import actions from './action';
 
 const initialState: UserState = {
   isConnected: false,
+  isRegistered: false,
   errorMessage: '',
   user: {
     email: '',
@@ -24,6 +25,15 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(actions.loginAction.rejected, (state, action) => {
       state.isConnected = false;
       state.errorMessage = action.error.message || 'erreur';
+    })
+    //Si inscription réussie
+    .addCase(actions.signUpAction.fulfilled, (state, action) => {
+      state.isRegistered = true;
+    })
+    //Si inscription ne réussie pas
+    .addCase(actions.signUpAction.rejected, (state, action) => {
+      state.isRegistered = false;
+      state.errorMessage = action.error.message || `erreur d'inscription`;
     });
 });
 
