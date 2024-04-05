@@ -15,8 +15,6 @@ export interface UserData {
 }
 
 export interface Deck {
-  pokedex_id: number;
-  generation: number;
-  category: string;
-  name: string;
+  id: number;
+  title: string;
 }

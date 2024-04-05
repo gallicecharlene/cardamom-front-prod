@@ -21,7 +21,7 @@ function MemoTest() {
 
   function findDeck(deckList: Deck[], id: number) {
     const deck = deckList.find((testedDeck) => {
-      return testedDeck.pokedex_id === id;
+      return testedDeck.id === id;
     });
 
     return deck;
@@ -38,8 +38,8 @@ function MemoTest() {
           <Link to="/" className="return-button">
             ACCUEIL
           </Link>
-          <h2 className="deck-title">{currentDeck?.category}</h2>
         </AppHeader>
+        <span className="deck-title">{currentDeck?.title}</span>
 
         <Card recto="recto" verso="verso" />
         <div className="know-button">

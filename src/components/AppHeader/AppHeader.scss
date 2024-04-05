@@ -15,10 +15,22 @@
 }
 
 .header button {
-  margin-left: 0px;
+  margin-left: 20px;
   background-color: #feeaa1;
   border-radius: 20px;
   padding: 8px 30px;
-  margin-bottom: 60px;
-  margin-right: 40px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .header h1 {
+    font-size: 50px;
+    margin-bottom: 20px;
+  }
 }

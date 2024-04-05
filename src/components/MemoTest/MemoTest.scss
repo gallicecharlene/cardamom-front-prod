@@ -1,15 +1,15 @@
 .know-button {
   display: flex;
   justify-content: space-around;
-  margin-left: 65vh;
-  margin-right: 60vh;
+  margin-left: 10%;
+  margin-right: 10%;
   margin-top: 10vh;
   margin-bottom: 30px;
 }
 
 .button {
-  padding: 20px 30px;
-  margin-right: 7vh;
+  padding: 20px 5vw;
+  margin-right: 2vw;
   background-color: #feeaa1;
   border-radius: 10px;
 }
@@ -17,12 +17,31 @@
 .return-button {
   background-color: #feeaa1;
   border-radius: 20px;
-  padding: 8px 30px;
-  margin-left: 40px;
-
+  padding: 10px 20px;
+  margin-left: 20px;
   text-decoration: none;
   color: black;
 }
-.deck-title {
-  background-color: aqua;
+
+@media screen and (max-width: 768px) {
+  .know-button {
+    flex-direction: row;
+    align-items: center;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  .button {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  .return-button {
+    background-color: #feeaa1;
+    border-radius: 20px;
+    padding: 8px 5vw;
+    margin-bottom: 20px;
+
+    text-decoration: none;
+    color: black;
+  }
 }

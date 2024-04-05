@@ -22,12 +22,9 @@ function DeckList() {
         <div>
           {list &&
             list.map((deck: Deck) => (
-              <div key={deck.pokedex_id}>
-                <Link
-                  to={`/memoTest/${deck.pokedex_id}`}
-                  className="deck-button"
-                >
-                  <h2>{deck.category}</h2>
+              <div key={deck.id}>
+                <Link to={`/memoTest/${deck.id}`} className="deck-button">
+                  <h2>{deck.title}</h2>
                 </Link>
               </div>
             ))}

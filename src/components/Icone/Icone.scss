@@ -1,3 +1,4 @@
+/* Styles de base */
 .icone {
   display: flex;
   align-items: center;
@@ -11,4 +12,22 @@
   margin-right: 7vh;
   background-color: #feeaa1;
   border-radius: 10px;
+}
+
+/* Media query pour la réactivité */
+@media screen and (max-width: 1200px) {
+  .icone {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; /* Ajout pour centrer les éléments horizontalement */
+    margin: 20px auto;
+    margin-top: 4vh;
+  }
+
+  .icone button {
+    margin-right: 30px;
+    margin-left: 30px;
+    margin-bottom: 10px;
+  }
 }
