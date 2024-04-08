@@ -13,3 +13,8 @@ export interface UserData {
   password: string;
   email: string;
 }
+
+export interface Deck {
+  id: number;
+  title: string;
+}
