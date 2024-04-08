@@ -1,4 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import Cookies from 'js-cookie';
 
 type LoginActionPayload = {
   email: string;
@@ -8,6 +9,7 @@ type LoginActionPayload = {
 // Action pour se connecter
 export const loginAction = createAsyncThunk(
   'auth/LOGIN',
+  // J'envoie les informations saisies dans le formulaire de connection à l'API grâce au payload
   async (payload: LoginActionPayload) => {
     const response = await fetch('http://localhost:3003/api/auth/login', {
       method: 'POST',
@@ -17,9 +19,14 @@ export const loginAction = createAsyncThunk(
       body: JSON.stringify(payload),
     });
     const filteredResponse = await response.json();
-    if (filteredResponse) {
+    // récupérer la propriété token qui a été créée par le back et renvoyer dans filteredResponse
+    const token = filteredResponse.token;
+    console.log(filteredResponse);
+    if (token) {
       alert("c'est bon pour le Login");
-      return filteredResponse;
+      // Stocker le token dans les cookies
+      Cookies.set('jwtToken', token, { expires: 7 }); // expire dans 7 jours
+      return token;
     } else {
       alert('pas bon');
     }
