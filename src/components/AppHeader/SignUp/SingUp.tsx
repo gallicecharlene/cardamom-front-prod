@@ -1,9 +1,7 @@
-import { ChangeEvent, useState, FormEvent } from 'react';
-
-import './SignUp.scss';
+import React, { ChangeEvent, useState, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
-import { FaPlus } from 'react-icons/fa6';
+import { signUpAction } from '../../../redux/User/action';
 import { AppDispatch, RootState } from '../../../redux/store';
 
 function SignUp() {
@@ -19,30 +17,33 @@ function SignUp() {
   const passwordHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
+
   const newPasswordHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewPassword(event.target.value);
   };
+
   const pseudoHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPseudo(event.target.value);
-  };
-
-  const handleLogin = async (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log('email =', email);
-    console.log('mot de passe = ', password);
-    console.log('mot de passe2 = ', newPassword);
-    setNewPassword('');
-    setEmail(''), setPassword('');
   };
 
   const dispatch: AppDispatch = useDispatch();
   const { displayModalSignUp, isConnected } = useSelector(
     (store: RootState) => store.settings
   );
+
   const handleDialogDisplay = () =>
     displayModalSignUp
       ? dispatch({ type: 'auth/HIDE_MODAL_SIGNUP' })
       : dispatch({ type: 'auth/DISPLAY_MODAL_SIGNUP' });
+
+  const handleSignUp = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    dispatch(signUpAction({ email, password, pseudo }));
+    setEmail('');
+    setPassword('');
+    setPseudo('');
+    setNewPassword('');
+  };
 
   return (
     <>
@@ -51,7 +52,7 @@ function SignUp() {
           <button id="closeButton" onClick={handleDialogDisplay}>
             <IoIosCloseCircle className="react_icon" />
           </button>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleSignUp}>
             <input
               type="text"
               value={pseudo}
