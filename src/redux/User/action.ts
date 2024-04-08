@@ -1,5 +1,4 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { userData } from '../../data';
 
 type LoginActionPayload = {
   email: string;
@@ -10,15 +9,17 @@ type LoginActionPayload = {
 export const loginAction = createAsyncThunk(
   'auth/LOGIN',
   async (payload: LoginActionPayload) => {
-    const users = userData;
-
-    const user = users.find(
-      (user) =>
-        user.email === payload.email && user.password === payload.password
-    );
-    if (user) {
+    const response = await fetch('http://localhost:3003/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+    const filteredResponse = await response.json();
+    if (filteredResponse) {
       alert("c'est bon pour le Login");
-      return user;
+      return filteredResponse;
     } else {
       alert('pas bon');
     }
@@ -33,17 +34,20 @@ export const disconnectAction = createAction('auth/DISCONNECT');
 export const signUpAction = createAsyncThunk(
   'auth/SIGNUP',
   async (payload: LoginActionPayload) => {
-    const user = userData;
     try {
-      // Remplacer api avec la vrai api
-      // await api.register(userData);
-      console.log(
-        payload.email,
-        payload.password,
-        payload.pseudo,
-        'api réussi'
-      );
-      return user;
+      const response = await fetch('http://localhost:3003/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          // Je précise que j'envoie les données au format JSON
+          'Content-Type': 'application/json',
+        },
+        // J'envoie les données de la liste au format JSON
+        body: JSON.stringify(payload),
+      });
+
+      const userSend = await response.json();
+      console.log(userSend);
+      return userSend;
     } catch (error) {
       throw error;
     }
