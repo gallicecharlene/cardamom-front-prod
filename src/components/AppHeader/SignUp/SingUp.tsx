@@ -21,9 +21,11 @@ function SignUp() {
   const passwordHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
+
   const newPasswordHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewPassword(event.target.value);
   };
+
   const pseudoHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPseudo(event.target.value);
   };
@@ -61,10 +63,20 @@ function SignUp() {
   const { displayModalSignUp } = useSelector(
     (store: RootState) => store.settings
   );
+
   const handleDialogDisplay = () =>
     displayModalSignUp
       ? dispatch({ type: 'auth/HIDE_MODAL_SIGNUP' })
       : dispatch({ type: 'auth/DISPLAY_MODAL_SIGNUP' });
+
+  const handleSignUp = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    dispatch(signUpAction({ email, password, pseudo }));
+    setEmail('');
+    setPassword('');
+    setPseudo('');
+    setNewPassword('');
+  };
 
   return (
     <>

@@ -1,11 +1,9 @@
-import { ChangeEvent, useState, FormEvent } from 'react';
-
-import './LogIn.scss';
+import { FormEvent, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
 import userReducer from '../../../redux/User/reducer';
 import { AppDispatch, RootState } from '../../../redux/store';
-import action from '../../../redux/User/action';
+import { loginAction } from '../../../redux/User/action';
 
 function LogIn() {
   const [email, setEmail] = useState('');
@@ -44,10 +42,31 @@ function LogIn() {
   const { displayModalLogIn } = useSelector(
     (store: RootState) => store.settings
   );
+  const jwtToken = useSelector((state: RootState) => state.auth.jwt);
+
   const handleDialogDisplay = () =>
     displayModalLogIn
       ? dispatch({ type: 'auth/HIDE_MODAL_LOGIN' })
       : dispatch({ type: 'auth/DISPLAY_MODAL_LOGIN' });
+
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      await dispatch(loginAction({ email, password }));
+
+      handleDialogDisplay();
+
+      setEmail('');
+      setPassword('');
+    } catch (error) {
+      console.error('Erreur:', error);
+    }
+  };
+
+  useEffect(() => {
+    console.log('JWT:', jwtToken);
+  }, [jwtToken]);
+
   return (
     <>
       {isConnected ? (

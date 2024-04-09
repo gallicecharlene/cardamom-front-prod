@@ -1,0 +1,26 @@
+.deck-button {
+  display: flex;
+  justify-content: center;
+
+  padding: 70px 160px;
+  background-color: #226d68;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 20px;
+  text-align: center;
+  margin: 80px auto;
+  max-width: 600px;
+}
+
+@media screen and (max-width: 1400px) {
+  .deck-button {
+    padding: 30px 60px;
+    font-size: 16px;
+    max-width: 280px;
+    min-width: 280px;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+  }
+}

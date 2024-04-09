@@ -1,57 +1,55 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { userData } from '../../data';
 
-type LoginActionPayload = {
+interface LoginSuccessPayload {
+  jwt: string;
   email: string;
   password: string;
-  pseudo: String;
-};
-// Action pour se connecter
+  pseudo: string;
+}
+
 export const loginAction = createAsyncThunk(
-  'auth/LOGIN',
-  async (payload: LoginActionPayload) => {
-    const users = userData;
-
-    const user = users.find(
-      (user) =>
-        user.email === payload.email && user.password === payload.password
-    );
-    if (user) {
-      alert("c'est bon pour le Login");
-      return user;
-    } else {
-      alert('pas bon');
-    }
-  }
-);
-
-// Action pour se déconnecter
-export const disconnectAction = createAction('auth/DISCONNECT');
-
-// Action pour s'inscrire
-
-export const signUpAction = createAsyncThunk(
-  'auth/SIGNUP',
-  async (payload: LoginActionPayload) => {
-    const user = userData;
+  'auth/LOGIN_JWT',
+  async (payload: { email: string; password: string }) => {
     try {
-      // Remplacer api avec la vrai api
-      // await api.register(userData);
-      console.log(
-        payload.email,
-        payload.password,
-        payload.pseudo,
-        'api réussi'
-      );
-      return user;
+      const response = await fetch('http://localhost:3003/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      console.log('JWT :', data.token);
+
+      if (!data) {
+        throw new Error('Pas bon');
+      }
+
+      return data.token;
     } catch (error) {
+      console.error('erreur co:', error);
       throw error;
     }
   }
 );
 
+export const signUpAction = createAsyncThunk(
+  'auth/SIGNUP_JWT',
+  async (payload: { email: string; password: string; pseudo: string }) => {
+    const response = await fetch('http://localhost:3003/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    return data;
+  }
+);
+
 export default {
   loginAction,
-  disconnectAction,
   signUpAction,
 };
