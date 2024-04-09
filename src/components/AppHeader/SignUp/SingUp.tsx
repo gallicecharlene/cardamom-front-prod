@@ -35,14 +35,11 @@ function SignUp() {
 
     password !== newPassword
       ? alert('Les mots de passe ne correspondent pas')
-      : handleLogin(event);
+      : handleSingUp(event);
   };
   // Gestion user connection
-  const handleLogin = async (event: ChangeEvent<HTMLFormElement>) => {
+  const handleSingUp = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('email =', email);
-    console.log('mot de passe = ', password);
-    console.log('mot de passe2 = ', newPassword);
     setEmail('');
     setPseudo('');
     setPassword('');
