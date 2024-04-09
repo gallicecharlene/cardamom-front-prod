@@ -1,13 +1,12 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 
-interface LoginSuccessPayload {
-  jwt: string;
+type LoginActionPayload = {
   email: string;
   password: string;
-  pseudo: string;
-}
-
+  pseudo: String;
+};
+// Action pour se connecter
 export const loginAction = createAsyncThunk(
   'auth/LOGIN',
   // J'envoie les informations saisies dans le formulaire de connection à l'API grâce au payload
@@ -57,28 +56,13 @@ export const signUpAction = createAsyncThunk(
       console.log(userSend);
       return userSend;
     } catch (error) {
-      console.error('erreur co:', error);
       throw error;
     }
   }
 );
 
-export const signUpAction = createAsyncThunk(
-  'auth/SIGNUP_JWT',
-  async (payload: { email: string; password: string; pseudo: string }) => {
-    const response = await fetch('http://localhost:3003/api/auth/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-    const data = await response.json();
-    return data;
-  }
-);
-
 export default {
   loginAction,
+  disconnectAction,
   signUpAction,
 };

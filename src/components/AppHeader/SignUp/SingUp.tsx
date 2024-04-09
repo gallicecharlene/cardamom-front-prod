@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 import './SignUp.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -65,15 +65,6 @@ function SignUp() {
     displayModalSignUp
       ? dispatch({ type: 'auth/HIDE_MODAL_SIGNUP' })
       : dispatch({ type: 'auth/DISPLAY_MODAL_SIGNUP' });
-
-  const handleSignUp = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    dispatch(signUpAction({ email, password, pseudo }));
-    setEmail('');
-    setPassword('');
-    setPseudo('');
-    setNewPassword('');
-  };
 
   return (
     <>
