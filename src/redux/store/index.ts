@@ -12,7 +12,6 @@ const store = configureStore({
     settings: settings.reducer, // Reducer des settings (gestion des utilisateur / connexion)
     deck: deckReducer,
     auth: authReducer,
-    settings: settings.reducer, // Reducer des settings (modales connection inscription)
     user: user.reducer,
   },
   devTools: true, // Mettre devTools sur true permet d'activer l'utilisation de l'extension chrome/firefox REDUX

@@ -1,16 +1,22 @@
 import { userData } from '../../data';
-import { loginAction } from '../../redux/Settings/action';
+
 import './AppHeader.scss';
 import Login from './LogIn/LogIn';
 import Signup from './SignUp/SingUp';
-import Logo from '../../assets/logo.svg';
-import { ReactNode } from 'react';
+import { useSelector } from 'react-redux';
 
-interface AppHeaderProps {
-  children: ReactNode;
-}
+import Logo from '../../assets/logo 4.svg';
+import { RootState } from '../../redux/store';
 
-function AppHeader({ children }: AppHeaderProps) {
+function AppHeader({ children }) {
+  //Quand je click sur Login, la modal SignUp disparait
+  const { displayModalLogIn } = useSelector(
+    (store: RootState) => store.settings
+  );
+  //Quand je click sur SignUp, la modal Login disparait
+  const { displayModalSignUp } = useSelector(
+    (store: RootState) => store.settings
+  );
   return (
     <header className="header">
       <div className="header-content">{children}</div>

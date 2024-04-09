@@ -66,15 +66,6 @@ function SignUp() {
       ? dispatch({ type: 'auth/HIDE_MODAL_SIGNUP' })
       : dispatch({ type: 'auth/DISPLAY_MODAL_SIGNUP' });
 
-  const handleSignUp = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    dispatch(signUpAction({ email, password, pseudo }));
-    setEmail('');
-    setPassword('');
-    setPseudo('');
-    setNewPassword('');
-  };
-
   return (
     <>
       {isConnected ? (

@@ -1,9 +1,9 @@
-import { FormEvent, useState, useEffect } from 'react';
+import { FormEvent, useState, useEffect, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
 import userReducer from '../../../redux/User/reducer';
 import { AppDispatch, RootState } from '../../../redux/store';
-import { loginAction } from '../../../redux/User/action';
+import action, { loginAction } from '../../../redux/User/action';
 
 function LogIn() {
   const [email, setEmail] = useState('');
