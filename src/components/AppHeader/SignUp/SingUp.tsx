@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 import './SignUp.scss';
 import { useDispatch, useSelector } from 'react-redux';
