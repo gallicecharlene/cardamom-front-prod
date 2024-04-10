@@ -2,15 +2,16 @@ import { configureStore } from '@reduxjs/toolkit';
 import settings from '../Settings';
 import user from '../User';
 import settingsReducer from '../Settings';
-import deckReducer from '../Deck/reducer';
+import { deckReducer } from '../Deck/reducer';
 import deck from '../Deck';
 import { useReducer } from 'react';
 import authReducer from '../User/reducer';
-
+import { modalDeckReducer } from '../Deck/reducer';
 const store = configureStore({
   reducer: {
     settings: settings.reducer, // Reducer des settings (gestion des utilisateur / connexion)
     deck: deckReducer,
+    modalDeck: modalDeckReducer,
     auth: authReducer,
     user: user.reducer,
   },

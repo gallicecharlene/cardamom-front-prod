@@ -1,7 +1,7 @@
 import actions from './action';
-import deckReducer from './reducer';
+import { deckReducer, modalDeckReducer } from './reducer';
 
 export default {
   actions,
-  reducer: deckReducer,
+  reducer: { deckReducer, modalDeckReducer },
 };

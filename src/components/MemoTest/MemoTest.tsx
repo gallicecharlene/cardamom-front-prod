@@ -43,10 +43,10 @@ function MemoTest() {
 
         <Card recto="recto" verso="verso" />
         <div className="know-button">
-          <button className="button" onClick={handleUnknow}>
+          <button className="buttonMemo" onClick={handleUnknow}>
             Je sais pas
           </button>
-          <button className="button" onClick={handleKnow}>
+          <button className="buttonMemo" onClick={handleKnow}>
             Je sais
           </button>
         </div>

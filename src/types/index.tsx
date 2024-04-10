@@ -18,3 +18,7 @@ export type UserState = {
   errorMessage: string;
   user?: UserData;
 };
+
+export interface DeckData {
+  title: string;
+}
