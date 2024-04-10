@@ -3,19 +3,28 @@ import SearchBar from '../SearchBar/SearchBar';
 import Icone from '../Icone/Icone';
 import Footer from '../Footer/Footer';
 import DeckList from '../DeckList/Deck';
+import HomeGuest from '../HomeGuest/HomeGuest';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 function Home() {
+  const isConnected = useSelector((store: RootState) => store.user.isConnected);
   return (
-    <div className="app">
-      <AppHeader children />
+    <>
+      {isConnected && (
+        <div className="app">
+          <AppHeader children />
 
-      <SearchBar />
+          <SearchBar />
 
-      <Icone />
+          <Icone />
 
-      <DeckList />
+          <DeckList />
 
-      <Footer />
-    </div>
+          <Footer />
+        </div>
+      )}
+      {!isConnected && <HomeGuest />}
+    </>
   );
 }
 

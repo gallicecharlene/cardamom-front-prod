@@ -4,7 +4,8 @@ import Cookies from 'js-cookie';
 type LoginActionPayload = {
   email: string;
   password: string;
-  pseudo: String;
+  pseudo: string;
+  token: string;
 };
 // Action pour se connecter
 export const loginAction = createAsyncThunk(
@@ -21,12 +22,12 @@ export const loginAction = createAsyncThunk(
     const filteredResponse = await response.json();
     // récupérer la propriété token qui a été créée par le back et renvoyer dans filteredResponse
     const token = filteredResponse.token;
-    console.log(filteredResponse);
+
     if (token) {
       alert('Connection réussie');
       // Stocker le token dans les cookies
       Cookies.set('jwtToken', token, { expires: 7 }); // expire dans 7 jours
-      return token;
+      return filteredResponse;
     } else {
       alert('pas bon');
     }
@@ -36,16 +37,15 @@ export const loginAction = createAsyncThunk(
 export const tokenLoginAction = createAsyncThunk(
   'auth/PROFILE',
   // J'envoie les informations saisies dans le formulaire de connection à l'API grâce au payload
-  async () => {
-    const token = loginAction;
-    console.log(token, 'le token est ici');
+  async (payload: LoginActionPayload) => {
+    const { token } = payload;
     // message d'erreur si pas de token
     if (!token) {
       throw new Error('No token available');
     }
     try {
       const response = await fetch('http://localhost:3003/api/profile', {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           // Ajouter le token JWT aux en-têtes
@@ -58,7 +58,7 @@ export const tokenLoginAction = createAsyncThunk(
       }
 
       const userData = await response.json();
-      console.log(userData);
+
       alert('Connection réussie');
       return userData;
     } catch (error) {
@@ -98,4 +98,5 @@ export default {
   loginAction,
   disconnectAction,
   signUpAction,
+  tokenLoginAction,
 };

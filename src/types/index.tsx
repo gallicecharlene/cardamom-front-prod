@@ -6,7 +6,6 @@ export interface UserData {
   password: string;
   email: string;
   pseudo: string;
-  token?: string;
 }
 
 export interface Deck {

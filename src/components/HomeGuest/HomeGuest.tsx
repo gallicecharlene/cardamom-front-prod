@@ -6,6 +6,7 @@ function HomeGuest() {
     <div className="app">
       <AppHeader children />
       <DeckList />
+      <h1>Deconnecter</h1>
       <Footer />
     </div>
   );

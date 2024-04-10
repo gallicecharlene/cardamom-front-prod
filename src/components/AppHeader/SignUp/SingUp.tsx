@@ -48,6 +48,7 @@ function SignUp() {
         email,
         password,
         pseudo,
+        token: '',
       })
     );
   };

@@ -13,6 +13,8 @@ function LogIn() {
   const { user } = useSelector((store: RootState) => store.user);
   const pseudo = user?.pseudo || '';
   const token = Cookies.get('jwtToken');
+  const dispatch: AppDispatch = useDispatch();
+  const { isConnected } = useSelector((store: RootState) => store.user);
 
   const emailHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -21,10 +23,12 @@ function LogIn() {
   const passwordHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
-
-  const handleDisconnect = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    dispatch({ type: 'settings/DISCONNECT' });
+  // Fonction pour se deconnecter en retirant aussi le token du cookie
+  const handleDisconnect = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    console.log('déconnecté');
+    dispatch({ type: 'auth/DISCONNECT' });
+    Cookies.remove('jwtToken');
   };
   // fonction pour envoyer le formulaire de connection à la BDD
 
@@ -36,13 +40,11 @@ function LogIn() {
         email,
         password,
         pseudo,
+        token: '',
       })
     );
     console.log(pseudo);
   };
-  const { isConnected } = useSelector((store: RootState) => store.user);
-
-  const dispatch: AppDispatch = useDispatch();
 
   const { displayModalLogIn } = useSelector(
     (store: RootState) => store.settings
@@ -52,15 +54,15 @@ function LogIn() {
       ? dispatch({ type: 'auth/HIDE_MODAL_LOGIN' })
       : dispatch({ type: 'auth/DISPLAY_MODAL_LOGIN' });
 
-  // Ajouter la fontction de logout dans le button Déconnexion
+  // Ajouter la fonction de logout dans le button Déconnexion
   return (
     <>
       {token ? (
-        <form onSubmit={handleDisconnect}>
+        <form>
           <h3>
             <i>👋 Bienvenue {user?.pseudo}!</i>
           </h3>
-          <button>Déconnexion</button>
+          <button onClick={handleDisconnect}>Déconnexion</button>
         </form>
       ) : (
         <>

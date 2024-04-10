@@ -11,7 +11,6 @@ function DeckList() {
   const dispatch = useAppDispatch();
   const { list, isPending } = useSelector((state: RootState) => state.deck);
   useEffect(() => {
-    console.log('api en cours');
     dispatch(fetchDeck());
   }, [dispatch]);
 

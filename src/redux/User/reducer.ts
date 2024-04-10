@@ -11,7 +11,6 @@ const initialState: UserState = {
     email: '',
     password: '',
     pseudo: '',
-    token: '',
   },
 };
 
@@ -23,11 +22,20 @@ const userReducer = createReducer(initialState, (builder) => {
       console.info('Connexion en cours...');
       state.isPending = true;
     })
+    // si authentification avec le token réussi
+    .addCase(actions.tokenLoginAction.fulfilled, (state, action) => {
+      state.isPending = false;
+      state.isConnected = true;
+      state.user = action.payload;
+    })
+
+    // authentification rejetée avec token
+
     //si authentification est réussie
     .addCase(actions.loginAction.fulfilled, (state, action) => {
       state.isPending = false;
       state.isConnected = true;
-      state.user = action.payload;
+      state.user = action.payload.user;
     })
     //si authentifiaction a échoué
     .addCase(actions.loginAction.rejected, (state, action) => {
@@ -38,6 +46,8 @@ const userReducer = createReducer(initialState, (builder) => {
     // Si deconnexion de l'utilisateur*****************
     .addCase(actions.disconnectAction, (state, action) => {
       state.isConnected = false;
+      state.user = undefined;
+      console.log(state.user, 'user deconnecté');
     })
     //Si inscription réussie
     .addCase(actions.signUpAction.fulfilled, (state, action) => {

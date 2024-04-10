@@ -4,27 +4,25 @@ import MemoTest from '../MemoTest/MemoTest';
 import { useEffect } from 'react';
 import { tokenLoginAction } from '../../redux/User/action';
 import Cookies from 'js-cookie';
-import HomeGuest from '../HomeGuest/HomeGuest';
+import { useAppDispatch } from '../../hooks/redux';
 
 function App() {
   // Récupérez le jeton JWT depuis les cookies
   const token = Cookies.get('jwtToken');
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (token) {
+      console.log(token);
       // Si un jeton est disponible, appelez l'action tokenLoginAction pour effectuer la connexion
-      tokenLoginAction();
+      dispatch(tokenLoginAction({ token }));
       console.log('Connexion réussie');
-
-      navigate('/');
     }
-  }, [navigate, token]);
-  console.log(token, 'console log tout seul');
+  }, [token]);
 
   return (
     <div className="app">
       <Routes>
-        <Route path="/" element={token ? <Home /> : <HomeGuest />} />
+        <Route path="/" element={<Home />} />
         <Route path="/memoTest/:id" element={<MemoTest />} />
       </Routes>
     </div>
