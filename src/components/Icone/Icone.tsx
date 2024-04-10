@@ -6,10 +6,10 @@ import { Deck } from '../../types';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import './Icone.scss';
+import { useAppDispatch } from '../../hooks/redux';
 
 function Icone() {
-  const { list, isPending } = useSelector((state: RootState) => state.deck);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<DeckData>({ title: '' });
   const handleOpenModal = () => {
@@ -28,7 +28,7 @@ function Icone() {
       const newDeckId = newDeck.id;
       setIsModalOpen(false);
       setFormData({ title: '' });
-      window.location.href = `/memoTest/${newDeckId}`;
+      window.location.href = `/DeckEditor/${newDeckId}`;
     } catch (error) {
       console.error('Erreur lors de la création du deck:', error);
     }

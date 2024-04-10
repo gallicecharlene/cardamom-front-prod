@@ -7,13 +7,17 @@ import './Deck.scss';
 import { useAppDispatch } from '../../hooks/redux';
 import { useSelector } from 'react-redux';
 
-function DeckList() {
+function DeckList({ deckId }: { deckId: number }) {
   const dispatch = useAppDispatch();
   const { list, isPending } = useSelector((state: RootState) => state.deck);
   useEffect(() => {
     console.log('api en cours');
     dispatch(fetchDeck());
   }, [dispatch]);
+
+  const handleRedirect = (deckId: number) => {
+    window.location.href = `/deckEditor/${deckId}`;
+  };
 
   return (
     <div className="deck-container">
@@ -27,6 +31,12 @@ function DeckList() {
                 <Link to={`/memoTest/${deck.id}`} className="deck-button">
                   <h2>{deck.title}</h2>
                 </Link>
+                <button
+                  className="deck-editor"
+                  onClick={() => handleRedirect(deck.id)}
+                >
+                  MODIFIE
+                </button>
               </div>
             ))}
         </div>

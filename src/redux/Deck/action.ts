@@ -41,6 +41,20 @@ export const deckCreate = createAsyncThunk(
     }
   }
 );
+
+export const deleteDeck = createAsyncThunk(
+  'decks/DELETE',
+  async (deckId: number) => {
+    const response = await fetch(`http://localhost:3003/api/decks/${deckId}`, {
+      method: 'DELETE',
+    });
+
+    const parsedResponse = await response.json();
+
+    return parsedResponse;
+  }
+);
+
 export const openModal = createAction('modal/OPEN');
 export const closeModal = createAction('modal/CLOSE');
 
@@ -49,4 +63,5 @@ export default {
   openModal,
   closeModal,
   deckCreate,
+  deleteDeck,
 };
