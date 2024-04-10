@@ -6,6 +6,7 @@ export interface UserData {
   password: string;
   email: string;
   pseudo: string;
+  token?: string;
 }
 
 export interface Deck {
@@ -16,5 +17,6 @@ export type UserState = {
   isConnected: boolean;
   isRegistered: boolean;
   errorMessage: string;
+  isPending: boolean;
   user?: UserData;
 };

@@ -1,22 +1,14 @@
 import AppHeader from '../AppHeader/AppHeader';
-import SearchBar from '../SearchBar/SearchBar';
-import Icone from '../Icone/Icone';
 import Footer from '../Footer/Footer';
 import DeckList from '../DeckList/Deck';
-function Home() {
+function HomeGuest() {
   return (
     <div className="app">
       <AppHeader children />
-
-      <SearchBar />
-
-      <Icone />
-
       <DeckList />
-
       <Footer />
     </div>
   );
 }
 
-export default Home;
+export default HomeGuest;

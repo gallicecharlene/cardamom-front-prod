@@ -1,15 +1,19 @@
-import { FormEvent, useState, useEffect, ChangeEvent } from 'react';
+import { ChangeEvent, useState, FormEvent } from 'react';
+
+import './LogIn.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
-import userReducer from '../../../redux/User/reducer';
 import { AppDispatch, RootState } from '../../../redux/store';
-import action, { loginAction } from '../../../redux/User/action';
+import action from '../../../redux/User/action';
+import Cookies from 'js-cookie';
 
 function LogIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { user } = useSelector((store: RootState) => store.user);
   const pseudo = user?.pseudo || '';
+  const token = Cookies.get('jwtToken');
+
   const emailHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -22,6 +26,7 @@ function LogIn() {
     e.preventDefault();
     dispatch({ type: 'settings/DISCONNECT' });
   };
+  // fonction pour envoyer le formulaire de connection à la BDD
 
   const handleConnect = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -42,34 +47,15 @@ function LogIn() {
   const { displayModalLogIn } = useSelector(
     (store: RootState) => store.settings
   );
-  const jwtToken = useSelector((state: RootState) => state.auth.jwt);
-
   const handleDialogDisplay = () =>
     displayModalLogIn
       ? dispatch({ type: 'auth/HIDE_MODAL_LOGIN' })
       : dispatch({ type: 'auth/DISPLAY_MODAL_LOGIN' });
 
-  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      await dispatch(loginAction({ email, password }));
-
-      handleDialogDisplay();
-
-      setEmail('');
-      setPassword('');
-    } catch (error) {
-      console.error('Erreur:', error);
-    }
-  };
-
-  useEffect(() => {
-    console.log('JWT:', jwtToken);
-  }, [jwtToken]);
-
+  // Ajouter la fontction de logout dans le button Déconnexion
   return (
     <>
-      {isConnected ? (
+      {token ? (
         <form onSubmit={handleDisconnect}>
           <h3>
             <i>👋 Bienvenue {user?.pseudo}!</i>

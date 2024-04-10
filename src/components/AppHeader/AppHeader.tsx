@@ -8,7 +8,10 @@ import { useSelector } from 'react-redux';
 import Logo from '../../assets/logo 4.svg';
 import { RootState } from '../../redux/store';
 
-function AppHeader({ children }) {
+interface AppHeaderProps {
+  children: React.ReactNode;
+}
+function AppHeader({ children }: AppHeaderProps) {
   //Quand je click sur Login, la modal SignUp disparait
   const { displayModalLogIn } = useSelector(
     (store: RootState) => store.settings

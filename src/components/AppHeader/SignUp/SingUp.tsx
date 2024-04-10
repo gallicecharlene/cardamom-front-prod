@@ -1,18 +1,17 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-
 import './SignUp.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
-
 import { AppDispatch, RootState } from '../../../redux/store';
-import action from '../../../redux/Settings/action';
 import userAction from '../../../redux/User/action';
+import Cookies from 'js-cookie';
 
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [pseudo, setPseudo] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const token = Cookies.get('jwtToken');
 
   const emailHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -68,7 +67,7 @@ function SignUp() {
 
   return (
     <>
-      {isConnected ? (
+      {token ? (
         ''
       ) : (
         <>
