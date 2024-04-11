@@ -1,34 +1,35 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { ChangeEvent, useState } from 'react';
 import { deckCreate } from '../../redux/Deck/action';
-import { DeckData } from '../../types';
-import { Deck } from '../../types';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
 import './Icone.scss';
 import { useAppDispatch } from '../../hooks/redux';
-
+import Cookies from 'js-cookie';
+import { Link } from 'react-router-dom';
 function Icone() {
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState<DeckData>({ title: '' });
+  const [title, setDeckTitle] = useState('');
+  const token = Cookies.get('jwtToken');
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setFormData({ title: '' });
   };
-
+  const titleHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setDeckTitle(event.target.value);
+  };
   const handleCreateDeck = async () => {
+    setIsModalOpen(false);
+    setDeckTitle('');
     try {
-      const response = await dispatch(deckCreate({ title: formData.title }));
+      console.log('requete api pour créer el deck jenvoie :', title);
+      const response = await dispatch(deckCreate({ token, title }));
       const newDeck = response.payload;
-      const newDeckId = newDeck.id;
-      setIsModalOpen(false);
-      setFormData({ title: '' });
-      window.location.href = `/DeckEditor/${newDeckId}`;
+      //const newDeckId = newDeck.id;
+      console.log('ici new deck je crée le deck', response);
+      //  window.location.href = `/DeckEditor/${newDeckId}`;
     } catch (error) {
       console.error('Erreur lors de la création du deck:', error);
     }
@@ -55,16 +56,17 @@ function Icone() {
                 className="SearcBar"
                 type="text"
                 id="title"
-                value={formData.title}
-                onChange={(event) => setFormData({ title: event.target.value })}
+                value={title}
+                onChange={titleHandleChange}
               />
-              <button
+              <Link
+                to="/DeckEditor/${newDeckId}"
                 className="button-modal"
-                type="button"
                 onClick={handleCreateDeck}
               >
                 Créer
-              </button>
+              </Link>
+
               <button
                 className="button-modal"
                 type="button"

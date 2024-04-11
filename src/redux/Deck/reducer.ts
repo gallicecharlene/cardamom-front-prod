@@ -3,6 +3,7 @@ import { fetchDeck } from './action';
 import { Deck } from '../../types';
 import { closeModal, openModal } from './action';
 import { deckCreate } from './action';
+
 type IdDeckState = {
   list: Deck[];
   isPending: boolean;

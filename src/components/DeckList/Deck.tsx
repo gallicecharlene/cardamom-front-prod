@@ -6,17 +6,17 @@ import { Link } from 'react-router-dom';
 import './Deck.scss';
 import { useAppDispatch } from '../../hooks/redux';
 import { useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
 
-function DeckList({ deckId }: { deckId: number }) {
+function DeckList({ id }: { id: number }) {
   const dispatch = useAppDispatch();
   const { list, isPending } = useSelector((state: RootState) => state.deck);
-  useEffect(() => {
-    dispatch(fetchDeck());
-  }, [dispatch]);
+  const token = Cookies.get('jwtToken');
 
-  const handleRedirect = (deckId: number) => {
-    window.location.href = `/deckEditor/${deckId}`;
-  };
+  useEffect(() => {
+    console.log('le useffect se lance');
+    dispatch(fetchDeck({ token }));
+  }, [dispatch, token]);
 
   return (
     <div className="deck-container">
@@ -30,12 +30,9 @@ function DeckList({ deckId }: { deckId: number }) {
                 <Link to={`/memoTest/${deck.id}`} className="deck-button">
                   <h2>{deck.title}</h2>
                 </Link>
-                <button
-                  className="deck-editor"
-                  onClick={() => handleRedirect(deck.id)}
-                >
+                <Link to={`/deckEditor/${deck.id}`} className="deck-editor">
                   MODIFIE
-                </button>
+                </Link>
               </div>
             ))}
         </div>

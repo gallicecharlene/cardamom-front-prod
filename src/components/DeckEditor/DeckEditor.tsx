@@ -6,19 +6,22 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux';
 import { Card, Deck } from '../../types/index';
 import { fetchDeck } from '../../redux/Deck/action';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux';
 import { deleteDeck } from '../../redux/Deck/action';
 import { fetchCard } from '../../redux/Card/action';
 import { cardCreate } from '../../redux/Card/action';
-import { CardData } from '../../types/index';
+import Cookies from 'js-cookie';
+
 function DeckEditor() {
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
   const deckList = useAppSelector((state) => state.deck.list);
   const cardList = useAppSelector((state) => state.card.list);
-  const [formData, setFormData] = useState<CardData>({ title_front: '' });
+  const [title_front, setTitle_frontData] = useState('');
+  const [title_back, setTitle_backData] = useState('');
+  const token = Cookies.get('jwtToken');
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -28,14 +31,25 @@ function DeckEditor() {
     setIsModalOpen(false);
   };
 
+  const cardTitleFrontHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle_frontData(event.target.value);
+  };
+  const cardTitleBackHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle_backData(event.target.value);
+  };
   const handleCreateCard = async () => {
+    setTitle_frontData('');
     try {
-      const response = await dispatch(
-        cardCreate({ title_front: formData.title_front })
+      dispatch(
+        cardCreate({
+          title_front,
+          token: '',
+          title_back: '',
+        })
       );
-      const newCard = response.payload;
+
       setIsModalOpen(false);
-      setFormData({ title_front: '' });
+      setTitle_frontData('');
     } catch (error) {
       console.error('Erreur lors de la création du deck:', error);
     }
@@ -43,20 +57,19 @@ function DeckEditor() {
 
   // Récupére le deck
   useEffect(() => {
-    dispatch(fetchDeck());
+    dispatch(fetchDeck({ token }));
   }, [dispatch]);
 
   // Supprimer la carte
-  const handleDelete = async (deckId: number) => {
-    await dispatch(deleteDeck(deckId));
-    window.location.href = '/';
+  const handleDelete = async (id: number) => {
+    await dispatch(deleteDeck(id));
   };
   // Récupére la carte
   useEffect(() => {
     if (id) {
-      dispatch(fetchCard(id));
+      dispatch(fetchCard(token));
     }
-  }, [dispatch, id]);
+  }, [dispatch, token]);
 
   console.log('Deck:', deckList);
   console.log('card:', cardList);
@@ -64,12 +77,11 @@ function DeckEditor() {
   function findDeck(deckList: Deck[], id: number) {
     return deckList.find((deck) => deck.id === id);
   }
+  const currentDeck = findDeck(deckList, parseInt(id));
 
   function findCard(cardList: Card[], id: number) {
     return cardList.find((card) => card.deck_id === id);
   }
-
-  const currentDeck = findDeck(deckList, parseInt(id));
 
   return (
     <main id="deck_page">
@@ -82,7 +94,7 @@ function DeckEditor() {
         <span className="deck-title">{currentDeck?.title}</span>
         {!isModalOpen && (
           <>
-            <button onClick={handleOpenModal}></button>
+            <button onClick={handleOpenModal}>Créer une nouvelle carte</button>
           </>
         )}
         {isModalOpen && (
@@ -90,15 +102,21 @@ function DeckEditor() {
             <div className="modal-content">
               <h2>Votre nouvelle Carte</h2>
               <form>
-                <span>Titre</span>
+                <span>Titre recto</span>
                 <input
                   className="SearcBar"
                   type="text"
                   id="title"
-                  value={formData.title_front}
-                  onChange={(event) =>
-                    setFormData({ title_front: event.target.value })
-                  }
+                  value={title_front}
+                  onChange={cardTitleFrontHandleChange}
+                />
+                <span>Titre verso</span>
+                <input
+                  className="SearcBar"
+                  type="text"
+                  id="title"
+                  value={title_back}
+                  onChange={cardTitleBackHandleChange}
                 />
                 <button
                   className="button-modal"
@@ -118,14 +136,16 @@ function DeckEditor() {
             </div>
           </div>
         )}
-        ;
+
         {cardList.map((card) => (
           <div key={card.id} className="flashcard">
             <span>{card.title_front}</span> ------
-            <span>{card.title_back}</span>
+            <span>{card.title_back}</span>le titleback est sini
           </div>
         ))}
-        <button onClick={() => handleDelete(currentDeck?.id)}>Supprimer</button>
+        <Link to="/" onClick={() => handleDelete(currentDeck.id)}>
+          Supprimer
+        </Link>
         <Footer />
       </div>
     </main>

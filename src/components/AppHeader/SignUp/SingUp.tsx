@@ -3,7 +3,7 @@ import './SignUp.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { AppDispatch, RootState } from '../../../redux/store';
-import userAction from '../../../redux/User/action';
+import { signUpAction } from '../../../redux/User/action';
 import Cookies from 'js-cookie';
 
 function SignUp() {
@@ -36,7 +36,7 @@ function SignUp() {
       ? alert('Les mots de passe ne correspondent pas')
       : handleSingUp(event);
   };
-  // Gestion user connection
+  // Création compte user
   const handleSingUp = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     setEmail('');
@@ -44,7 +44,7 @@ function SignUp() {
     setPassword('');
     setNewPassword('');
     dispatch(
-      userAction.signUpAction({
+      signUpAction({
         email,
         password,
         pseudo,
