@@ -24,6 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/memoTest/:id" element={<MemoTest />} />
+        <Route path="/deckEditor/:id" element={<DeckEditor />} />
       </Routes>
     </div>
   );

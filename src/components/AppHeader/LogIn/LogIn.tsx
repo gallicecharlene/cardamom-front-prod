@@ -6,6 +6,8 @@ import { IoIosCloseCircle } from 'react-icons/io';
 import { AppDispatch, RootState } from '../../../redux/store';
 import action from '../../../redux/User/action';
 import Cookies from 'js-cookie';
+import { loginAction } from '../../../redux/User/action';
+import { useAppDispatch } from '../../../hooks/redux';
 
 function LogIn() {
   const [email, setEmail] = useState('');
@@ -45,6 +47,9 @@ function LogIn() {
     );
     console.log(pseudo);
   };
+  const { isConnected } = useSelector((store: RootState) => store.user);
+
+  const dispatch: AppDispatch = useAppDispatch();
 
   const { displayModalLogIn } = useSelector(
     (store: RootState) => store.settings
