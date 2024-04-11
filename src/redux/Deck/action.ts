@@ -34,7 +34,7 @@ export const deckCreate = createAsyncThunk(
         body: JSON.stringify(payload),
       });
       const deckSend = await response.json();
-      console.log(deckSend);
+      console.log(deckSend, 'ici le decksend');
       return deckSend;
     } catch (error) {
       throw error;

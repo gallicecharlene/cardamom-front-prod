@@ -7,6 +7,7 @@ import deck from '../Deck';
 import { useReducer } from 'react';
 import authReducer from '../User/reducer';
 import { modalDeckReducer } from '../Deck/reducer';
+import cardReducer from '../Card/reducer';
 const store = configureStore({
   reducer: {
     settings: settings.reducer, // Reducer des settings (gestion des utilisateur / connexion)
@@ -14,6 +15,7 @@ const store = configureStore({
     modalDeck: modalDeckReducer,
     auth: authReducer,
     user: user.reducer,
+    card: cardReducer,
   },
   devTools: true, // Mettre devTools sur true permet d'activer l'utilisation de l'extension chrome/firefox REDUX
 });
