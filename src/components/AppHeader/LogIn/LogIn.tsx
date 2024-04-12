@@ -4,7 +4,7 @@ import './LogIn.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { AppDispatch, RootState } from '../../../redux/store';
-import action from '../../../redux/User/action';
+import { loginAction } from '../../../redux/User/action';
 import Cookies from 'js-cookie';
 
 function LogIn() {
@@ -36,7 +36,7 @@ function LogIn() {
     event.preventDefault();
 
     dispatch(
-      action.loginAction({
+      loginAction({
         email,
         password,
         pseudo,

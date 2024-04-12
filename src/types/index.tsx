@@ -19,6 +19,7 @@ export interface UserData {
 export interface Deck {
   id: number;
   title: string;
+  share_id: string;
 }
 export interface Card {
   id: number;
