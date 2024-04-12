@@ -4,14 +4,16 @@ type CardActionPayload = {
   token: string;
   title_front: string;
   title_back: string;
-  id: number;
+  deck_id: number;
 };
 
 export const fetchCard = createAsyncThunk(
   'cards/FETCH_CARDS',
   async (payload: CardActionPayload) => {
     const { token } = payload;
-    const response = await fetch(`http://localhost:3003/api/decks`, {
+    const id = payload.deck_id;
+    console.log("l'id dans fecthcard est:", id);
+    const response = await fetch(`http://localhost:3003/api/decks/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

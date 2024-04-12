@@ -8,15 +8,15 @@ import { useAppDispatch } from '../../hooks/redux';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 
-function DeckList({ id }: { id: number }) {
+function DeckList() {
   const dispatch = useAppDispatch();
   const { list, isPending } = useSelector((state: RootState) => state.deck);
   const token = Cookies.get('jwtToken');
 
   useEffect(() => {
-    console.log('le useffect se lance');
+    console.log('le useffect pour récupérer les se lance');
     dispatch(fetchDeck({ token }));
-  }, [dispatch, token]);
+  }, [token]);
 
   return (
     <div className="deck-container">

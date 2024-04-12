@@ -39,12 +39,14 @@ function DeckEditor() {
   };
   const handleCreateCard = async () => {
     setTitle_frontData('');
+    setTitle_backData('');
     try {
       dispatch(
         cardCreate({
           title_front,
-          token: '',
-          title_back: '',
+          token,
+          title_back,
+          deck_id: currentDeck?.id,
         })
       );
 
@@ -54,7 +56,12 @@ function DeckEditor() {
       console.error('Erreur lors de la création du deck:', error);
     }
   };
+  function findDeck(deckList: Deck[], id: number) {
+    return deckList.find((deck) => deck.id === id);
+  }
 
+  const currentDeck = findDeck(deckList, parseInt(id as string));
+  const deck_id = currentDeck?.id;
   // Récupére le deck
   useEffect(() => {
     dispatch(fetchDeck({ token }));
@@ -67,21 +74,16 @@ function DeckEditor() {
   // Récupére la carte
   useEffect(() => {
     if (id) {
-      dispatch(fetchCard(token));
+      dispatch(fetchCard({ token, deck_id }));
     }
   }, [dispatch, token]);
-
-  console.log('Deck:', deckList);
-  console.log('card:', cardList);
-
-  function findDeck(deckList: Deck[], id: number) {
-    return deckList.find((deck) => deck.id === id);
-  }
-  const currentDeck = findDeck(deckList, parseInt(id));
-
   function findCard(cardList: Card[], id: number) {
     return cardList.find((card) => card.deck_id === id);
   }
+
+  console.log('card:', cardList);
+
+  console.log('Deck en cours:', currentDeck);
 
   return (
     <main id="deck_page">
@@ -139,11 +141,13 @@ function DeckEditor() {
 
         {cardList.map((card) => (
           <div key={card.id} className="flashcard">
-            <span>{card.title_front}</span> ------
-            <span>{card.title_back}</span>le titleback est sini
+            <>
+              <span>{card.title_front}</span> ------
+              <span>{card.title_back}</span>le titleback est sini
+            </>
           </div>
         ))}
-        <Link to="/" onClick={() => handleDelete(currentDeck.id)}>
+        <Link to="/" onClick={() => handleDelete(currentDeck?.id)}>
           Supprimer
         </Link>
         <Footer />

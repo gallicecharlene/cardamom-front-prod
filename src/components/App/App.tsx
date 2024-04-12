@@ -13,7 +13,7 @@ function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (token) {
-      console.log(token);
+      console.log('un token est trouvé');
       // Si un jeton est disponible, appelez l'action tokenLoginAction pour effectuer la connexion
       dispatch(
         tokenLoginAction({
