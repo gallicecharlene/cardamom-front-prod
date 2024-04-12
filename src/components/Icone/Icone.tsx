@@ -28,7 +28,6 @@ function Icone() {
       const response = await dispatch(deckCreate({ token, title }));
       const newDeck = response.payload;
       //const newDeckId = newDeck.id;
-      console.log('ici new deck je crée le deck', response);
       //  window.location.href = `/DeckEditor/${newDeckId}`;
     } catch (error) {
       console.error('Erreur lors de la création du deck:', error);
