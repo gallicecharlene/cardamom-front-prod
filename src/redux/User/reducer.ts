@@ -44,7 +44,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isConnected = false;
       state.errorMessage = action.error.message || 'erreur';
     })
-    // Si deconnexion de l'utilisateur*****************
+    // Si deconnexion de l'utilisateur
     .addCase(actions.disconnectAction, (state, action) => {
       state.isConnected = false;
       state.user = undefined;

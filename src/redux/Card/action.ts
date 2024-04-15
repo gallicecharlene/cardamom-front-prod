@@ -22,10 +22,8 @@ export const fetchCard = createAsyncThunk(
       },
     });
     const parsedResponse = await response.json();
-    console.log('reponseeee:', parsedResponse);
-    const cardResponse = parsedResponse;
-    console.log(cardResponse, 'card response');
-    return cardResponse;
+    console.log('reponseeee du fetchCard', parsedResponse);
+    return parsedResponse;
   }
 );
 

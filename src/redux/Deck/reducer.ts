@@ -4,6 +4,7 @@ import { Deck } from '../../types';
 import { closeModal, openModal } from './action';
 import { deckCreate } from './action';
 import { fetchImportDeck } from './action';
+
 type IdDeckState = {
   list: Deck[];
   isPending: boolean;
@@ -36,9 +37,8 @@ const deckReducer = createReducer(initialState, (builder) => {
     })
     .addCase(deckCreate.fulfilled, (state, action) => {
       const newDeck = action.payload;
-      if (!state.list.some((deck) => deck.id === newDeck.id)) {
-        state.list.push(newDeck);
-      }
+
+      state.list.push(newDeck);
     })
     .addCase(fetchImportDeck.fulfilled, (state, action) => {
       state.isPending = false;

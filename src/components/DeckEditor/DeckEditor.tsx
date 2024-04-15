@@ -14,6 +14,7 @@ import Cookies from 'js-cookie';
 
 function DeckEditor() {
   const { id } = useParams();
+  const deckId = parseInt(id);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
   const deckList = useAppSelector((state) => state.deck.list);
@@ -25,7 +26,7 @@ function DeckEditor() {
   useEffect(() => {
     dispatch(fetchDeck({ token }));
     if (id) {
-      dispatch(fetchCard({ token, deck_id: parseInt(id) }));
+      dispatch(fetchCard({ token, deck_id: deckId }));
     }
   }, [dispatch, token, id]);
 
@@ -48,19 +49,16 @@ function DeckEditor() {
   const handleCreateCard = async () => {
     setTitle_frontData('');
     setTitle_backData('');
-    try {
-      await dispatch(
-        cardCreate({
-          title_front,
-          token,
-          title_back,
-          deck_id: parseInt(id),
-        })
-      );
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error('Erreur lors de la création de la carte:', error);
-    }
+
+    await dispatch(
+      cardCreate({
+        title_front,
+        token,
+        title_back,
+        deck_id: deckId,
+      })
+    );
+    setIsModalOpen(false);
   };
 
   const handleDelete = async (id: number) => {
@@ -121,13 +119,13 @@ function DeckEditor() {
           </div>
         )}
 
-        {cardList.map((card, index) => (
-          <div key={index} className="flashcard">
+        {cardList.map((card, id) => (
+          <div key={id} className="flashcard">
             <span>{card.title_front}</span> ------
             <span>{card.title_back}</span>
           </div>
         ))}
-        <Link to="/" onClick={() => handleDelete(parseInt(id))}>
+        <Link to="/" onClick={() => handleDelete(id)}>
           Supprimer
         </Link>
         <Footer />

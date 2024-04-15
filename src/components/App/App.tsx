@@ -11,9 +11,9 @@ function App() {
   // Récupérez le jeton JWT depuis les cookies
   const token = Cookies.get('jwtToken');
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (token) {
-      console.log('un token est trouvé');
       // Si un jeton est disponible, appelez l'action tokenLoginAction pour effectuer la connexion
       dispatch(
         tokenLoginAction({

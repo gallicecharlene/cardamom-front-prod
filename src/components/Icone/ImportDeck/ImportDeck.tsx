@@ -2,14 +2,12 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import Cookies from 'js-cookie';
 
-import { fetchDeck, fetchImportDeck } from '../../../redux/Deck/action';
-import { Link } from 'react-router-dom';
-import { Deck } from '../../../types';
+import { fetchImportDeck } from '../../../redux/Deck/action';
+
 function ImportDeck() {
   const dispatch = useAppDispatch();
   const [importCode, setImportCode] = useState('');
   const token = Cookies.get('jwtToken');
-  const decks = useAppSelector((state) => state.deck.list);
 
   const importCodeHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setImportCode(event.target.value);

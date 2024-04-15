@@ -22,14 +22,17 @@ const cardReducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchCard.fulfilled, (state, action) => {
       state.isPending = false;
-      state.list = state.list.concat(action.payload);
+      state.list = action.payload;
     })
     .addCase(fetchCard.rejected, (state, action) => {
       state.isPending = false;
       state.error = action.error.message ?? 'erreur';
     })
     .addCase(cardCreate.fulfilled, (state, action) => {
-      state.list = state.list.concat(action.payload);
+      const newCard = action.payload;
+      if (!state.list.some((card) => card.id === newCard.id)) {
+        state.list.push(newCard);
+      }
     });
 });
 

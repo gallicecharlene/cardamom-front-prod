@@ -53,8 +53,6 @@ function SignUp() {
     );
   };
 
-  const { isConnected } = useSelector((store: RootState) => store.user);
-
   const dispatch: AppDispatch = useDispatch();
 
   const { displayModalSignUp } = useSelector(

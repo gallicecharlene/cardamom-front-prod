@@ -22,15 +22,9 @@ function AddDeck() {
   const handleCreateDeck = async () => {
     setIsModalOpen(false);
     setDeckTitle('');
-    try {
-      console.log('requete api pour créer el deck jenvoie :', title);
-      const response = await dispatch(deckCreate({ token, title }));
-      const newDeck = response.payload;
-      //const newDeckId = newDeck.id;
-      //  window.location.href = `/DeckEditor/${newDeckId}`;
-    } catch (error) {
-      console.error('Erreur lors de la création du deck:', error);
-    }
+
+    console.log('requete api pour créer el deck jenvoie :', title);
+    const response = await dispatch(deckCreate({ token, title }));
   };
 
   return (

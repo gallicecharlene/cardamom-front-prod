@@ -14,11 +14,13 @@ function DeckList() {
   const token = Cookies.get('jwtToken');
 
   useEffect(() => {
-    console.log('le useffect pour récupérer les se lance');
-    dispatch(fetchDeck({ token }));
-  }, []);
+    if (token) {
+      console.log('le useffect pour récupérer les decks se lance');
+      dispatch(fetchDeck({ token }));
+    }
+  }, [dispatch]);
 
-  console.log(list);
+  console.log(list, 'la list dans deck');
 
   return (
     <div className="deck-container">
