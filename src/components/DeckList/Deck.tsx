@@ -16,7 +16,9 @@ function DeckList() {
   useEffect(() => {
     console.log('le useffect pour récupérer les se lance');
     dispatch(fetchDeck({ token }));
-  }, [token]);
+  }, []);
+
+  console.log(list);
 
   return (
     <div className="deck-container">

@@ -3,7 +3,7 @@ import { fetchDeck } from './action';
 import { Deck } from '../../types';
 import { closeModal, openModal } from './action';
 import { deckCreate } from './action';
-
+import { fetchImportDeck } from './action';
 type IdDeckState = {
   list: Deck[];
   isPending: boolean;
@@ -28,14 +28,21 @@ const deckReducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchDeck.fulfilled, (state, action) => {
       state.isPending = false;
-      state.list = state.list.concat(action.payload);
+      state.list = action.payload;
     })
     .addCase(fetchDeck.rejected, (state, action) => {
       state.isPending = false;
       state.error = action.error.message ?? 'erreur';
     })
     .addCase(deckCreate.fulfilled, (state, action) => {
-      state.list = state.list.concat(action.payload);
+      const newDeck = action.payload;
+      if (!state.list.some((deck) => deck.id === newDeck.id)) {
+        state.list.push(newDeck);
+      }
+    })
+    .addCase(fetchImportDeck.fulfilled, (state, action) => {
+      state.isPending = false;
+      state.list.push(action.payload);
     });
 });
 
