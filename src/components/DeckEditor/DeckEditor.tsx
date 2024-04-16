@@ -9,7 +9,7 @@ import { fetchDeck } from '../../redux/Deck/action';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux';
 import { deleteDeck } from '../../redux/Deck/action';
-import { fetchCard, cardCreate } from '../../redux/Card/action';
+import { fetchCard, cardCreate, deleteCard } from '../../redux/Card/action';
 import Cookies from 'js-cookie';
 
 function DeckEditor() {
@@ -58,8 +58,18 @@ function DeckEditor() {
     setIsModalOpen(false);
   };
 
-  const handleDelete = (id: number) => {
-    dispatch(deleteDeck(id));
+  // fonction pour supprimer une carte
+  const handleCardDelete = (id: number) => {
+    console.log(id, 'le console log id de card');
+    dispatch(
+      deleteCard({
+        id,
+        token,
+      })
+    );
+  };
+  const handleDeckDelete = (id: number) => {
+    dispatch(deleteDeck(deck?.id));
   };
   if (!deck) {
     return;
@@ -122,10 +132,13 @@ function DeckEditor() {
             <div key={id} className="flashcard">
               <span>{card.title_front}</span> ------
               <span>{card.title_back}</span>
+              <button onClick={() => handleCardDelete(id)}>
+                Supprimer la carte
+              </button>
             </div>
           ))}
-        <Link to="/" onClick={() => handleDelete(id)}>
-          Supprimer
+        <Link to="/" onClick={() => handleDeckDelete(id)}>
+          Supprimer le Deck
         </Link>
         <Footer />
       </div>

@@ -5,6 +5,7 @@ type CardActionPayload = {
   title_front: string;
   title_back: string;
   deck_id: number;
+  id: number;
 };
 
 export const fetchCard = createAsyncThunk(
@@ -22,7 +23,7 @@ export const fetchCard = createAsyncThunk(
       },
     });
     const parsedResponse = await response.json();
-    console.log('reponseeee du fetchCard', parsedResponse);
+
     return parsedResponse;
   }
 );
@@ -48,5 +49,25 @@ export const cardCreate = createAsyncThunk(
     }
   }
 );
+export const deleteCard = createAsyncThunk(
+  'decks/DELETE',
+  async (payload: CardActionPayload) => {
+    const { token } = payload;
 
-export default { fetchCard, cardCreate };
+    const id = payload.id;
+    console.log(id, "l'id de la carte du payload");
+    const response = await fetch(`http://localhost:3003/api/flashcards/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const parsedResponse = await response.json();
+
+    return parsedResponse;
+  }
+);
+
+export default { fetchCard, cardCreate, deleteCard };
