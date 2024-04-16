@@ -26,7 +26,7 @@ export const loginAction = createAsyncThunk(
     if (token) {
       alert('Connection réussie');
       // Stocker le token dans les cookies
-      Cookies.set('jwtToken', token, { expires: 7 }); // expire dans 7 jours
+      Cookies.set('jwtToken', token, { expires: 1 }); // expire dans 7 jours
       return filteredResponse;
     } else {
       alert('pas bon');

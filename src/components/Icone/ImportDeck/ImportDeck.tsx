@@ -39,6 +39,7 @@ function ImportDeck() {
               value={importCode}
               onChange={importCodeHandleChange}
             />
+            <button>Valider</button>
           </form>
         </div>
       </div>
