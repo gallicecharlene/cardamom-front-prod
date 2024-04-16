@@ -7,6 +7,7 @@ import './Deck.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
+import Home from '../Home/Home';
 
 function DeckList() {
   const deck = useAppSelector((state) => state.decks.list);
@@ -23,7 +24,7 @@ function DeckList() {
   }, []);
 
   if (!deck) {
-    return;
+    return <Home />;
   }
   console.log(list, 'la list dans deck');
 

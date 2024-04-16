@@ -39,6 +39,7 @@ function SignUp() {
   // Création compte user
   const handleSingUp = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     setEmail('');
     setPseudo('');
     setPassword('');

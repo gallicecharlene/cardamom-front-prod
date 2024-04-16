@@ -2,15 +2,14 @@ import { ChangeEvent, useState } from 'react';
 import { deckCreate } from '../../../redux/Deck/action';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import Cookies from 'js-cookie';
-import { Link } from 'react-router-dom';
-import { RootState } from '../../../redux/store';
-import { Deck } from '../../../types';
+import { useNavigate } from 'react-router-dom';
 
 function AddDeck() {
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setDeckTitle] = useState('');
   const token = Cookies.get('jwtToken');
+  const navigate = useNavigate();
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -28,7 +27,8 @@ function AddDeck() {
     const response = await dispatch(deckCreate({ token, title }));
     const newDeck = response.payload;
     const DeckId = newDeck.id;
-    window.location.href = `/DeckEditor/${DeckId}`;
+    navigate(`/DeckEditor/${DeckId}`);
+    //window.location.href = `/DeckEditor/${DeckId}`;
     console.log(DeckId, " le deckid après l'api");
   };
   /*function findDeck(deckList: Deck[], id: number) {
