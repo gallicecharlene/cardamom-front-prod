@@ -17,18 +17,16 @@ function DeckEditor() {
   const deckId = parseInt(id);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const deckList = useAppSelector((state) => state.deck.list);
-  const cardList = useAppSelector((state) => state.card.list);
+  const deck = useAppSelector((state) => state.deck.deck);
   const [title_front, setTitle_frontData] = useState('');
   const [title_back, setTitle_backData] = useState('');
   const token = Cookies.get('jwtToken');
 
   useEffect(() => {
-    dispatch(fetchDeck({ token }));
     if (id) {
       dispatch(fetchCard({ token, deck_id: deckId }));
     }
-  }, [dispatch, token, id]);
+  }, [token, id]);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -46,11 +44,10 @@ function DeckEditor() {
     setTitle_backData(event.target.value);
   };
 
-  const handleCreateCard = async () => {
+  const handleCreateCard = () => {
     setTitle_frontData('');
     setTitle_backData('');
-
-    await dispatch(
+    dispatch(
       cardCreate({
         title_front,
         token,
@@ -61,9 +58,12 @@ function DeckEditor() {
     setIsModalOpen(false);
   };
 
-  const handleDelete = async (id: number) => {
-    await dispatch(deleteDeck(id));
+  const handleDelete = (id: number) => {
+    dispatch(deleteDeck(id));
   };
+  if (!deck) {
+    return;
+  }
 
   return (
     <main id="deck_page">
@@ -73,9 +73,7 @@ function DeckEditor() {
             ACCUEIL
           </Link>
         </AppHeader>
-        <span className="deck-title">
-          {deckList.find((deck) => deck.id === parseInt(id))?.title}
-        </span>
+        <span className="deck-title">{deck.title}</span>
         {!isModalOpen && (
           <button onClick={handleOpenModal}>Créer une nouvelle carte</button>
         )}
@@ -119,12 +117,13 @@ function DeckEditor() {
           </div>
         )}
 
-        {cardList.map((card, id) => (
-          <div key={id} className="flashcard">
-            <span>{card.title_front}</span> ------
-            <span>{card.title_back}</span>
-          </div>
-        ))}
+        {deck.flashcards &&
+          deck.flashcards.map((card, id) => (
+            <div key={id} className="flashcard">
+              <span>{card.title_front}</span> ------
+              <span>{card.title_back}</span>
+            </div>
+          ))}
         <Link to="/" onClick={() => handleDelete(id)}>
           Supprimer
         </Link>

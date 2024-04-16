@@ -1,16 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 import settings from '../Settings';
 import user from '../User';
-import { deckReducer } from '../Deck/reducer';
+import { deckListReducer } from '../Deck/reducer';
 import { modalDeckReducer } from '../Deck/reducer';
-import cardReducer from '../Card/reducer';
+import deckReducer from '../Card/reducer';
 const store = configureStore({
   reducer: {
     settings: settings.reducer, // Reducer des settings (gestion de la modale pour inscription / connexion)
-    deck: deckReducer,
+    decks: deckListReducer,
     modalDeck: modalDeckReducer,
     user: user.reducer, // Reducer pour la gestion de l'utilisateur
-    card: cardReducer,
+    deck: deckReducer,
   },
   devTools: true, // Mettre devTools sur true permet d'activer l'utilisation de l'extension chrome/firefox REDUX
 });

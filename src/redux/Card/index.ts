@@ -1,8 +1,8 @@
 import actions from './action';
 
-import cardReducer from './reducer';
+import deckReducer from './reducer';
 
 export default {
   actions,
-  reducer: cardReducer,
+  reducer: deckReducer,
 };

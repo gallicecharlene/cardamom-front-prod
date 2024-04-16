@@ -21,7 +21,7 @@ const stateInitial = {
   isModalOpen: false,
 };
 
-const deckReducer = createReducer(initialState, (builder) => {
+const deckListReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchDeck.pending, (state) => {
       state.isPending = true;
@@ -56,4 +56,4 @@ const modalDeckReducer = createReducer(stateInitial, (builder) => {
     });
 });
 
-export { deckReducer, modalDeckReducer };
+export { deckListReducer, modalDeckReducer };

@@ -28,7 +28,7 @@ function MemoTest() {
   }
 
   const currentDeck = useAppSelector((state) =>
-    findDeck(state.deck.list, parseInt(id!))
+    findDeck(state.decks.list, parseInt(id!))
   );
 
   return (

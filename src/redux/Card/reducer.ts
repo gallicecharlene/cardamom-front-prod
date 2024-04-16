@@ -1,20 +1,20 @@
 import { createReducer, isPending } from '@reduxjs/toolkit';
 import { fetchCard } from './action';
-import { Card } from '../../types';
+import { Deck } from '../../types';
 import { cardCreate } from './action';
 
 type IdCardState = {
-  list: Card[];
+  deck: Deck | null;
   isPending: boolean;
   error: string | null;
 };
 const initialState: IdCardState = {
-  list: [],
+  deck: null,
   isPending: false,
   error: null,
 };
 
-const cardReducer = createReducer(initialState, (builder) => {
+const deckReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchCard.pending, (state) => {
       state.isPending = true;
@@ -22,18 +22,17 @@ const cardReducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchCard.fulfilled, (state, action) => {
       state.isPending = false;
-      state.list = action.payload;
+      state.deck = action.payload;
     })
     .addCase(fetchCard.rejected, (state, action) => {
       state.isPending = false;
       state.error = action.error.message ?? 'erreur';
     })
     .addCase(cardCreate.fulfilled, (state, action) => {
-      const newCard = action.payload;
-      if (!state.list.some((card) => card.id === newCard.id)) {
-        state.list.push(newCard);
+      if (state.deck?.flashcards) {
+        state.deck.flashcards.push(action.payload);
       }
     });
 });
 
-export default cardReducer;
+export default deckReducer;

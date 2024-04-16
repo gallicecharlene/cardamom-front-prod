@@ -4,13 +4,15 @@ import { fetchDeck } from '../../redux/Deck/action';
 import { Deck } from '../../types';
 import { Link } from 'react-router-dom';
 import './Deck.scss';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 
 function DeckList() {
+  const deck = useAppSelector((state) => state.decks.list);
+
   const dispatch = useAppDispatch();
-  const { list, isPending } = useSelector((state: RootState) => state.deck);
+  const { list, isPending } = useSelector((state: RootState) => state.decks);
   const token = Cookies.get('jwtToken');
 
   useEffect(() => {
@@ -18,8 +20,11 @@ function DeckList() {
       console.log('le useffect pour récupérer les decks se lance');
       dispatch(fetchDeck({ token }));
     }
-  }, [dispatch]);
+  }, []);
 
+  if (!deck) {
+    return;
+  }
   console.log(list, 'la list dans deck');
 
   return (

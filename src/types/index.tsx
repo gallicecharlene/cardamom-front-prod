@@ -20,6 +20,7 @@ export interface Deck {
   id: number;
   title: string;
   share_id: string;
+  flashcards?: [Card];
 }
 export interface Card {
   id: number;

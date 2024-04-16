@@ -1,8 +1,11 @@
 import { ChangeEvent, useState } from 'react';
 import { deckCreate } from '../../../redux/Deck/action';
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
+import { RootState } from '../../../redux/store';
+import { Deck } from '../../../types';
+
 function AddDeck() {
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,11 +25,22 @@ function AddDeck() {
   const handleCreateDeck = async () => {
     setIsModalOpen(false);
     setDeckTitle('');
-
-    console.log('requete api pour créer el deck jenvoie :', title);
     const response = await dispatch(deckCreate({ token, title }));
+    const newDeck = response.payload;
+    const DeckId = newDeck.id;
+    window.location.href = `/DeckEditor/${DeckId}`;
+    console.log(DeckId, " le deckid après l'api");
   };
-
+  /*function findDeck(deckList: Deck[], id: number) {
+    const deck = deckList.find((testedDeck) => {
+      return testedDeck.id === id;
+    });
+    return deck;
+  }
+  const currentDeck = useAppSelector((state: RootState) =>
+    findDeck(state.decks.list, parseInt(id!))
+  );*/
+  //console.log('ce que contient currentdeck :', currentDeck);
   return (
     <div className="icone">
       {!isModalOpen && (
@@ -49,13 +63,9 @@ function AddDeck() {
                 value={title}
                 onChange={titleHandleChange}
               />
-              <Link
-                to="/DeckEditor/${newDeckId}"
-                className="button-modal"
-                onClick={handleCreateDeck}
-              >
+              <button className="button-modal" onClick={handleCreateDeck}>
                 Créer
-              </Link>
+              </button>
 
               <button
                 className="button-modal"
