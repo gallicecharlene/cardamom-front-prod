@@ -52,16 +52,17 @@ export const deckCreate = createAsyncThunk(
 export const deleteDeck = createAsyncThunk(
   'decks/DELETE',
   async (payload: DeckActionPayload) => {
-    const response = await fetch(
-      `http://localhost:3003/api/decks/${payload.id}`,
-      {
-        method: 'DELETE',
-      }
-    );
-
-    const parsedResponse = await response.json();
-
-    return parsedResponse;
+    const { token, id } = payload;
+    const response = await fetch(`http://localhost:3003/api/decks/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log('Response status:', response.status);
+    console.log(id);
+    return null;
   }
 );
 

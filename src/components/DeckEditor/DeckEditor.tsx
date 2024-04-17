@@ -1,6 +1,6 @@
 import './DeckEditor.scss';
 import AppHeader from '../AppHeader/AppHeader';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux';
@@ -19,7 +19,7 @@ function DeckEditor() {
   const [title_front, setTitle_frontData] = useState('');
   const [title_back, setTitle_backData] = useState('');
   const token = Cookies.get('jwtToken');
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (id) {
       dispatch(fetchCard({ token, deck_id: deckId }));
@@ -81,8 +81,9 @@ function DeckEditor() {
   };
 
   // fonction pour supprimer un deck
-  const handleDeckDelete = (id: number) => {
-    dispatch(deleteDeck(deck?.id));
+  const handleDeckDelete = () => {
+    dispatch(deleteDeck({ token, id: deckId }));
+    navigate('/');
   };
   if (!deck) {
     return;
@@ -150,9 +151,7 @@ function DeckEditor() {
               </button>
             </div>
           ))}
-        <Link to="/" onClick={() => handleDeckDelete(id)}>
-          Supprimer le Deck
-        </Link>
+        <button onClick={handleDeckDelete}>Supprimer</button>
         <Footer />
       </div>
     </main>
