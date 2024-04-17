@@ -27,19 +27,11 @@ function AddDeck() {
     const response = await dispatch(deckCreate({ token, title }));
     const newDeck = response.payload;
     const DeckId = newDeck.id;
-    navigate(`/DeckEditor/${DeckId}`);
+    navigate(`DeckEditor/${DeckId}`);
     //window.location.href = `/DeckEditor/${DeckId}`;
     console.log(DeckId, " le deckid après l'api");
   };
-  /*function findDeck(deckList: Deck[], id: number) {
-    const deck = deckList.find((testedDeck) => {
-      return testedDeck.id === id;
-    });
-    return deck;
-  }
-  const currentDeck = useAppSelector((state: RootState) =>
-    findDeck(state.decks.list, parseInt(id!))
-  );*/
+
   //console.log('ce que contient currentdeck :', currentDeck);
   return (
     <div className="icone">
@@ -57,7 +49,7 @@ function AddDeck() {
             <form>
               <span>Titre</span>
               <input
-                className="SearcBar"
+                className="SearchBar"
                 type="text"
                 id="title"
                 value={title}

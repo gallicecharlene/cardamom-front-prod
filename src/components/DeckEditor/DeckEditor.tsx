@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux';
-import { Card, Deck } from '../../types/index';
-import { fetchDeck } from '../../redux/Deck/action';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux';
 import { deleteDeck } from '../../redux/Deck/action';
@@ -47,6 +45,14 @@ function DeckEditor() {
   const handleCreateCard = () => {
     setTitle_frontData('');
     setTitle_backData('');
+    if (!title_front) {
+      alert('veuillez renseigner un recto');
+      return;
+    }
+    if (!title_back) {
+      alert('veuillez renseigner un verso');
+      return;
+    }
     dispatch(
       cardCreate({
         title_front,
@@ -58,16 +64,23 @@ function DeckEditor() {
     setIsModalOpen(false);
   };
 
-  // fonction pour supprimer une carte
-  const handleCardDelete = (id: number) => {
-    console.log(id, 'le console log id de card');
-    dispatch(
-      deleteCard({
-        id,
-        token,
-      })
+  // fonction pour supprimer une carte ******** changer le window.confirm par react Toastify
+  const handleCardDelete = (index: number) => {
+    const card = deck?.flashcards?.[index];
+    const confirmDelete = window.confirm(
+      'Voulez-vous vraiment supprmer cette carte ?'
     );
+    if (confirmDelete) {
+      dispatch(
+        deleteCard({
+          id: card?.id,
+          token,
+        })
+      );
+    }
   };
+
+  // fonction pour supprimer un deck
   const handleDeckDelete = (id: number) => {
     dispatch(deleteDeck(deck?.id));
   };
@@ -128,11 +141,11 @@ function DeckEditor() {
         )}
 
         {deck.flashcards &&
-          deck.flashcards.map((card, id) => (
-            <div key={id} className="flashcard">
+          deck.flashcards.map((card, index) => (
+            <div key={index} className="flashcard">
               <span>{card.title_front}</span> ------
               <span>{card.title_back}</span>
-              <button onClick={() => handleCardDelete(id)}>
+              <button onClick={() => handleCardDelete(index)}>
                 Supprimer la carte
               </button>
             </div>

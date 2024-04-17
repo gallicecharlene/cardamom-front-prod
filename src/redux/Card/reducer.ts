@@ -1,6 +1,6 @@
 import { createReducer, isPending } from '@reduxjs/toolkit';
 import { deleteCard, deleteCard, fetchCard } from './action';
-import { Deck } from '../../types';
+import { Card, Deck } from '../../types';
 import { cardCreate } from './action';
 
 type IdCardState = {
@@ -35,7 +35,10 @@ const deckReducer = createReducer(initialState, (builder) => {
     })
     .addCase(deleteCard.fulfilled, (state, action) => {
       if (state.deck?.flashcards) {
-        state.deck.flashcards.filter((card) => card.id !== action.payload);
+        const filteredFlashcards: any = state.deck.flashcards.filter(
+          (card) => card.id !== action.payload
+        );
+        state.deck.flashcards = filteredFlashcards;
       }
     });
 });
