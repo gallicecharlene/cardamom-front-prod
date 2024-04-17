@@ -1,5 +1,5 @@
 import { createReducer, isPending } from '@reduxjs/toolkit';
-import { deleteCard, deleteCard, fetchCard } from './action';
+import { deleteCard, fetchCard } from './action';
 import { Card, Deck } from '../../types';
 import { cardCreate } from './action';
 

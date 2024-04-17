@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux';
-import { deleteDeck } from '../../redux/Deck/action';
+import { deleteDeck, updateDeck } from '../../redux/Deck/action';
 import { fetchCard, cardCreate, deleteCard } from '../../redux/Card/action';
 import Cookies from 'js-cookie';
 
@@ -18,8 +18,11 @@ function DeckEditor() {
   const deck = useAppSelector((state) => state.deck.deck);
   const [title_front, setTitle_frontData] = useState('');
   const [title_back, setTitle_backData] = useState('');
+  const [titleDeck, setDeckTitle] = useState('');
   const token = Cookies.get('jwtToken');
   const navigate = useNavigate();
+
+  // UseEffect pour afficher les cartes
   useEffect(() => {
     if (id) {
       dispatch(fetchCard({ token, deck_id: deckId }));
@@ -37,11 +40,14 @@ function DeckEditor() {
   const cardTitleFrontHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle_frontData(event.target.value);
   };
-
+  const titleDeckHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setDeckTitle(event.target.value);
+  };
   const cardTitleBackHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle_backData(event.target.value);
   };
 
+  // Fonction pour créer une carte
   const handleCreateCard = () => {
     setTitle_frontData('');
     setTitle_backData('');
@@ -64,7 +70,7 @@ function DeckEditor() {
     setIsModalOpen(false);
   };
 
-  // fonction pour supprimer une carte ******** changer le window.confirm par react Toastify
+  // Fonction pour supprimer une carte ******** changer le window.confirm par react Toastify
   const handleCardDelete = (index: number) => {
     const card = deck?.flashcards?.[index];
     const confirmDelete = window.confirm(
@@ -80,15 +86,19 @@ function DeckEditor() {
     }
   };
 
-  // fonction pour supprimer un deck
+  // Fonction pour supprimer un deck
   const handleDeckDelete = () => {
     dispatch(deleteDeck({ token, id: deckId }));
     navigate('/');
   };
+
+  //Fonction pour modifier un deck
+  const handleDeckUpdate = () => {
+    dispatch(updateDeck({ token, id: deckId, title: titleDeck }));
+  };
   if (!deck) {
     return;
   }
-
   return (
     <main id="deck_page">
       <div className="deck-editor">
@@ -97,7 +107,19 @@ function DeckEditor() {
             ACCUEIL
           </Link>
         </AppHeader>
-        <span className="deck-title">{deck.title}</span>
+        <input
+          type="text"
+          placeholder={deck.title}
+          className="deck-title"
+          onChange={titleDeckHandleChange}
+        />
+        <button
+          className="deck-title"
+          value={titleDeck}
+          onClick={handleDeckUpdate}
+        >
+          Changer le titre du deck
+        </button>
         {!isModalOpen && (
           <button onClick={handleOpenModal}>Créer une nouvelle carte</button>
         )}
@@ -108,7 +130,7 @@ function DeckEditor() {
               <form>
                 <span>Titre recto</span>
                 <input
-                  className="SearcBar"
+                  className="SearchBar"
                   type="text"
                   id="title"
                   value={title_front}
@@ -116,7 +138,7 @@ function DeckEditor() {
                 />
                 <span>Titre verso</span>
                 <input
-                  className="SearcBar"
+                  className="SearchBar"
                   type="text"
                   id="title"
                   value={title_back}
