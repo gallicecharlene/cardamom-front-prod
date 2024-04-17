@@ -9,6 +9,7 @@ import { useAppDispatch } from '../../hooks/redux';
 import { deleteDeck } from '../../redux/Deck/action';
 import { fetchCard, cardCreate, deleteCard } from '../../redux/Card/action';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 function DeckEditor() {
   const { id } = useParams();
@@ -46,11 +47,11 @@ function DeckEditor() {
     setTitle_frontData('');
     setTitle_backData('');
     if (!title_front) {
-      alert('veuillez renseigner un recto');
+      toast.error('veuillez renseigner un recto');
       return;
     }
     if (!title_back) {
-      alert('veuillez renseigner un verso');
+      toast.error('veuillez renseigner un verso');
       return;
     }
     dispatch(
@@ -68,7 +69,7 @@ function DeckEditor() {
   const handleCardDelete = (index: number) => {
     const card = deck?.flashcards?.[index];
     const confirmDelete = window.confirm(
-      'Voulez-vous vraiment supprmer cette carte ?'
+      'Voulez-vous vraiment supprimer cette carte ?'
     );
     if (confirmDelete) {
       dispatch(

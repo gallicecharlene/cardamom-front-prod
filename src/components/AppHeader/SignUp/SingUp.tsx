@@ -5,6 +5,8 @@ import { IoIosCloseCircle } from 'react-icons/io';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { signUpAction } from '../../../redux/User/action';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -33,7 +35,7 @@ function SignUp() {
     event.preventDefault();
 
     password !== newPassword
-      ? alert('Les mots de passe ne correspondent pas')
+      ? toast.error('Les mots de passe ne correspondent pas')
       : handleSingUp(event);
   };
   // Création compte user
