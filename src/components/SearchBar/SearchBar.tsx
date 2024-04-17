@@ -1,10 +1,25 @@
+import React, { useState } from 'react';
 import './SearchBar.scss';
 
-function SearchBar() {
+function SearchBar({ onSearchSubmit }) {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChangeInput = (event) => {
+    const newValue = event.target.value;
+    setInputValue(newValue);
+    onSearchSubmit(newValue);
+  };
+
   return (
     <div className="search-bar">
-      <input type="text" placeholder="Rechercher..." className="search-input" />
-      <button className="search-button">Rechercher</button>
+      <form className="search-bar">
+        <input
+          className="search-input"
+          placeholder="Rechercher..."
+          value={inputValue}
+          onChange={handleChangeInput}
+        />
+      </form>
     </div>
   );
 }

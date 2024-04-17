@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import Home from '../Home/Home';
 
-function DeckList() {
+function DeckList({ search }) {
   const deck = useAppSelector((state) => state.decks.list);
 
   const dispatch = useAppDispatch();
@@ -35,16 +35,25 @@ function DeckList() {
       ) : (
         <div>
           {list &&
-            list.map((deck: Deck) => (
-              <div key={deck.id}>
-                <Link to={`/memoTest/${deck.id}`} className="deck-button">
-                  <h2>{deck.title}</h2>
-                </Link>
-                <Link to={`/deckEditor/${deck.id}`} className="deck-editor">
-                  MODIFIE
-                </Link>
-              </div>
-            ))}
+            list.map((deck: Deck) => {
+              if (
+                deck.title
+                  .toLocaleLowerCase()
+                  .includes(search.toLocaleLowerCase())
+              ) {
+                return (
+                  <div key={deck.id}>
+                    <Link to={`/memoTest/${deck.id}`} className="deck-button">
+                      <h2>{deck.title}</h2>
+                    </Link>
+                    <Link to={`/deckEditor/${deck.id}`} className="deck-editor">
+                      MODIFIE
+                    </Link>
+                  </div>
+                );
+              }
+              return null;
+            })}
         </div>
       )}
     </div>
