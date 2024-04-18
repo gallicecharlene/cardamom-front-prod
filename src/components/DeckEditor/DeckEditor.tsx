@@ -112,8 +112,11 @@ function DeckEditor() {
 
   // Fonction pour supprimer un deck
   const handleDeckDelete = () => {
-    dispatch(deleteDeck({ token, id: deckId }));
-    navigate('/');
+    const confirmDelete = window.confirm('Voulez vous supprimer ce deck ?');
+    if (confirmDelete) {
+      dispatch(deleteDeck({ token, id: deckId }));
+      navigate('/');
+    }
   };
 
   //Fonction pour modifier un deck
