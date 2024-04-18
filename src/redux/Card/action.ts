@@ -86,9 +86,10 @@ export const updateDeck = createAsyncThunk(
   }
 );
 export const updateCard = createAsyncThunk(
-  'deck/PATCH',
+  'card/PATCH',
   async (payload: CardActionPayload) => {
-    const { token, id } = payload;
+    const { token } = payload;
+    const id = payload.id;
     const response = await fetch(`http://localhost:3003/api/flashcards/${id}`, {
       method: 'PATCH',
       headers: {

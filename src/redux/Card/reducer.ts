@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { deleteCard, fetchCard, updateDeck } from './action';
+import { deleteCard, fetchCard, updateCard, updateDeck } from './action';
 import { Deck } from '../../types';
 import { cardCreate } from './action';
 
@@ -43,6 +43,18 @@ const deckReducer = createReducer(initialState, (builder) => {
     })
     .addCase(updateDeck.fulfilled, (state, action) => {
       state.deck = action.payload;
+    })
+    .addCase(updateCard.fulfilled, (state, action) => {
+      const cardUpdate: any = action.payload;
+      if (cardUpdate) {
+        const cardToUpdate = state.deck?.flashcards?.find(
+          (card: { id: any }) => card.id === cardUpdate.id
+        );
+        if (cardToUpdate) {
+          cardToUpdate.title_front = cardUpdate.title_front;
+          cardToUpdate.title_back = cardUpdate.title_back;
+        }
+      }
     });
 });
 

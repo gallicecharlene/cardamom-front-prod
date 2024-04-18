@@ -23,9 +23,10 @@ function DeckEditor() {
   const deckId = parseInt(id);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeckModalOpen, setIsDeckModalOpen] = useState(false);
+  const [isCardUpdateModalOpen, setIsCardUpdateModalOpen] = useState(false);
   const dispatch = useAppDispatch();
+  const [index, setIndex] = useState(0);
   const deck = useAppSelector((state) => state.deck.deck);
-  const deckList = useAppSelector((state) => state.decks.list);
   const [titleFront, setTitleFrontData] = useState('');
   const [titleBack, setTitleBackData] = useState('');
   const [titleDeck, setDeckTitle] = useState('');
@@ -124,17 +125,25 @@ function DeckEditor() {
     dispatch(updateDeck({ token, id: deckId, title: titleDeck }));
   };
   //Fonction pour modifier une carte
-  const handleCardUpdate = (index: number) => {
+  const handleCardUpdateModal = (index: number) => {
+    setIsCardUpdateModalOpen(true);
+    setIndex(index);
     console.log('coucou', index);
+  };
+  const handleUpdateCard = (index: number) => {
+    const currentIndex = index;
+    const cardId = deck?.flashcards?.[currentIndex].id;
+    console.log(cardId, 'le console de card dans update');
     dispatch(
       updateCard({
         token,
-        id: deckId,
+        id: cardId,
         title_back: titleBack,
         title_front: titleFront,
         deck_id: deckId,
       })
     );
+    setIsCardUpdateModalOpen(false);
   };
 
   if (!deck) {
@@ -172,10 +181,7 @@ function DeckEditor() {
           </button>
         )}
 
-        {!isModalOpen && (
-          <button onClick={handleOpenModal}>Créer une nouvelle carte</button>
-        )}
-        {isModalOpen && (
+        {isModalOpen ? (
           <div className="modal">
             <div className="modal-content">
               <h2>Votre nouvelle Carte</h2>
@@ -213,6 +219,8 @@ function DeckEditor() {
               </form>
             </div>
           </div>
+        ) : (
+          <button onClick={handleOpenModal}>Créer une nouvelle carte</button>
         )}
 
         {deck.flashcards &&
@@ -223,11 +231,39 @@ function DeckEditor() {
               <button onClick={() => handleCardDelete(index)}>
                 <ImCross />
               </button>
-              <button onClick={() => handleCardUpdate(index)}>
+              <button onClick={() => handleCardUpdateModal(index)}>
                 <LuPencil />
               </button>
             </div>
           ))}
+        {isCardUpdateModalOpen && (
+          <form>
+            <input
+              placeholder="Titre recto"
+              className="SearchBar"
+              type="text"
+              id="title"
+              value={titleFront}
+              onChange={cardTitleFrontHandleChange}
+            />
+
+            <input
+              placeholder="Titre verso"
+              className="SearchBar"
+              type="text"
+              id="title"
+              value={titleBack}
+              onChange={cardTitleBackHandleChange}
+            />
+            <button
+              className="button-modal"
+              type="button"
+              onClick={() => handleUpdateCard(index)}
+            >
+              Valider
+            </button>
+          </form>
+        )}
         <button onClick={handleDeckDelete}>Supprimer</button>
         <Footer />
       </div>
