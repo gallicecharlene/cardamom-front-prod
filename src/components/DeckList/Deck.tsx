@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { RootState } from '../../redux/store';
 import { fetchDeck } from '../../redux/Deck/action';
 import { Deck } from '../../types';
-import { Link } from 'react-router-dom';
 import './Deck.scss';
 import { useAppDispatch } from '../../hooks/redux';
 import { useSelector } from 'react-redux';
@@ -30,7 +30,7 @@ function DeckList() {
                 <Link to={`/memoTest/${deck.id}`} className="deck-button">
                   <h2>{deck.title}</h2>
                 </Link>
-                <Link to={`/deckEditor/${deck.id}`} className="deck-editor">
+                <Link to={`/deckEditor/${deck.id}`} className="modif-button">
                   MODIFIE
                 </Link>
               </div>

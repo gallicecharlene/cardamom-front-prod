@@ -1,17 +1,13 @@
 import './DeckEditor.scss';
-import AppHeader from '../AppHeader/AppHeader';
-import { Link } from 'react-router-dom';
-import Footer from '../Footer/Footer';
-import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/redux';
-import { Card, Deck } from '../../types/index';
-import { fetchDeck } from '../../redux/Deck/action';
+import { Link, useParams } from 'react-router-dom';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useAppDispatch } from '../../hooks/redux';
-import { deleteDeck } from '../../redux/Deck/action';
-import { fetchCard } from '../../redux/Card/action';
-import { cardCreate } from '../../redux/Card/action';
 import Cookies from 'js-cookie';
+import AppHeader from '../AppHeader/AppHeader';
+import Footer from '../Footer/Footer';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { Card, Deck } from '../../types/index';
+import { fetchDeck, deleteDeck } from '../../redux/Deck/action';
+import { fetchCard, cardCreate } from '../../redux/Card/action';
 
 function DeckEditor() {
   const { id } = useParams();
@@ -95,9 +91,14 @@ function DeckEditor() {
         </AppHeader>
         <span className="deck-title">{currentDeck?.title}</span>
         {!isModalOpen && (
-          <>
-            <button onClick={handleOpenModal}>Créer une nouvelle carte</button>
-          </>
+          <button
+            className="creation-button"
+            type="button"
+            onClick={handleOpenModal}
+          >
+            {' '}
+            <i className="fa-solid fa-square-plus" />
+          </button>
         )}
         {isModalOpen && (
           <div className="modal">
@@ -141,13 +142,15 @@ function DeckEditor() {
 
         {cardList.map((card) => (
           <div key={card.id} className="flashcard">
-            <>
-              <span>{card.title_front}</span> ------
-              <span>{card.title_back}</span>le titleback est sini
-            </>
+            <span>{card.title_front}</span> affichage deflt Tfront
+            <span>{card.title_back}</span> afficahe deflt Tback
           </div>
         ))}
-        <Link to="/" onClick={() => handleDelete(currentDeck?.id)}>
+        <Link
+          to="/"
+          className="authentification-button"
+          onClick={() => handleDelete(currentDeck?.id)}
+        >
           Supprimer
         </Link>
         <Footer />

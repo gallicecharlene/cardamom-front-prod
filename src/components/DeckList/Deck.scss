@@ -11,6 +11,23 @@
   text-align: center;
   margin: 80px auto;
   max-width: 600px;
+  position: relative;
+  z-index: 1;
+}
+
+.modif-button {
+
+  background-color: #feeaa1;
+  border-radius: 20px;
+  border: 0px;
+  padding: 8px 30px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  box-shadow: 6px 6px 50px #000000;
+  position: absolute;
+  transform: translate(-10%, -10%);
+  left: 50%;
+  z-index: 2;
 }
 
 @media screen and (max-width: 1400px) {
