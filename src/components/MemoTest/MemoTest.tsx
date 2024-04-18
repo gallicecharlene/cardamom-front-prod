@@ -1,23 +1,49 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Card from '../Card/Card';
 import { Link, useParams } from 'react-router-dom';
 import AppHeader from '../AppHeader/AppHeader';
 import Footer from '../Footer/Footer';
 import './MemoTest.scss';
-import { Deck } from '../../types/index';
-import { useAppSelector } from '../../hooks/redux';
-
+import { Deck, Stats } from '../../types/index';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { fetchCard } from '../../redux/Card/action';
+import { updateStats, fetchStatsId } from '../../redux/Stats/action';
+import Cookies from 'js-cookie';
 function MemoTest() {
+  const dispatch = useAppDispatch();
+  const token = Cookies.get('jwtToken');
+  const flashcards = useAppSelector((state) => state.deck.deck?.flashcards);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [know, setKnow] = useState(false);
+  const statsId = useAppSelector((state) => state.stats.stats?.statsId);
+  const userId = useAppSelector((state) => state.stats.stats?.userId);
+  const { id } = useParams();
+  useEffect(() => {
+    if (id && token) {
+      console.log('fecthinggg');
+      dispatch(fetchCard({ token, deck_id: parseInt(id!) }));
+      dispatch(
+        fetchStatsId({
+          deck_id: parseInt(id!),
+          userId: userId ?? '',
+          token,
+        })
+      );
+    }
+  }, [id, token]);
+
+  console.log('dekkkkk', id);
   const handleKnow = () => {
     setKnow(true);
+    dispatch(updateStats({ token, statsId, nb_card_succes: 1 }));
   };
+
+  console.log('stssssss', statsId);
 
   const handleUnknow = () => {
     setKnow(false);
+    dispatch(updateStats({ token, statsId, nb_card_consulted: 1 }));
   };
-
-  const { id } = useParams();
 
   function findDeck(deckList: Deck[], id: number) {
     const deck = deckList.find((testedDeck) => {
@@ -31,6 +57,8 @@ function MemoTest() {
     findDeck(state.decks.list, parseInt(id!))
   );
 
+  const currentCard = flashcards && flashcards[currentIndex];
+  console.log('Current deck:', currentDeck);
   return (
     <main id="deck_page">
       <div className="memo-test">
@@ -41,7 +69,14 @@ function MemoTest() {
         </AppHeader>
         <span className="deck-title">{currentDeck?.title}</span>
 
-        <Card recto="recto" verso="verso" />
+        {currentCard && (
+          <Card
+            key={currentCard.id}
+            recto={currentCard.title_front}
+            verso={currentCard.title_back}
+          />
+        )}
+
         <div className="know-button">
           <button className="buttonMemo" onClick={handleUnknow}>
             Je sais pas

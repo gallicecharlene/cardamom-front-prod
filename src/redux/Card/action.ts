@@ -70,27 +70,4 @@ export const deleteCard = createAsyncThunk(
   }
 );
 
-export const updatedCard = createAsyncThunk(
-  'cards/UPDATE',
-  async (payload: CardActionPayload) => {
-    const { token, title_back, title_front, id, deck_id } = payload;
-    const body = { title_back, title_front, deck_id };
-
-    console.log('Données envoyées pour la mise à jour de la carte :', body);
-
-    const response = await fetch(`/api/flashcards/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(body),
-    });
-    console.log('URL de la requête :', `/api/flashcards/${id}`);
-
-    const cardUpdate = await response.json();
-    return cardUpdate;
-  }
-);
-
-export default { fetchCard, cardCreate, deleteCard, updatedCard };
+export default { fetchCard, cardCreate, deleteCard };
