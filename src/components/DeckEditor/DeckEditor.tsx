@@ -27,6 +27,7 @@ function DeckEditor() {
   const dispatch = useAppDispatch();
   const [index, setIndex] = useState(0);
   const deck = useAppSelector((state) => state.deck.deck);
+  const card = useAppSelector((state) => state.deck.deck?.flashcards?.[index]);
   const [titleFront, setTitleFrontData] = useState('');
   const [titleBack, setTitleBackData] = useState('');
   const [titleDeck, setDeckTitle] = useState('');
@@ -43,6 +44,7 @@ function DeckEditor() {
   useEffect(() => {
     dispatch({ type: 'deck/UPDATETITLE', payload: deck });
   }, [deck]);
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -93,6 +95,7 @@ function DeckEditor() {
 
   // Fonction pour supprimer une carte ******** changer le window.confirm par react Toastify
   const handleCardDelete = (index: number) => {
+    setIsCardUpdateModalOpen(false);
     const card = deck?.flashcards?.[index];
     const confirmDelete = window.confirm(
       'Voulez-vous vraiment supprimer cette carte ?'
@@ -125,15 +128,19 @@ function DeckEditor() {
     dispatch(updateDeck({ token, id: deckId, title: titleDeck }));
   };
   //Fonction pour modifier une carte
+  // Fonction qui ouvre la modale updateCard
   const handleCardUpdateModal = (index: number) => {
     setIsCardUpdateModalOpen(true);
+
     setIndex(index);
-    console.log('coucou', index);
+  };
+  // Fonction qui ferme la modale updateCard
+  const handleCloseCardUpdateModal = () => {
+    setIsCardUpdateModalOpen(false);
   };
   const handleUpdateCard = (index: number) => {
     const currentIndex = index;
     const cardId = deck?.flashcards?.[currentIndex].id;
-    console.log(cardId, 'le console de card dans update');
     dispatch(
       updateCard({
         token,
@@ -239,7 +246,7 @@ function DeckEditor() {
         {isCardUpdateModalOpen && (
           <form>
             <input
-              placeholder="Titre recto"
+              placeholder={card?.title_front}
               className="SearchBar"
               type="text"
               id="title"
@@ -248,7 +255,7 @@ function DeckEditor() {
             />
 
             <input
-              placeholder="Titre verso"
+              placeholder={card?.title_back}
               className="SearchBar"
               type="text"
               id="title"
@@ -261,6 +268,13 @@ function DeckEditor() {
               onClick={() => handleUpdateCard(index)}
             >
               Valider
+            </button>
+            <button
+              type="button"
+              className="button-modal"
+              onClick={handleCloseCardUpdateModal}
+            >
+              ANNULER
             </button>
           </form>
         )}
