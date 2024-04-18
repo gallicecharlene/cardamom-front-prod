@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { fetchDeck, updateDeck } from './action';
+import { fetchDeck, updateDeck, updateDeckTitle } from './action';
 import { Deck } from '../../types';
 import { closeModal, openModal } from './action';
 import { deckCreate } from './action';
@@ -44,14 +44,15 @@ const deckListReducer = createReducer(initialState, (builder) => {
       state.isPending = false;
       state.list.push(action.payload);
     })
-    .addCase(updateDeck.fulfilled, (state, action) => {
-      const deckUpdate = action.payload;
-
-      const deckToUpdate = state.list.find((deck) => deck.id === deckUpdate.id);
-      console.log('mon deck à upadte', deckToUpdate);
-      if (deckToUpdate) {
-        console.log('mon deck à upadte dans le if', deckToUpdate);
-        deckToUpdate.title = deckUpdate.title;
+    .addCase(updateDeckTitle, (state, action) => {
+      const deckUpdate: any = action.payload;
+      if (deckUpdate) {
+        const deckToUpdate = state.list.find(
+          (deck) => deck.id === deckUpdate.id
+        );
+        if (deckToUpdate) {
+          deckToUpdate.title = deckUpdate.title;
+        }
       }
     });
 });

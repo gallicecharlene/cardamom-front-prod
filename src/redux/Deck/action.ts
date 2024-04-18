@@ -65,23 +65,8 @@ export const deleteDeck = createAsyncThunk(
     return null;
   }
 );
-export const updateDeck = createAsyncThunk(
-  'deck/PATCH',
-  async (payload: DeckActionPayload) => {
-    const { token, id } = payload;
-    const response = await fetch(`http://localhost:3003/api/decks/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(payload),
-    });
-    const deckUpdated = await response.json();
-    return deckUpdated;
-  }
-);
 
+export const updateDeckTitle = createAction('deck/UPDATETITLE');
 export const fetchImportDeck = createAsyncThunk(
   'deck/FETCH_IMPORT_DECK',
   async (payload: DeckActionPayload) => {
@@ -116,5 +101,5 @@ export default {
   deckCreate,
   deleteDeck,
   fetchImportDeck,
-  updateDeck,
+  updateDeckTitle,
 };

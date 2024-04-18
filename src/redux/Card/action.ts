@@ -69,5 +69,37 @@ export const deleteCard = createAsyncThunk(
     return id;
   }
 );
+export const updateDeck = createAsyncThunk(
+  'deck/PATCH',
+  async (payload: any) => {
+    const { token, id } = payload;
+    const response = await fetch(`http://localhost:3003/api/decks/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+    const deckUpdated = await response.json();
+    return deckUpdated;
+  }
+);
+export const updateCard = createAsyncThunk(
+  'deck/PATCH',
+  async (payload: CardActionPayload) => {
+    const { token, id } = payload;
+    const response = await fetch(`http://localhost:3003/api/flashcards/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+    const cardUpdated = await response.json();
+    return cardUpdated;
+  }
+);
 
-export default { fetchCard, cardCreate, deleteCard };
+export default { fetchCard, cardCreate, deleteCard, updateDeck, updateCard };

@@ -27,7 +27,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(actions.tokenLoginAction.fulfilled, (state, action) => {
       state.isPending = false;
       state.isConnected = true;
-      state.user = action.payload;
+      state.user = action.payload.user;
     })
 
     // authentification rejetée avec token

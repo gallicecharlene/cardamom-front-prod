@@ -1,6 +1,6 @@
-import { createReducer, isPending } from '@reduxjs/toolkit';
-import { deleteCard, fetchCard } from './action';
-import { Card, Deck } from '../../types';
+import { createReducer } from '@reduxjs/toolkit';
+import { deleteCard, fetchCard, updateDeck } from './action';
+import { Deck } from '../../types';
 import { cardCreate } from './action';
 
 type IdCardState = {
@@ -40,6 +40,9 @@ const deckReducer = createReducer(initialState, (builder) => {
         );
         state.deck.flashcards = filteredFlashcards;
       }
+    })
+    .addCase(updateDeck.fulfilled, (state, action) => {
+      state.deck = action.payload;
     });
 });
 

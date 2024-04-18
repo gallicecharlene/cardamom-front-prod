@@ -6,18 +6,28 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux';
-import { deleteDeck, updateDeck } from '../../redux/Deck/action';
-import { fetchCard, cardCreate, deleteCard } from '../../redux/Card/action';
+import { deleteDeck } from '../../redux/Deck/action';
+import {
+  fetchCard,
+  cardCreate,
+  deleteCard,
+  updateDeck,
+  updateCard,
+} from '../../redux/Card/action';
 import Cookies from 'js-cookie';
+import { LuPencil } from 'react-icons/lu';
+import { ImCross } from 'react-icons/im';
 
 function DeckEditor() {
   const { id } = useParams();
   const deckId = parseInt(id);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeckModalOpen, setIsDeckModalOpen] = useState(false);
   const dispatch = useAppDispatch();
   const deck = useAppSelector((state) => state.deck.deck);
-  const [title_front, setTitle_frontData] = useState('');
-  const [title_back, setTitle_backData] = useState('');
+  const deckList = useAppSelector((state) => state.decks.list);
+  const [titleFront, setTitleFrontData] = useState('');
+  const [titleBack, setTitleBackData] = useState('');
   const [titleDeck, setDeckTitle] = useState('');
   const token = Cookies.get('jwtToken');
   const navigate = useNavigate();
@@ -29,6 +39,9 @@ function DeckEditor() {
     }
   }, [token, id]);
 
+  useEffect(() => {
+    dispatch({ type: 'deck/UPDATETITLE', payload: deck });
+  }, [deck]);
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -37,33 +50,40 @@ function DeckEditor() {
     setIsModalOpen(false);
   };
 
+  const handleOpenDeckModal = () => {
+    setIsDeckModalOpen(true);
+  };
+
+  const handleCloseDeckModal = () => {
+    setIsDeckModalOpen(false);
+  };
   const cardTitleFrontHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle_frontData(event.target.value);
+    setTitleFrontData(event.target.value);
   };
   const titleDeckHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setDeckTitle(event.target.value);
   };
   const cardTitleBackHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle_backData(event.target.value);
+    setTitleBackData(event.target.value);
   };
 
   // Fonction pour créer une carte
   const handleCreateCard = () => {
-    setTitle_frontData('');
-    setTitle_backData('');
-    if (!title_front) {
+    setTitleFrontData('');
+    setTitleBackData('');
+    if (!titleFront) {
       alert('veuillez renseigner un recto');
       return;
     }
-    if (!title_back) {
+    if (!titleBack) {
       alert('veuillez renseigner un verso');
       return;
     }
     dispatch(
       cardCreate({
-        title_front,
+        title_front: titleFront,
         token,
-        title_back,
+        title_back: titleBack,
         deck_id: deckId,
       })
     );
@@ -74,7 +94,7 @@ function DeckEditor() {
   const handleCardDelete = (index: number) => {
     const card = deck?.flashcards?.[index];
     const confirmDelete = window.confirm(
-      'Voulez-vous vraiment supprmer cette carte ?'
+      'Voulez-vous vraiment supprimer cette carte ?'
     );
     if (confirmDelete) {
       dispatch(
@@ -93,9 +113,30 @@ function DeckEditor() {
   };
 
   //Fonction pour modifier un deck
+
   const handleDeckUpdate = () => {
+    if (!titleDeck) {
+      alert('veuillez renseigner un nouveau titre');
+      return;
+    }
+    setDeckTitle('');
+    handleCloseDeckModal(false);
     dispatch(updateDeck({ token, id: deckId, title: titleDeck }));
   };
+  //Fonction pour modifier une carte
+  const handleCardUpdate = (index: number) => {
+    console.log('coucou', index);
+    dispatch(
+      updateCard({
+        token,
+        id: deckId,
+        title_back: titleBack,
+        title_front: titleFront,
+        deck_id: deckId,
+      })
+    );
+  };
+
   if (!deck) {
     return;
   }
@@ -107,19 +148,30 @@ function DeckEditor() {
             ACCUEIL
           </Link>
         </AppHeader>
-        <input
-          type="text"
-          placeholder={deck.title}
-          className="deck-title"
-          onChange={titleDeckHandleChange}
-        />
-        <button
-          className="deck-title"
-          value={titleDeck}
-          onClick={handleDeckUpdate}
-        >
-          Changer le titre du deck
-        </button>
+        <span className="deck-title">{deck.title}</span>
+
+        {isDeckModalOpen ? (
+          <>
+            <input
+              type="text"
+              placeholder={deck.title}
+              className="deck-title"
+              onChange={titleDeckHandleChange}
+            />
+            <button
+              className="deck-title"
+              value={titleDeck}
+              onClick={handleDeckUpdate}
+            >
+              Changer le titre du deck
+            </button>
+          </>
+        ) : (
+          <button className="deck-title" onClick={handleOpenDeckModal}>
+            <LuPencil />
+          </button>
+        )}
+
         {!isModalOpen && (
           <button onClick={handleOpenModal}>Créer une nouvelle carte</button>
         )}
@@ -133,7 +185,7 @@ function DeckEditor() {
                   className="SearchBar"
                   type="text"
                   id="title"
-                  value={title_front}
+                  value={titleFront}
                   onChange={cardTitleFrontHandleChange}
                 />
                 <span>Titre verso</span>
@@ -141,7 +193,7 @@ function DeckEditor() {
                   className="SearchBar"
                   type="text"
                   id="title"
-                  value={title_back}
+                  value={titleBack}
                   onChange={cardTitleBackHandleChange}
                 />
                 <button
@@ -169,7 +221,10 @@ function DeckEditor() {
               <span>{card.title_front}</span> ------
               <span>{card.title_back}</span>
               <button onClick={() => handleCardDelete(index)}>
-                Supprimer la carte
+                <ImCross />
+              </button>
+              <button onClick={() => handleCardUpdate(index)}>
+                <LuPencil />
               </button>
             </div>
           ))}

@@ -1,5 +1,4 @@
 import { ChangeEvent, useState, FormEvent } from 'react';
-
 import './LogIn.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
@@ -11,7 +10,6 @@ function LogIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { user } = useSelector((store: RootState) => store.user);
-  const pseudo = user?.pseudo || '';
   const token = Cookies.get('jwtToken');
   const dispatch: AppDispatch = useDispatch();
   const { isConnected } = useSelector((store: RootState) => store.user);
@@ -39,13 +37,11 @@ function LogIn() {
       loginAction({
         email,
         password,
-        pseudo,
+        pseudo: user?.pseudo!,
         token: '',
       })
     );
-    console.log(pseudo, 'la le pseudo');
   };
-
   const { displayModalLogIn } = useSelector(
     (store: RootState) => store.settings
   );
@@ -54,13 +50,12 @@ function LogIn() {
       ? dispatch({ type: 'auth/HIDE_MODAL_LOGIN' })
       : dispatch({ type: 'auth/DISPLAY_MODAL_LOGIN' });
 
-  // Ajouter la fonction de logout dans le button Déconnexion
   return (
     <>
       {token ? (
         <form>
           <h3>
-            <i>👋 Bienvenue {user?.pseudo}!</i>
+            <i>👋 Bienvenue {user.pseudo}!</i>
           </h3>
           <button onClick={handleDisconnect}>Déconnexion</button>
         </form>
