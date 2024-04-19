@@ -17,6 +17,7 @@ import Cookies from 'js-cookie';
 import { LuPencil } from 'react-icons/lu';
 import { ImCross } from 'react-icons/im';
 import { toast } from 'react-toastify';
+import Card from '../Card/Card';
 
 function DeckEditor() {
   const { id } = useParams();
@@ -195,7 +196,7 @@ function DeckEditor() {
           </>
         ) : (
           <button className="deck-title" onClick={handleOpenDeckModal}>
-            <LuPencil />
+            <LuPencil className="pencil" />
           </button>
         )}
 
@@ -243,54 +244,6 @@ function DeckEditor() {
           </button>
         )}
 
-        {deck.flashcards &&
-          deck.flashcards.map((card, index) => (
-            <div key={index} className="flashcard">
-              <span>{card.title_front} </span>
-              <span> {card.title_back}</span>
-              <button onClick={() => handleCardDeleteModal(index)}>
-                <ImCross />
-              </button>
-              <button onClick={() => handleCardUpdateModal(index)}>
-                <LuPencil />
-              </button>
-            </div>
-          ))}
-        {isCardUpdateModalOpen && (
-          <form>
-            <input
-              placeholder={card?.title_front}
-              className="SearchBar"
-              type="text"
-              id="title"
-              value={titleFront}
-              onChange={cardTitleFrontHandleChange}
-            />
-
-            <input
-              placeholder={card?.title_back}
-              className="SearchBar"
-              type="text"
-              id="title"
-              value={titleBack}
-              onChange={cardTitleBackHandleChange}
-            />
-            <button
-              className="button-modal"
-              type="button"
-              onClick={() => handleUpdateCard(index)}
-            >
-              Valider
-            </button>
-            <button
-              type="button"
-              className="button-modal"
-              onClick={handleCloseCardUpdateModal}
-            >
-              ANNULER
-            </button>
-          </form>
-        )}
         {isDeleteModalOpen &&
           toast(
             <div>
@@ -300,9 +253,70 @@ function DeckEditor() {
               </h3>
             </div>
           )}
-        <button onClick={handleDeckDelete}>Supprimer</button>
-        <Footer />
+
+        {!isCardUpdateModalOpen && (
+          <>
+            <div className="flashcards-container">
+              {deck.flashcards &&
+                deck.flashcards.map((card, index) => (
+                  <div key={index} className="flashcard">
+                    <Card recto={card.title_front} verso={card.title_back} />
+                    <button onClick={() => handleCardDeleteModal(index)}>
+                      <ImCross />
+                    </button>
+                    <button onClick={() => handleCardUpdateModal(index)}>
+                      <LuPencil />
+                    </button>
+                  </div>
+                ))}
+            </div>
+          </>
+        )}
+
+        {isCardUpdateModalOpen && (
+          <div className="card-update-modal">
+            <form>
+              <input
+                placeholder={card?.title_front}
+                className="SearchBar-deckEditor"
+                type="text"
+                id="title"
+                value={titleFront}
+                onChange={cardTitleFrontHandleChange}
+              />
+
+              <input
+                placeholder={card?.title_back}
+                className="SearchBar-deckEditor"
+                type="text"
+                id="title"
+                value={titleBack}
+                onChange={cardTitleBackHandleChange}
+              />
+              <button
+                className="button-modal"
+                type="button"
+                onClick={() => handleUpdateCard(index)}
+              >
+                Valider
+              </button>
+              <button
+                type="button"
+                className="button-modal"
+                onClick={handleCloseCardUpdateModal}
+              >
+                ANNULER
+              </button>
+            </form>
+          </div>
+        )}
       </div>
+
+      <Footer />
+
+      <button className="delete-button" onClick={handleDeckDelete}>
+        Supprimer
+      </button>
     </main>
   );
 }
