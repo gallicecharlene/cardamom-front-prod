@@ -6,7 +6,12 @@ import DeckList from '../DeckList/Deck';
 import HomeGuest from '../HomeGuest/HomeGuest';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { useState } from 'react';
 function Home() {
+  const [search, setSearch] = useState('');
+  const handleSearchSubmit = (searchValue) => {
+    setSearch(searchValue);
+  };
   const isConnected = useSelector((store: RootState) => store.user.isConnected);
   return (
     <>
@@ -14,11 +19,11 @@ function Home() {
         <div className="app">
           <AppHeader children />
 
-          <SearchBar />
+          <SearchBar onSearchSubmit={handleSearchSubmit} />
 
           <Icone />
 
-          <DeckList />
+          <DeckList search={search} />
 
           <Footer />
         </div>

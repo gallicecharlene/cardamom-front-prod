@@ -1,23 +1,63 @@
-import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import Card from '../Card/Card';
+import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
 import AppHeader from '../AppHeader/AppHeader';
 import Footer from '../Footer/Footer';
 import './MemoTest.scss';
 import { Deck } from '../../types/index';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { fetchCard } from '../../redux/Card/action';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 function MemoTest() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const token = Cookies.get('jwtToken');
+  const flashcards = useAppSelector((state) => state.deck.deck?.flashcards);
   const [know, setKnow] = useState(false);
+  const [currentCardMemo, setCurrentCardMemo] = useState(0);
+  const [sessionCompleted, setSessionCompleted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { id } = useParams();
+
+  const handleRestartSession = () => {
+    setCurrentCardMemo(0);
+    setIsModalOpen(false);
+  };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    navigate('/');
+  };
+  useEffect(() => {
+    if (id && token) {
+      console.log('fecthinggg');
+      dispatch(fetchCard({ token, deck_id: parseInt(id!) }));
+    }
+  }, [id, token]);
+
+  console.log('dekkkkk', id);
+
+  useEffect(() => {
+    if (flashcards && currentCardMemo >= flashcards.length) {
+      setIsModalOpen(true);
+    }
+  }, [currentCardMemo, flashcards]);
+
   const handleKnow = () => {
     setKnow(true);
+    setCurrentCardMemo(currentCardMemo + 1);
   };
 
   const handleUnknow = () => {
     setKnow(false);
+    setCurrentCardMemo(currentCardMemo + 1);
   };
-
-  const { id } = useParams();
 
   function findDeck(deckList: Deck[], id: number) {
     const deck = deckList.find((testedDeck) => {
@@ -31,6 +71,8 @@ function MemoTest() {
     findDeck(state.decks.list, parseInt(id!))
   );
 
+  const currentCard = flashcards && flashcards[currentCardMemo];
+
   return (
     <main id="deck_page">
       <div className="memo-test">
@@ -40,8 +82,13 @@ function MemoTest() {
           </Link>
         </AppHeader>
         <span className="deck-title">{currentDeck?.title}</span>
-
-        <Card recto="recto" verso="verso" />
+        {currentCard && (
+          <Card
+            key={currentCard.id}
+            recto={currentCard.title_front}
+            verso={currentCard.title_back}
+          />
+        )}
         <div className="know-button">
           <button className="buttonMemo" onClick={handleUnknow}>
             A revoir
@@ -52,6 +99,14 @@ function MemoTest() {
         </div>
         <Footer />
       </div>
+      {isModalOpen && (
+        <div className="modal-Memo">
+          <div className="modal-content">
+            <p>Session terminée. Voulez-vous recommencer ?</p>
+            <button onClick={handleRestartSession}>Oui</button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
