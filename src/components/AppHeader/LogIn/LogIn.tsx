@@ -59,7 +59,7 @@ function LogIn() {
     <>
       {token ? (
         <form>
-          <h3>
+          <h3 className="welcoming-message">
             <i>👋 Bienvenue {user?.pseudo}!</i>
           </h3>
           <button

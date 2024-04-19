@@ -4,6 +4,7 @@ import './Icone.scss';
 import { useAppDispatch } from '../../hooks/redux';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
+
 function Icone() {
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,7 +28,7 @@ function Icone() {
       console.log('requete api pour créer el deck jenvoie :', title);
       const response = await dispatch(deckCreate({ token, title }));
       const newDeck = response.payload;
-      //const newDeckId = newDeck.id;
+      // const newDeckId = newDeck.id;
       //  window.location.href = `/DeckEditor/${newDeckId}`;
     } catch (error) {
       console.error('Erreur lors de la création du deck:', error);
@@ -39,10 +40,14 @@ function Icone() {
       {!isModalOpen && (
         <>
           <button className="buttonIcone" onClick={handleOpenModal}>
-            +
+            <i className="fa-solid fa-square-plus" />
           </button>
-          <button className="buttonIcone">↓</button>
-          <button className="buttonIcone">lll</button>
+          <button className="buttonIcone">
+            <i className="fa-solid fa-circle-down" />
+          </button>
+          <button className="buttonIcone">
+            <i className="fa-solid fa-square-poll-vertical" />
+          </button>
         </>
       )}
       {isModalOpen && (

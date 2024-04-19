@@ -7,10 +7,28 @@
 }
 
 .buttonIcone {
-  padding: 20px 30px;
-  margin-right: 7vh;
+  //padding: 20px 30px;
+  //margin-right: 7vh;
   background-color: #feeaa1;
   border-radius: 10px;
+  border: 0px;
+  padding: 5px 5px;
+  width: 42px;
+  height: 42px;
+  box-shadow: 3px 3px 30px #18534F;
+  margin-right: 5vh;
+  margin-left: 5vh;
+  margin-bottom: 3vh;
+}
+
+.fa-circle-down {
+  color: #18534F;
+  font-size: 2em;
+}
+
+.fa-square-poll-vertical {
+  color: #18534F;
+  font-size: 2em;
 }
 
 .modal {
@@ -37,8 +55,8 @@
   }
 
   .buttonIcone {
-    margin-right: 30px;
-    margin-left: 30px;
-    margin-bottom: 10px;
+    margin-right: 5vh;
+    margin-left: 5vh;
+    margin-bottom: 3vh;
   }
 }
