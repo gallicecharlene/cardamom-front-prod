@@ -2,9 +2,9 @@ import { ChangeEvent, useState, FormEvent } from 'react';
 import './LogIn.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
+import Cookies from 'js-cookie';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { loginAction } from '../../../redux/User/action';
-import Cookies from 'js-cookie';
 
 function LogIn() {
   const [email, setEmail] = useState('');
@@ -54,10 +54,15 @@ function LogIn() {
     <>
       {token ? (
         <form>
-          <h3>
-            <i>👋 Bienvenue {user.pseudo}!</i>
+          <h3 className="welcoming-message">
+            <i>👋 Bienvenue {user?.pseudo}!</i>
           </h3>
-          <button onClick={handleDisconnect}>Déconnexion</button>
+          <button
+            className="authentification-button"
+            onClick={handleDisconnect}
+          >
+            Déconnexion
+          </button>
         </form>
       ) : (
         <>
@@ -83,7 +88,10 @@ function LogIn() {
               </form>
             </div>
           ) : (
-            <button onClick={handleDialogDisplay}>
+            <button
+              className="authentification-button"
+              onClick={handleDialogDisplay}
+            >
               {isConnected ? `` : 'LogIn'}
             </button>
           )}

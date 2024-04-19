@@ -1,9 +1,42 @@
 .deck-title {
   display: flex;
   align-items: center;
+  font-family: "Love Ya Like A Sister";
   font-weight: bold;
   justify-content: center;
   width: 20%;
   margin: auto;
   font-size: 2rem;
 }
+
+.flashcard {
+
+  display: flex;
+  align-items: center;
+  margin: auto;
+  justify-content: center;
+
+}
+
+
+.creation-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15%; 
+  margin-left: 15%;
+  background-color: #feeaa1;
+  border-radius: 5px;
+  border: 0px;
+  padding: 5px 5px;
+  width: 42px;
+  height: 42px;
+  box-shadow: 3px 3px 30px #18534F;
+  
+}
+
+.fa-square-plus {
+  color: #18534F;
+  font-size: 2rem;
+}
+

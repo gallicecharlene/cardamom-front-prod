@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Card from '../Card/Card';
 import { Link, useParams } from 'react-router-dom';
+import Card from '../Card/Card';
 import AppHeader from '../AppHeader/AppHeader';
 import Footer from '../Footer/Footer';
 import './MemoTest.scss';
@@ -44,10 +44,10 @@ function MemoTest() {
         <Card recto="recto" verso="verso" />
         <div className="know-button">
           <button className="buttonMemo" onClick={handleUnknow}>
-            Je sais pas
+            A revoir
           </button>
           <button className="buttonMemo" onClick={handleKnow}>
-            Je sais
+            Aller next!
           </button>
         </div>
         <Footer />

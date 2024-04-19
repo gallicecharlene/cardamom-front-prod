@@ -2,9 +2,9 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import './SignUp.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
+import Cookies from 'js-cookie';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { signUpAction } from '../../../redux/User/action';
-import Cookies from 'js-cookie';
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -105,7 +105,12 @@ function SignUp() {
               </form>
             </div>
           ) : (
-            <button onClick={handleDialogDisplay}>Sign Up</button>
+            <button
+              className="authentification-button"
+              onClick={handleDialogDisplay}
+            >
+              Sign Up
+            </button>
           )}
         </>
       )}

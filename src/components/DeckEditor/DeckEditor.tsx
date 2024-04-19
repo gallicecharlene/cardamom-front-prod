@@ -1,4 +1,7 @@
 import './DeckEditor.scss';
+import { Link, useParams } from 'react-router-dom';
+import { ChangeEvent, useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 import AppHeader from '../AppHeader/AppHeader';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Footer/Footer';
@@ -188,6 +191,15 @@ function DeckEditor() {
         ) : (
           <button className="deck-title" onClick={handleOpenDeckModal}>
             <LuPencil />
+        <span className="deck-title">{currentDeck?.title}</span>
+        {!isModalOpen && (
+          <button
+            className="creation-button"
+            type="button"
+            onClick={handleOpenModal}
+          >
+            {' '}
+            <i className="fa-solid fa-square-plus" />
           </button>
         )}
 
@@ -282,6 +294,19 @@ function DeckEditor() {
           </form>
         )}
         <button onClick={handleDeckDelete}>Supprimer</button>
+        {cardList.map((card) => (
+          <div key={card.id} className="flashcard">
+            <span>{card.title_front}</span> affichage deflt Tfront
+            <span>{card.title_back}</span> afficahe deflt Tback
+          </div>
+        ))}
+        <Link
+          to="/"
+          className="authentification-button"
+          onClick={() => handleDelete(currentDeck?.id)}
+        >
+          Supprimer
+        </Link>
         <Footer />
       </div>
     </main>

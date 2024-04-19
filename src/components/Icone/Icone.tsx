@@ -3,12 +3,10 @@ import ImportDeck from './ImportDeck/ImportDeck';
 
 function Icone() {
   return (
-    <>
-      <div>
-        <AddDeck />
-        <ImportDeck />
-      </div>
-    </>
+    <div>
+      <AddDeck />
+      <ImportDeck />
+    </div>
   );
 }
 
