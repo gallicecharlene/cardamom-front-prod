@@ -106,14 +106,23 @@ function MemoTest() {
         </div>
         <Footer />
       </div>
-      {isModalOpen && (
-        <div className="modal-Memo">
-          <div className="modal-content">
-            <p>Session terminée. Voulez-vous recommencer ?</p>
-            <button onClick={handleRestartSession}>Oui</button>
-          </div>
-        </div>
-      )}
+      {isModalOpen &&
+        toast(
+          <div className="modal-Memo">
+            <div className="modal-content">
+              <p> Session terminée. Voulez-vous recommencer ?</p>
+              <button
+                onClick={() => {
+                  handleRestartSession();
+                  toast.dismiss();
+                }}
+              >
+                Oui
+              </button>
+            </div>
+          </div>,
+          { className: 'custom-toast' }
+        )}
     </main>
   );
 }

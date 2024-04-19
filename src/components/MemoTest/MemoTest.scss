@@ -40,7 +40,12 @@
   margin: auto;
   font-size: 2rem;
 }
-
+.custom-toast {
+  color: #ecf8f6;
+  backgroundcolor: #226d68;
+  fontweight: bold;
+  textalign: center;
+}
 @media screen and (max-width: 768px) {
   .know-button {
     flex-direction: row;
