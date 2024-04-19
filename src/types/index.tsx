@@ -15,14 +15,6 @@ export interface UserData {
   pseudo: string;
   token: string;
 }
-export interface Stats {
-  userId: string;
-  statsId: string;
-  nb_card_consulted: number;
-  nb_card_succes: number;
-  token: string;
-  deck_id: number;
-}
 
 export interface Deck {
   id: number;
