@@ -77,11 +77,11 @@ function DeckEditor() {
     setTitleFrontData('');
     setTitleBackData('');
     if (!titleFront) {
-      toast.error('veuillez renseigner un recto');
+      toast.error('Veuillez renseigner un recto');
       return;
     }
     if (!titleBack) {
-      toast.error('veuillez renseigner un verso');
+      toast.error('Veuillez renseigner un verso');
       return;
     }
     dispatch(
@@ -115,6 +115,7 @@ function DeckEditor() {
       navigate('/');
     }
     setIsDeleteModalOpen(false);
+    toast.success("L'élément a bien été supprimé");
   };
   const handleCardDeleteModal = (index: number) => {
     setIndex(index);
@@ -131,12 +132,13 @@ function DeckEditor() {
 
   const handleDeckUpdate = () => {
     if (!titleDeck) {
-      alert('veuillez renseigner un nouveau titre');
+      toast.error('Veuillez renseigner un nouveau titre');
       return;
     }
     setDeckTitle('');
     handleCloseDeckModal(false);
     dispatch(updateDeck({ token, id: deckId, title: titleDeck }));
+    toast.success('Le titre a bien été modifié');
   };
   //Fonction pour modifier une carte
   // Fonction qui ouvre la modale updateCard
@@ -162,6 +164,7 @@ function DeckEditor() {
       })
     );
     setIsCardUpdateModalOpen(false);
+    toast.success('La flashcard a bien été modifiée');
   };
 
   if (!deck) {

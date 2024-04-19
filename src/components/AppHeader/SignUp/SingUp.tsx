@@ -41,6 +41,11 @@ function SignUp() {
   const handleSingUp = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (!email || !password || !pseudo || !newPassword) {
+      toast.error('Veuillez remplir tous les champs.');
+      return;
+    }
+
     setEmail('');
     setPseudo('');
     setPassword('');

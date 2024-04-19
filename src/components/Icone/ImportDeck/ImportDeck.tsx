@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 import { fetchImportDeck } from '../../../redux/Deck/action';
 
@@ -22,6 +23,7 @@ function ImportDeck() {
     }
     const shareId = importCode;
     dispatch(fetchImportDeck({ token, shareId }));
+    toast.success('Le deck a bien été importé');
     console.log('Deck importé ');
   };
 
