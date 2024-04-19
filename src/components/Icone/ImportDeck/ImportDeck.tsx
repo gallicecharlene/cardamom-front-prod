@@ -9,6 +9,15 @@ function ImportDeck() {
   const dispatch = useAppDispatch();
   const [importCode, setImportCode] = useState('');
   const token = Cookies.get('jwtToken');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const importCodeHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setImportCode(event.target.value);
@@ -21,34 +30,52 @@ function ImportDeck() {
       console.error('Token JWT non trouvé');
       return;
     }
+    if (importCode === '') {
+      alert('veuillez entrer un code');
+      return;
+    }
     const shareId = importCode;
     dispatch(fetchImportDeck({ token, shareId }));
     toast.success('Le deck a bien été importé');
     console.log('Deck importé ');
+    handleCloseModal();
   };
 
   return (
-    <div className="icone">
-      <div className="modal">
-        <div className="modal-content">
-          <h2>Importer Deck</h2>
-          <form onSubmit={handleShareDeck}>
-            <span>Code du deck</span>
-            <input
-              className="SearcBar"
-              type="text"
-              id="title"
-              value={importCode}
-              onChange={importCodeHandleChange}
-            />
-            <button>Valider</button>
-          </form>
+    <div>
+      {isModalOpen ? (
+        <div className="icone">
+          <div className="modal">
+            <div className="modal-content">
+              <h2>Importer Deck</h2>
+              <form onSubmit={handleShareDeck}>
+                <span>Code du deck</span>
+                <input
+                  className="SearcBar"
+                  type="text"
+                  id="title"
+                  value={importCode}
+                  onChange={importCodeHandleChange}
+                />
+                <button>Valider</button>
+                <button
+                  className="button-modal"
+                  type="button"
+                  onClick={handleCloseModal}
+                >
+                  Annuler
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <button className="buttonIcone" onClick={handleOpenModal}>
+          ++ Importation deck
+        </button>
+      )}
     </div>
   );
 }
 
 export default ImportDeck;
-
-//1712873426116x7

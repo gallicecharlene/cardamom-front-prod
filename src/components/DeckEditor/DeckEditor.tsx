@@ -35,6 +35,10 @@ function DeckEditor() {
   const token = Cookies.get('jwtToken');
   const [isClickDeck, setIsClickDeck] = useState(false);
   const navigate = useNavigate();
+  const userIdDeck = useAppSelector((state) => state.deck.deck?.user_id);
+  const userId = useAppSelector((state) => state.user.user?.id);
+  const [isNotItSameid, setIsItNotSameId] = useState(false);
+  const shareId = useAppSelector((state) => state.deck.deck?.share_id);
 
   // UseEffect pour afficher les cartes
   useEffect(() => {
@@ -42,6 +46,12 @@ function DeckEditor() {
       dispatch(fetchCard({ token, deck_id: deckId }));
     }
   }, [token, id]);
+  useEffect(() => {
+    if (deckId) {
+      checkId();
+    }
+  }, [deckId]);
+  console.log(isNotItSameid, 'is not same id ?');
 
   useEffect(() => {
     dispatch({ type: 'deck/UPDATETITLE', payload: deck });
@@ -71,6 +81,14 @@ function DeckEditor() {
   const cardTitleBackHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitleBackData(event.target.value);
   };
+  // Fonction pour comparer l'id de l'utilisateur et l'user_id du deck
+  const checkId = () => {
+    console.log(userIdDeck, 'userid du deck');
+    console.log(userId, 'id utilisateur');
+    if (userIdDeck !== userId) {
+      setIsItNotSameId(true);
+    }
+  };
 
   // Fonction pour créer une carte
   const handleCreateCard = () => {
@@ -98,9 +116,10 @@ function DeckEditor() {
   // fonction pour supprimer une carte
 
   const handleYesClick = () => {
+    console.log(isClickDeck, 'mon index dans yesclick');
     if (!isClickDeck) {
       const currentIndex = index;
-      console.log(index, 'mon index dans yesclick');
+      console.log(isClickDeck, 'mon index dans yesclick');
       const card = deck?.flashcards?.[currentIndex];
       console.log(card, 'mon card dans yesclick');
       dispatch(
@@ -196,10 +215,14 @@ function DeckEditor() {
               Changer le titre du deck
             </button>
           </>
+        ) : isNotItSameid ? (
+          <>
+            <button className="deck-title" onClick={handleOpenDeckModal}>
+              <LuPencil />
+            </button>
+          </>
         ) : (
-          <button className="deck-title" onClick={handleOpenDeckModal}>
-            <LuPencil />
-          </button>
+          ''
         )}
 
         {isModalOpen ? (
