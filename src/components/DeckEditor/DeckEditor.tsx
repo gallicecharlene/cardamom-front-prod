@@ -15,12 +15,16 @@ function DeckEditor() {
   const { id } = useParams();
   const deckId = parseInt(id);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const dispatch = useAppDispatch();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [index, setIndex] = useState(0);
   const deck = useAppSelector((state) => state.deck.deck);
   const [title_front, setTitle_frontData] = useState('');
   const [title_back, setTitle_backData] = useState('');
   const token = Cookies.get('jwtToken');
+  const [isClickDeck, setIsClickDeck] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (id) {
       dispatch(fetchCard({ token, deck_id: deckId }));
@@ -63,15 +67,16 @@ function DeckEditor() {
       })
     );
     setIsModalOpen(false);
+    toast.success('La carte a bien été ajoutée');
   };
+  // fonction pour supprimer une carte
 
-  // fonction pour supprimer une carte ******** changer le window.confirm par react Toastify
-  const handleCardDelete = (index: number) => {
-    const card = deck?.flashcards?.[index];
-    const confirmDelete = window.confirm(
-      'Voulez-vous vraiment supprimer cette carte ?'
-    );
-    if (confirmDelete) {
+  const handleYesClick = () => {
+    if (!isClickDeck) {
+      const currentIndex = index;
+      console.log(index, 'mon index dans yesclick');
+      const card = deck?.flashcards?.[currentIndex];
+      console.log(card, 'mon card dans yesclick');
       dispatch(
         deleteCard({
           id: card?.id,
@@ -79,16 +84,23 @@ function DeckEditor() {
         })
       );
     }
+    if (isClickDeck) {
+      dispatch(deleteDeck({ token, id: deckId }));
+      navigate('/');
+    }
+    setIsDeleteModalOpen(false);
+  };
+  const handleCardDeleteModal = (index: number) => {
+    setIndex(index);
+    setIsDeleteModalOpen(true);
   };
 
   // fonction pour supprimer un deck
   const handleDeckDelete = () => {
-    const confirmDelete = window.confirm('Voulez vous supprimer ce deck ?');
-    if (confirmDelete) {
-      dispatch(deleteDeck({ token, id: deckId }));
-      navigate('/');
-    }
+    setIsDeleteModalOpen(true);
+    setIsClickDeck(true);
   };
+
   if (!deck) {
     return;
   }
@@ -150,11 +162,20 @@ function DeckEditor() {
             <div key={index} className="flashcard">
               <span>{card.title_front}</span> ------
               <span>{card.title_back}</span>
-              <button onClick={() => handleCardDelete(index)}>
+              <button onClick={() => handleCardDeleteModal(index)}>
                 Supprimer la carte
               </button>
             </div>
           ))}
+        {isDeleteModalOpen &&
+          toast(
+            <div>
+              <h3>
+                Voulez-vous VRAIMENT supprimer cet élément ?
+                <button onClick={handleYesClick}> Oui</button>
+              </h3>
+            </div>
+          )}
         <button onClick={handleDeckDelete}>Supprimer</button>
         <Footer />
       </div>

@@ -6,6 +6,7 @@ import { IoIosCloseCircle } from 'react-icons/io';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { loginAction } from '../../../redux/User/action';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 function LogIn() {
   const [email, setEmail] = useState('');
@@ -29,6 +30,7 @@ function LogIn() {
     console.log('déconnecté');
     dispatch({ type: 'auth/DISCONNECT' });
     Cookies.remove('jwtToken');
+    toast.success('Vous avez bien été deconnecté');
   };
   // fonction pour envoyer le formulaire de connection à la BDD
 

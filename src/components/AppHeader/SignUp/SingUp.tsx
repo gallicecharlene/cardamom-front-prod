@@ -7,7 +7,6 @@ import { signUpAction } from '../../../redux/User/action';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 
-
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -54,6 +53,7 @@ function SignUp() {
         token: '',
       })
     );
+    toast.success('Votre compte a bien été créé');
   };
 
   const dispatch: AppDispatch = useDispatch();
