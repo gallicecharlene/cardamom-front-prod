@@ -1,13 +1,9 @@
 import './DeckEditor.scss';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ChangeEvent, useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
 import AppHeader from '../AppHeader/AppHeader';
-import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Footer/Footer';
-import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux';
-import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux';
 import { deleteDeck } from '../../redux/Deck/action';
 import {
@@ -191,15 +187,6 @@ function DeckEditor() {
         ) : (
           <button className="deck-title" onClick={handleOpenDeckModal}>
             <LuPencil />
-        <span className="deck-title">{currentDeck?.title}</span>
-        {!isModalOpen && (
-          <button
-            className="creation-button"
-            type="button"
-            onClick={handleOpenModal}
-          >
-            {' '}
-            <i className="fa-solid fa-square-plus" />
           </button>
         )}
 
@@ -242,14 +229,17 @@ function DeckEditor() {
             </div>
           </div>
         ) : (
-          <button onClick={handleOpenModal}>Créer une nouvelle carte</button>
+          <button className="creation-button" onClick={handleOpenModal}>
+            {' '}
+            <i className="fa-solid fa-square-plus" />
+          </button>
         )}
 
         {deck.flashcards &&
           deck.flashcards.map((card, index) => (
             <div key={index} className="flashcard">
-              <span>{card.title_front}</span> ------
-              <span>{card.title_back}</span>
+              <span>{card.title_front} </span>
+              <span> {card.title_back}</span>
               <button onClick={() => handleCardDelete(index)}>
                 <ImCross />
               </button>
@@ -294,19 +284,6 @@ function DeckEditor() {
           </form>
         )}
         <button onClick={handleDeckDelete}>Supprimer</button>
-        {cardList.map((card) => (
-          <div key={card.id} className="flashcard">
-            <span>{card.title_front}</span> affichage deflt Tfront
-            <span>{card.title_back}</span> afficahe deflt Tback
-          </div>
-        ))}
-        <Link
-          to="/"
-          className="authentification-button"
-          onClick={() => handleDelete(currentDeck?.id)}
-        >
-          Supprimer
-        </Link>
         <Footer />
       </div>
     </main>
