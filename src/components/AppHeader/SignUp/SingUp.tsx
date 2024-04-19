@@ -2,14 +2,10 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import './SignUp.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosCloseCircle } from 'react-icons/io';
-import Cookies from 'js-cookie';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { signUpAction } from '../../../redux/User/action';
-<<<<<<< HEAD
-=======
-import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
->>>>>>> React_Toastify
+import Cookies from 'js-cookie';
 
 function SignUp() {
   const [email, setEmail] = useState('');

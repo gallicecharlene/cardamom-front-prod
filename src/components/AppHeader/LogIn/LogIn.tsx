@@ -5,11 +5,8 @@ import { IoIosCloseCircle } from 'react-icons/io';
 import Cookies from 'js-cookie';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { loginAction } from '../../../redux/User/action';
-<<<<<<< HEAD
-=======
-import Cookies from 'js-cookie';
+
 import { toast } from 'react-toastify';
->>>>>>> React_Toastify
 
 function LogIn() {
   const [email, setEmail] = useState('');
