@@ -293,6 +293,7 @@ function DeckEditor() {
                     <button onClick={() => handleCardUpdateModal(index)}>
                       <LuPencil />
                     </button>
+                    <h1>{shareId}</h1>
                   </div>
                 ))}
             </div>
