@@ -16,6 +16,7 @@ import {
 import Cookies from 'js-cookie';
 import { LuPencil } from 'react-icons/lu';
 import { ImCross } from 'react-icons/im';
+import { toast } from 'react-toastify';
 
 function DeckEditor() {
   const { id } = useParams();
@@ -24,6 +25,7 @@ function DeckEditor() {
   const [isDeckModalOpen, setIsDeckModalOpen] = useState(false);
   const [isCardUpdateModalOpen, setIsCardUpdateModalOpen] = useState(false);
   const dispatch = useAppDispatch();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [index, setIndex] = useState(0);
   const deck = useAppSelector((state) => state.deck.deck);
   const card = useAppSelector((state) => state.deck.deck?.flashcards?.[index]);
@@ -31,6 +33,7 @@ function DeckEditor() {
   const [titleBack, setTitleBackData] = useState('');
   const [titleDeck, setDeckTitle] = useState('');
   const token = Cookies.get('jwtToken');
+  const [isClickDeck, setIsClickDeck] = useState(false);
   const navigate = useNavigate();
 
   // UseEffect pour afficher les cartes
@@ -74,11 +77,11 @@ function DeckEditor() {
     setTitleFrontData('');
     setTitleBackData('');
     if (!titleFront) {
-      alert('veuillez renseigner un recto');
+      toast.error('veuillez renseigner un recto');
       return;
     }
     if (!titleBack) {
-      alert('veuillez renseigner un verso');
+      toast.error('veuillez renseigner un verso');
       return;
     }
     dispatch(
@@ -90,16 +93,16 @@ function DeckEditor() {
       })
     );
     setIsModalOpen(false);
+    toast.success('La carte a bien été ajoutée');
   };
+  // fonction pour supprimer une carte
 
-  // Fonction pour supprimer une carte ******** changer le window.confirm par react Toastify
-  const handleCardDelete = (index: number) => {
-    setIsCardUpdateModalOpen(false);
-    const card = deck?.flashcards?.[index];
-    const confirmDelete = window.confirm(
-      'Voulez-vous vraiment supprimer cette carte ?'
-    );
-    if (confirmDelete) {
+  const handleYesClick = () => {
+    if (!isClickDeck) {
+      const currentIndex = index;
+      console.log(index, 'mon index dans yesclick');
+      const card = deck?.flashcards?.[currentIndex];
+      console.log(card, 'mon card dans yesclick');
       dispatch(
         deleteCard({
           id: card?.id,
@@ -107,15 +110,21 @@ function DeckEditor() {
         })
       );
     }
+    if (isClickDeck) {
+      dispatch(deleteDeck({ token, id: deckId }));
+      navigate('/');
+    }
+    setIsDeleteModalOpen(false);
+  };
+  const handleCardDeleteModal = (index: number) => {
+    setIndex(index);
+    setIsDeleteModalOpen(true);
   };
 
   // Fonction pour supprimer un deck
   const handleDeckDelete = () => {
-    const confirmDelete = window.confirm('Voulez vous supprimer ce deck ?');
-    if (confirmDelete) {
-      dispatch(deleteDeck({ token, id: deckId }));
-      navigate('/');
-    }
+    setIsDeleteModalOpen(true);
+    setIsClickDeck(true);
   };
 
   //Fonction pour modifier un deck
@@ -230,7 +239,6 @@ function DeckEditor() {
           </div>
         ) : (
           <button className="creation-button" onClick={handleOpenModal}>
-            {' '}
             <i className="fa-solid fa-square-plus" />
           </button>
         )}
@@ -240,7 +248,7 @@ function DeckEditor() {
             <div key={index} className="flashcard">
               <span>{card.title_front} </span>
               <span> {card.title_back}</span>
-              <button onClick={() => handleCardDelete(index)}>
+              <button onClick={() => handleCardDeleteModal(index)}>
                 <ImCross />
               </button>
               <button onClick={() => handleCardUpdateModal(index)}>
@@ -283,6 +291,15 @@ function DeckEditor() {
             </button>
           </form>
         )}
+        {isDeleteModalOpen &&
+          toast(
+            <div>
+              <h3>
+                Voulez-vous VRAIMENT supprimer cet élément ?
+                <button onClick={handleYesClick}> Oui</button>
+              </h3>
+            </div>
+          )}
         <button onClick={handleDeckDelete}>Supprimer</button>
         <Footer />
       </div>

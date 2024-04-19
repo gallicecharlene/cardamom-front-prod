@@ -1,5 +1,6 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 type LoginActionPayload = {
   email: string;
@@ -24,12 +25,12 @@ export const loginAction = createAsyncThunk(
     const token = filteredResponse.token;
 
     if (token) {
-      alert('Connection réussie');
+      toast.success('Connection réussie');
       // Stocker le token dans les cookies
       Cookies.set('jwtToken', token, { expires: 1 }); // expire dans 7 jours
       return filteredResponse;
     } else {
-      alert('pas bon');
+      toast.error('Votre identifiant ou mot de passe sont incorrects');
     }
   }
 );
@@ -59,11 +60,11 @@ export const tokenLoginAction = createAsyncThunk(
 
       const userData = await response.json();
 
-      alert('Connection réussie');
+      toast.success('Connection réussie');
       return userData;
     } catch (error) {
       console.error(error);
-      alert('Erreur lors de la connexion');
+      toast.error('Erreur lors de la connexion');
       throw error; // Propager l'erreur pour que le thunk puisse la capturer
     }
   }

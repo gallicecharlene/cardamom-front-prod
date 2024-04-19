@@ -6,6 +6,8 @@ import { tokenLoginAction } from '../../redux/User/action';
 import Cookies from 'js-cookie';
 import { useAppDispatch } from '../../hooks/redux';
 import DeckEditor from '../DeckEditor/DeckEditor';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   // Récupérez le jeton JWT depuis les cookies
@@ -34,6 +36,7 @@ function App() {
         <Route path="/memoTest/:id" element={<MemoTest />} />
         <Route path="/deckEditor/:id" element={<DeckEditor />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

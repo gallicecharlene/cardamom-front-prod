@@ -3,6 +3,7 @@ import { deckCreate } from '../../../redux/Deck/action';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function AddDeck() {
   const dispatch = useAppDispatch();
@@ -30,6 +31,7 @@ function AddDeck() {
     navigate(`DeckEditor/${DeckId}`);
     //window.location.href = `/DeckEditor/${DeckId}`;
     console.log(DeckId, " le deckid après l'api");
+    toast.success('Le deck a bien été créé');
   };
 
   //console.log('ce que contient currentdeck :', currentDeck);
