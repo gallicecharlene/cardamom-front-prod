@@ -50,7 +50,7 @@ export const cardCreate = createAsyncThunk(
   }
 );
 export const deleteCard = createAsyncThunk(
-  'decks/DELETE',
+  'cards/DELETE',
   async (payload: CardActionPayload) => {
     const { token } = payload;
 

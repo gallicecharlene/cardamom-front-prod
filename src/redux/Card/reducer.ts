@@ -1,7 +1,7 @@
+/* eslint-disable no-param-reassign */
 import { createReducer } from '@reduxjs/toolkit';
-import { deleteCard, fetchCard, updateCard, updateDeck } from './action';
+import { deleteCard, fetchCard, updateCard, cardCreate } from './action';
 import { Deck } from '../../types';
-import { cardCreate } from './action';
 
 type IdCardState = {
   deck: Deck | null;
