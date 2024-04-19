@@ -22,7 +22,6 @@ export const fetchDeck = createAsyncThunk(
       },
     });
     const parsedResponse = await response.json();
-
     return parsedResponse;
   }
 );
@@ -71,8 +70,6 @@ export const fetchImportDeck = createAsyncThunk(
   'deck/FETCH_IMPORT_DECK',
   async (payload: DeckActionPayload) => {
     const { shareId, token } = payload;
-    console.log(shareId);
-    console.log(token);
 
     const response = await fetch(
       `http://localhost:3003/api/decks/share/${shareId}`,

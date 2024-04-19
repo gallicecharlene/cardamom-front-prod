@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import Card from '../Card/Card';
-import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
+=========
+>>>>>>>>> Temporary merge branch 2
+import { Link, useParams } from 'react-router-dom';
 import AppHeader from '../AppHeader/AppHeader';
 import Footer from '../Footer/Footer';
 import './MemoTest.scss';
@@ -38,6 +40,13 @@ function MemoTest() {
     if (id && token) {
       console.log('fecthinggg');
       dispatch(fetchCard({ token, deck_id: parseInt(id!) }));
+      dispatch(
+        fetchStatsId({
+          deck_id: parseInt(id!),
+          userId: userId ?? '',
+          token,
+        })
+      );
     }
   }, [id, token]);
 

@@ -5,7 +5,7 @@ function HomeGuest() {
   return (
     <div className="app">
       <AppHeader children />
-      <DeckList />
+      <h1>Bienvenue sur Cardamom, veuillez vous connecter</h1>
       <Footer />
     </div>
   );
