@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Card from '../Card/Card';
 import { Link, useParams } from 'react-router-dom';
-import Card from '../Card/Card';
 import AppHeader from '../AppHeader/AppHeader';
 import Footer from '../Footer/Footer';
 import './MemoTest.scss';
@@ -28,6 +27,9 @@ function MemoTest() {
           deck_id: parseInt(id!),
           userId: userId ?? '',
           token,
+          statsId: '',
+          nb_card_consulted: 0,
+          nb_card_succes: 0,
         })
       );
     }
