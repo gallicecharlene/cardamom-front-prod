@@ -5,8 +5,8 @@ import { IoIosCloseCircle } from 'react-icons/io';
 import Cookies from 'js-cookie';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { loginAction } from '../../../redux/User/action';
-
 import { toast } from 'react-toastify';
+import { useAppSelector } from '../../../hooks/redux';
 
 function LogIn() {
   const [email, setEmail] = useState('');
@@ -14,8 +14,7 @@ function LogIn() {
   const { user } = useSelector((store: RootState) => store.user);
   const token = Cookies.get('jwtToken');
   const dispatch: AppDispatch = useDispatch();
-  const { isConnected } = useSelector((store: RootState) => store.user);
-
+  const isConnected = useSelector((store: RootState) => store.user.isConnected);
   const emailHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -26,9 +25,9 @@ function LogIn() {
   // Fonction pour se deconnecter en retirant aussi le token du cookie
   const handleDisconnect = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    console.log('déconnecté');
     dispatch({ type: 'auth/DISCONNECT' });
     Cookies.remove('jwtToken');
+    console.log('déconnecté', isConnected);
     toast.success('Vous avez bien été deconnecté');
   };
   // fonction pour envoyer le formulaire de connection à la BDD

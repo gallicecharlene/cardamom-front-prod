@@ -23,7 +23,7 @@ export const fetchCard = createAsyncThunk(
       },
     });
     const parsedResponse = await response.json();
-    console.log(parsedResponse);
+
     return parsedResponse;
   }
 );

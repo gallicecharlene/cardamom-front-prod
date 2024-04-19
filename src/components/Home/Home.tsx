@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 function Home() {
   const isConnected = useSelector((store: RootState) => store.user.isConnected);
+  console.log(isConnected, 'home');
   return (
     <>
       {isConnected && (

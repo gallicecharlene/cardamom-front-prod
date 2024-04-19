@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 
 type LoginActionPayload = {
+  id: number;
   email: string;
   password: string;
   pseudo: string;

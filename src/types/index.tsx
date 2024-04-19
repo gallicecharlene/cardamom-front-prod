@@ -10,6 +10,7 @@ export type UserState = {
   user?: UserData;
 };
 export interface UserData {
+  id: number;
   password: string;
   email: string;
   pseudo: string;
@@ -21,6 +22,7 @@ export interface Deck {
   title: string;
   share_id: string;
   flashcards?: [Card];
+  user_id: number;
 }
 export interface Card {
   id: number;

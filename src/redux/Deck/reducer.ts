@@ -43,6 +43,12 @@ const deckListReducer = createReducer(initialState, (builder) => {
     .addCase(fetchImportDeck.fulfilled, (state, action) => {
       state.isPending = false;
       state.list.push(action.payload);
+      console.log(state.error, " pas l'erreur ici");
+    })
+    .addCase(fetchImportDeck.rejected, (state, action) => {
+      state.isPending = false;
+      state.error = action.error.message ?? 'erreur';
+      console.log(state.error, "l'erreur ici");
     })
     .addCase(updateDeckTitle, (state, action) => {
       const deckUpdate: any = action.payload;

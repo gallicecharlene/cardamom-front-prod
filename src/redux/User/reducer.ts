@@ -8,6 +8,7 @@ const initialState: UserState = {
   errorMessage: '',
   isPending: false,
   user: {
+    id: 0,
     email: '',
     password: '',
     pseudo: '',
@@ -47,8 +48,6 @@ const userReducer = createReducer(initialState, (builder) => {
     // Si deconnexion de l'utilisateur
     .addCase(actions.disconnectAction, (state, action) => {
       state.isConnected = false;
-      state.user = undefined;
-      console.log(state.user, 'user deconnecté');
     })
     //Si inscription réussie
     .addCase(actions.signUpAction.fulfilled, (state, action) => {
