@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import Card from '../Card/Card';
-=========
->>>>>>>>> Temporary merge branch 2
 import { Link, useParams } from 'react-router-dom';
 import AppHeader from '../AppHeader/AppHeader';
 import Footer from '../Footer/Footer';
