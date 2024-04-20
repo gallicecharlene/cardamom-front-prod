@@ -347,8 +347,9 @@ function DeckEditor() {
           </div>
         )}
       </div>
-
-      <Footer />
+      <div className="footer-deckEditor">
+        <Footer />
+      </div>
 
       <button className="delete-button" onClick={handleDeckDelete}>
         Supprimer

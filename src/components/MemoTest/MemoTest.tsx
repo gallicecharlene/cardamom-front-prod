@@ -10,6 +10,7 @@ import { fetchCard } from '../../redux/Card/action';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+
 function MemoTest() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -17,7 +18,6 @@ function MemoTest() {
   const flashcards = useAppSelector((state) => state.deck.deck?.flashcards);
   const [know, setKnow] = useState(false);
   const [currentCardMemo, setCurrentCardMemo] = useState(0);
-  const [sessionCompleted, setSessionCompleted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { id } = useParams();
@@ -30,22 +30,29 @@ function MemoTest() {
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleNoClick = () => {
+    handleCloseModal();
     navigate('/');
   };
+
   useEffect(() => {
     if (id && token) {
-      console.log('fecthinggg');
       dispatch(fetchCard({ token, deck_id: parseInt(id!) }));
     }
   }, [id, token]);
 
-  console.log('dekkkkk', id);
-
   useEffect(() => {
-    if (flashcards && currentCardMemo >= flashcards.length) {
-      setIsModalOpen(true);
+    if (
+      flashcards &&
+      flashcards.length > 0 &&
+      currentCardMemo >= flashcards.length
+    ) {
+      handleOpenModal();
     }
   }, [currentCardMemo, flashcards]);
 
@@ -97,25 +104,37 @@ function MemoTest() {
             Aller next!
           </button>
         </div>
-        <Footer />
       </div>
       {isModalOpen &&
         toast(
           <div className="modal-Memo">
-            <div className="modal-content">
+            <div className="modal-content-memo">
               <p> Session terminée. Voulez-vous recommencer ?</p>
               <button
+                className="square-memo"
                 onClick={() => {
                   handleRestartSession();
+                  handleCloseModal();
                   toast.dismiss();
                 }}
               >
                 Oui
               </button>
+              <button
+                className="square-memo"
+                onClick={() => {
+                  handleNoClick();
+                  handleCloseModal();
+                  toast.dismiss();
+                }}
+              >
+                Non
+              </button>
             </div>
           </div>,
           { className: 'custom-toast' }
         )}
+      <Footer />
     </main>
   );
 }

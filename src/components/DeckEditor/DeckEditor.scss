@@ -24,10 +24,11 @@
 .flashcard {
   display: flex;
   align-items: center;
-  margin: auto;
-  justify-content: center;
+  margin-left: auto;
+  justify-content: space-around;
   margin-bottom: 15px;
-  margin-left: 50px;
+  margin-left: 40px;
+  margin-right: 20px;
 }
 
 .card-modal {

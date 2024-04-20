@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import Home from '../Home/Home';
+import Footer from '../Footer/Footer';
 
 function DeckList({ search }) {
   const deck = useAppSelector((state) => state.decks.list);
@@ -53,6 +54,10 @@ function DeckList({ search }) {
             }
             return null;
           })}
+          <div className="footer-list">
+            <Footer />
+          </div>
+          ;
         </div>
       )}
     </div>
