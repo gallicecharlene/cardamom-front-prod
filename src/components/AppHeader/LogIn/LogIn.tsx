@@ -84,7 +84,7 @@ function LogIn() {
                   type="password"
                   value={password}
                   onChange={passwordHandleChange}
-                  placeholder="mot"
+                  placeholder="Mot de passe"
                 />
                 <button type="submit">Envoyer</button>
               </form>

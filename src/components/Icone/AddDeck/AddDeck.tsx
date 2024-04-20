@@ -4,6 +4,8 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import './AddDeck.scss';
+import { ImCross } from 'react-icons/im';
 
 function AddDeck() {
   const dispatch = useAppDispatch();
@@ -36,42 +38,44 @@ function AddDeck() {
 
   //console.log('ce que contient currentdeck :', currentDeck);
   return (
-    <div className="icone">
-      {!isModalOpen && (
-        <>
-          <button className="buttonIcone" onClick={handleOpenModal}>
-            +
-          </button>
-        </>
-      )}
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Votre nouveau Deck</h2>
-            <form>
-              <span>Titre</span>
-              <input
-                className="SearchBar"
-                type="text"
-                id="title"
-                value={title}
-                onChange={titleHandleChange}
-              />
-              <button className="button-modal" onClick={handleCreateDeck}>
-                Créer
-              </button>
+    <div className="icone-container">
+      <div className="icone-add">
+        {!isModalOpen && (
+          <>
+            <button className="buttonIcone-add" onClick={handleOpenModal}>
+              <i className="fas fa-plus-square"></i>
+            </button>
+          </>
+        )}
+        {isModalOpen && (
+          <div className="modal">
+            <div className="modal-content">
+              <h2>Votre nouveau Deck</h2>
+              <form>
+                <span>Titre</span>
+                <input
+                  className="SearchBar"
+                  type="text"
+                  id="title"
+                  value={title}
+                  onChange={titleHandleChange}
+                />
+                <button className="button-modal" onClick={handleCreateDeck}>
+                  Créer
+                </button>
 
-              <button
-                className="button-modal"
-                type="button"
-                onClick={handleCloseModal}
-              >
-                Annuler
-              </button>
-            </form>
+                <button
+                  className="button-modal"
+                  type="button"
+                  onClick={handleCloseModal}
+                >
+                  Annuler
+                </button>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

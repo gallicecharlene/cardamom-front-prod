@@ -198,9 +198,11 @@ function DeckEditor() {
             ACCUEIL
           </Link>
         </AppHeader>
-        <span className="deck-title">{deck.title}</span>
+        <span className="deck-title-top">{deck.title}</span>
 
-        {isDeckModalOpen ? (
+        <h2 className="shareId">Partage ton deck : {shareId}</h2>
+
+        {!isDeckModalOpen ? (
           <>
             <input
               type="text"
@@ -213,7 +215,7 @@ function DeckEditor() {
               value={titleDeck}
               onClick={handleDeckUpdate}
             >
-              Changer le titre du deck
+              Changer le titre
             </button>
           </>
         ) : isNotItSameid ? (
@@ -287,13 +289,20 @@ function DeckEditor() {
                 deck.flashcards.map((card, index) => (
                   <div key={index} className="flashcard">
                     <Card recto={card.title_front} verso={card.title_back} />
-                    <button onClick={() => handleCardDeleteModal(index)}>
-                      <ImCross />
-                    </button>
-                    <button onClick={() => handleCardUpdateModal(index)}>
-                      <LuPencil />
-                    </button>
-                    <h1>{shareId}</h1>
+                    <div className="button-deckEditor">
+                      <button
+                        className="button-card"
+                        onClick={() => handleCardDeleteModal(index)}
+                      >
+                        <i className="fas fa-times cross"></i>
+                      </button>
+                      <button
+                        className="button-card"
+                        onClick={() => handleCardUpdateModal(index)}
+                      >
+                        <i className="fa-solid fa-pen" />
+                      </button>
+                    </div>
                   </div>
                 ))}
             </div>

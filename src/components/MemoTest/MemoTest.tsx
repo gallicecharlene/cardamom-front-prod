@@ -9,7 +9,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { fetchCard } from '../../redux/Card/action';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
-
+import { useNavigate } from 'react-router-dom';
 function MemoTest() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -38,13 +38,6 @@ function MemoTest() {
     if (id && token) {
       console.log('fecthinggg');
       dispatch(fetchCard({ token, deck_id: parseInt(id!) }));
-      dispatch(
-        fetchStatsId({
-          deck_id: parseInt(id!),
-          userId: userId ?? '',
-          token,
-        })
-      );
     }
   }, [id, token]);
 

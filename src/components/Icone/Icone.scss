@@ -1,60 +1,17 @@
 .icone {
   display: flex;
-  flex-direction: row;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
   padding-top: 2%;
-}
-
-.buttonIcone {
-  background-color: #feeaa1;
-  border-radius: 10px;
-  border: 0px;
-  padding: 5px 5px;
-  width: 42px;
-  height: 42px;
-  box-shadow: 3px 3px 30px #18534f;
-  margin-right: 5vh;
-  margin-left: 5vh;
-  margin-bottom: 3vh;
-}
-
-.fa-circle-down {
-  color: #18534f;
-  font-size: 2em;
-}
-
-.fa-square-poll-vertical {
-  color: #18534f;
-  font-size: 2em;
-}
-
-.modal {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.button-modal {
-  background-color: #226d68;
-  color: white;
-  margin-left: 10px;
-  border-radius: 5px;
-  padding: 2px 6px;
+  margin-left: 35vh;
+  margin-right: 35vh;
+  margin-top: 5vh;
 }
 
 @media screen and (max-width: 1200px) {
   .icone {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin: 20px auto;
-    margin-top: 4vh;
-  }
-
-  .buttonIcone {
-    margin-right: 5vh;
-    margin-left: 5vh;
-    margin-bottom: 3vh;
+    justify-content: space-between;
+    margin-right: 25vh;
+    margin-left: 25vh;
   }
 }
