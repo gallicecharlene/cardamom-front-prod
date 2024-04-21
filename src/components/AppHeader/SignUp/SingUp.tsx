@@ -1,12 +1,12 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import './SignUp.scss';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { IoIosCloseCircle } from 'react-icons/io';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { signUpAction } from '../../../redux/User/action';
-import { toast } from 'react-toastify';
-import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -14,7 +14,8 @@ function SignUp() {
   const [pseudo, setPseudo] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const token = Cookies.get('jwtToken');
-  const navigate = useNavigate();
+  const { user } = useAppSelector((store: RootState) => store.user);
+  const dispatch: AppDispatch = useAppDispatch();
 
   const emailHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -58,15 +59,14 @@ function SignUp() {
         password,
         pseudo,
         token: '',
+        id: user?.id,
       })
     );
     toast.success('Votre compte a bien été créé');
     dispatch({ type: 'auth/HIDE_MODAL_SIGNUP' });
   };
 
-  const dispatch: AppDispatch = useDispatch();
-
-  const { displayModalSignUp } = useSelector(
+  const { displayModalSignUp } = useAppSelector(
     (store: RootState) => store.settings
   );
 
@@ -116,6 +116,7 @@ function SignUp() {
             </div>
           ) : (
             <button
+              type="button"
               className="authentification-button"
               onClick={handleDialogDisplay}
             >

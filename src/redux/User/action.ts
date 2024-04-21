@@ -6,7 +6,7 @@ type LoginActionPayload = {
   id: number;
   email: string;
   password: string;
-  pseudo: string;
+  pseudo: string | undefined;
   token: string;
 };
 // Action pour se connecter
@@ -23,19 +23,18 @@ export const loginAction = createAsyncThunk(
     });
     const filteredResponse = await response.json();
     // récupérer la propriété token qui a été créée par le back et renvoyer dans filteredResponse
-    const token = filteredResponse.token;
+    const { token } = filteredResponse;
 
     if (token) {
       toast.success('Connection réussie');
       // Stocker le token dans les cookies
       Cookies.set('jwtToken', token, { expires: 1 }); // expire dans 7 jours
       return filteredResponse;
-    } else {
-      toast.error('Votre identifiant ou mot de passe sont incorrects');
     }
+    toast.error('Votre identifiant ou mot de passe sont incorrects');
   }
 );
-//Action pour se connecter si il y a un token
+// Action pour se connecter si il y a un token
 export const tokenLoginAction = createAsyncThunk(
   'auth/PROFILE',
   // J'envoie les informations saisies dans le formulaire de connection à l'API grâce au payload
@@ -77,23 +76,19 @@ export const disconnectAction = createAction('auth/DISCONNECT');
 export const signUpAction = createAsyncThunk(
   'auth/SIGNUP',
   async (payload: LoginActionPayload) => {
-    try {
-      const response = await fetch('http://localhost:3003/api/auth/signup', {
-        method: 'POST',
-        headers: {
-          // Je précise que j'envoie les données au format JSON
-          'Content-Type': 'application/json',
-        },
-        // J'envoie les données de la liste au format JSON
-        body: JSON.stringify(payload),
-      });
+    const response = await fetch('http://localhost:3003/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        // Je précise que j'envoie les données au format JSON
+        'Content-Type': 'application/json',
+      },
+      // J'envoie les données de la liste au format JSON
+      body: JSON.stringify(payload),
+    });
 
-      const userSend = await response.json();
-      console.log(userSend);
-      return userSend;
-    } catch (error) {
-      throw error;
-    }
+    const userSend = await response.json();
+
+    return userSend;
   }
 );
 export default {
