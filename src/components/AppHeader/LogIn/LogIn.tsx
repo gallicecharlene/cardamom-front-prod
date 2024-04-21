@@ -91,7 +91,7 @@ function LogIn({ id }: LoginProps) {
                   type="password"
                   value={password}
                   onChange={passwordHandleChange}
-                  placeholder="mot"
+                  placeholder="Mot de passe"
                 />
                 <button type="submit">Envoyer</button>
               </form>
@@ -101,12 +101,12 @@ function LogIn({ id }: LoginProps) {
               className="authentification-button"
               onClick={handleDialogDisplay}
             >
-              {isConnected ? `` : 'LogIn'}
+              {isConnected ? '' : 'LogIn'}
             </button>
           )}
         </>
       )}
-    </>
+    </div>
   );
 }
 

@@ -6,8 +6,6 @@ import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { signUpAction } from '../../../redux/User/action';
-import { toast } from 'react-toastify';
-import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
 interface SignUpProps {
