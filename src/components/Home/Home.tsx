@@ -6,10 +6,10 @@ import DeckList from '../DeckList/Deck';
 import HomeGuest from '../HomeGuest/HomeGuest';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 function Home() {
   const [search, setSearch] = useState('');
-  const handleSearchSubmit = (searchValue) => {
+  const handleSearchSubmit = (searchValue: SetStateAction<string>) => {
     setSearch(searchValue);
   };
   const isConnected = useSelector((store: RootState) => store.user.isConnected);
