@@ -1,8 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
-import './ImportDeck.scss';
+
 import { fetchImportDeck } from '../../../redux/Deck/action';
 
 function ImportDeck() {
@@ -46,18 +45,18 @@ function ImportDeck() {
       {isModalOpen ? (
         <div className="icone-import">
           <div className="modal">
-            <div className="modal-content-import">
+            <div className="modal-content">
               <h2>Importer Deck</h2>
               <form onSubmit={handleShareDeck}>
-                <span>Code du deck</span>
                 <input
                   className="SearcBar"
+                  placeholder="Code du deck"
                   type="text"
                   id="title"
                   value={importCode}
                   onChange={importCodeHandleChange}
                 />
-                <button>Valider</button>
+                <button type="button">Valider</button>
                 <button
                   className="button-modal"
                   type="button"
@@ -70,8 +69,8 @@ function ImportDeck() {
           </div>
         </div>
       ) : (
-        <button className="buttonIcone-import" onClick={handleOpenModal}>
-          <i className="fas fa-circle-down"></i>
+        <button className="buttonIcone" onClick={handleOpenModal}>
+          ++ Importation deck
         </button>
       )}
     </div>

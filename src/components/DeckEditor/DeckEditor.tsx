@@ -1,10 +1,13 @@
 import './DeckEditor.scss';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ChangeEvent, useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import { LuPencil } from 'react-icons/lu';
+import { ImCross } from 'react-icons/im';
+import { toast } from 'react-toastify';
 import AppHeader from '../AppHeader/AppHeader';
 import Footer from '../Footer/Footer';
-import { useAppSelector } from '../../hooks/redux';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { deleteDeck } from '../../redux/Deck/action';
 import {
   fetchCard,
@@ -13,15 +16,11 @@ import {
   updateDeck,
   updateCard,
 } from '../../redux/Card/action';
-import Cookies from 'js-cookie';
-import { LuPencil } from 'react-icons/lu';
-import { ImCross } from 'react-icons/im';
-import { toast } from 'react-toastify';
 import Card from '../Card/Card';
 
 function DeckEditor() {
   const { id } = useParams();
-  const deckId = parseInt(id);
+  const deckId = parseInt(id, 10);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeckModalOpen, setIsDeckModalOpen] = useState(false);
   const [isCardUpdateModalOpen, setIsCardUpdateModalOpen] = useState(false);
@@ -36,9 +35,11 @@ function DeckEditor() {
   const token = Cookies.get('jwtToken');
   const [isClickDeck, setIsClickDeck] = useState(false);
   const navigate = useNavigate();
-  const userIdDeck = useAppSelector((state) => state.deck.deck?.user_id);
-  const userId = useAppSelector((state) => state.user.user?.id);
-  const [isNotItSameid, setIsItNotSameId] = useState(false);
+  // const userIdDeck = useAppSelector((state) => state.deck.deck?.user_id);
+  // const userId = useAppSelector((state) => state.user.user?.id);
+  const isSameUserId = useAppSelector(
+    (state) => state.user.user?.id === state.deck.deck?.user_id
+  );
   const shareId = useAppSelector((state) => state.deck.deck?.share_id);
 
   // UseEffect pour afficher les cartes
@@ -46,17 +47,13 @@ function DeckEditor() {
     if (id) {
       dispatch(fetchCard({ token, deck_id: deckId }));
     }
-  }, [token, id]);
-  useEffect(() => {
-    if (deckId) {
-      checkId();
-    }
-  }, [deckId]);
-  console.log(isNotItSameid, 'is not same id ?');
+  }, [token, id, dispatch, deckId]);
+
+  console.log(isSameUserId, 'isSameUserId?');
 
   useEffect(() => {
     dispatch({ type: 'deck/UPDATETITLE', payload: deck });
-  }, [deck]);
+  }, [deck, dispatch]);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -83,13 +80,6 @@ function DeckEditor() {
     setTitleBackData(event.target.value);
   };
   // Fonction pour comparer l'id de l'utilisateur et l'user_id du deck
-  const checkId = () => {
-    console.log(userIdDeck, 'userid du deck');
-    console.log(userId, 'id utilisateur');
-    if (userIdDeck !== userId) {
-      setIsItNotSameId(true);
-    }
-  };
 
   // Fonction pour créer une carte
   const handleCreateCard = () => {
@@ -137,7 +127,7 @@ function DeckEditor() {
     setIsDeleteModalOpen(false);
     toast.success("L'élément a bien été supprimé");
   };
-  const handleCardDeleteModal = (index: number) => {
+  const handleCardDeleteModal = () => {
     setIndex(index);
     setIsDeleteModalOpen(true);
   };
@@ -148,7 +138,7 @@ function DeckEditor() {
     setIsClickDeck(true);
   };
 
-  //Fonction pour modifier un deck
+  // Fonction pour modifier un deck
 
   const handleDeckUpdate = () => {
     if (!titleDeck) {
@@ -160,9 +150,9 @@ function DeckEditor() {
     dispatch(updateDeck({ token, id: deckId, title: titleDeck }));
     toast.success('Le titre a bien été modifié');
   };
-  //Fonction pour modifier une carte
+  // Fonction pour modifier une carte
   // Fonction qui ouvre la modale updateCard
-  const handleCardUpdateModal = (index: number) => {
+  const handleCardUpdateModal = () => {
     setIsCardUpdateModalOpen(true);
 
     setIndex(index);
@@ -171,7 +161,7 @@ function DeckEditor() {
   const handleCloseCardUpdateModal = () => {
     setIsCardUpdateModalOpen(false);
   };
-  const handleUpdateCard = (index: number) => {
+  const handleUpdateCard = () => {
     const currentIndex = index;
     const cardId = deck?.flashcards?.[currentIndex].id;
     dispatch(
@@ -211,6 +201,7 @@ function DeckEditor() {
               onChange={titleDeckHandleChange}
             />
             <button
+              type="button"
               className="deck-title"
               value={titleDeck}
               onClick={handleDeckUpdate}
@@ -218,12 +209,15 @@ function DeckEditor() {
               Changer le titre
             </button>
           </>
-        ) : isNotItSameid ? (
-          <>
-            <button className="deck-title" onClick={handleOpenDeckModal}>
-              <LuPencil />
-            </button>
-          </>
+        ) : isSameUserId ? (
+          <button
+            aria-label="modale"
+            type="button"
+            className="deck-title"
+            onClick={handleOpenDeckModal}
+          >
+            <LuPencil />
+          </button>
         ) : (
           ''
         )}
@@ -267,11 +261,64 @@ function DeckEditor() {
             </div>
           </div>
         ) : (
-          <button className="creation-button" onClick={handleOpenModal}>
-            <i className="fa-solid fa-square-plus" />
-          </button>
+          isSameUserId && (
+            <button className="creation-button" onClick={handleOpenModal}>
+              <i className="fa-solid fa-square-plus" />
+            </button>
+          )
         )}
 
+        {deck.flashcards &&
+          deck.flashcards.map((card, index) => (
+            <div key={index} className="flashcard">
+              <Card recto={card.title_front} verso={card.title_back} />
+              {isSameUserId && (
+                <>
+                  <button onClick={() => handleCardDeleteModal(index)}>
+                    <ImCross />
+                  </button>
+                  <button onClick={() => handleCardUpdateModal(index)}>
+                    <LuPencil />
+                  </button>
+                </>
+              )}
+            </div>
+          ))}
+        {isCardUpdateModalOpen && (
+          <form>
+            <input
+              placeholder={card?.title_front}
+              className="SearchBar"
+              type="text"
+              id="title"
+              value={titleFront}
+              onChange={cardTitleFrontHandleChange}
+            />
+
+            <input
+              placeholder={card?.title_back}
+              className="SearchBar"
+              type="text"
+              id="title"
+              value={titleBack}
+              onChange={cardTitleBackHandleChange}
+            />
+            <button
+              className="button-modal"
+              type="button"
+              onClick={() => handleUpdateCard(index)}
+            >
+              Valider
+            </button>
+            <button
+              type="button"
+              className="button-modal"
+              onClick={handleCloseCardUpdateModal}
+            >
+              ANNULER
+            </button>
+          </form>
+        )}
         {isDeleteModalOpen &&
           toast(
             <div>
@@ -281,79 +328,9 @@ function DeckEditor() {
               </h3>
             </div>
           )}
-
-        {!isCardUpdateModalOpen && (
-          <>
-            <div className="flashcards-container">
-              {deck.flashcards &&
-                deck.flashcards.map((card, index) => (
-                  <div key={index} className="flashcard">
-                    <Card recto={card.title_front} verso={card.title_back} />
-                    <div className="button-deckEditor">
-                      <button
-                        className="button-card"
-                        onClick={() => handleCardDeleteModal(index)}
-                      >
-                        <i className="fas fa-times cross"></i>
-                      </button>
-                      <button
-                        className="button-card"
-                        onClick={() => handleCardUpdateModal(index)}
-                      >
-                        <i className="fa-solid fa-pen" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-            </div>
-          </>
-        )}
-
-        {isCardUpdateModalOpen && (
-          <div className="card-update-modal">
-            <form>
-              <input
-                placeholder={card?.title_front}
-                className="SearchBar-deckEditor"
-                type="text"
-                id="title"
-                value={titleFront}
-                onChange={cardTitleFrontHandleChange}
-              />
-
-              <input
-                placeholder={card?.title_back}
-                className="SearchBar-deckEditor"
-                type="text"
-                id="title"
-                value={titleBack}
-                onChange={cardTitleBackHandleChange}
-              />
-              <button
-                className="button-modal"
-                type="button"
-                onClick={() => handleUpdateCard(index)}
-              >
-                Valider
-              </button>
-              <button
-                type="button"
-                className="button-modal"
-                onClick={handleCloseCardUpdateModal}
-              >
-                ANNULER
-              </button>
-            </form>
-          </div>
-        )}
-      </div>
-      <div className="footer-deckEditor">
+        {isSameUserId && <button onClick={handleDeckDelete}>Supprimer</button>}
         <Footer />
       </div>
-
-      <button className="delete-button" onClick={handleDeckDelete}>
-        Supprimer
-      </button>
     </main>
   );
 }

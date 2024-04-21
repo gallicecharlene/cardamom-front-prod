@@ -1,12 +1,12 @@
 import { ChangeEvent, useState, FormEvent } from 'react';
 import './LogIn.scss';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { IoIosCloseCircle } from 'react-icons/io';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { loginAction } from '../../../redux/User/action';
-import { toast } from 'react-toastify';
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 interface LoginProps {
   id: number;
@@ -14,10 +14,12 @@ interface LoginProps {
 function LogIn({ id }: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { user } = useSelector((store: RootState) => store.user);
+  const { user } = useAppSelector((store: RootState) => store.user);
   const token = Cookies.get('jwtToken');
-  const dispatch: AppDispatch = useDispatch();
-  const isConnected = useSelector((store: RootState) => store.user.isConnected);
+  const dispatch: AppDispatch = useAppDispatch();
+  const isConnected = useAppSelector(
+    (store: RootState) => store.user.isConnected
+  );
   const emailHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -42,13 +44,13 @@ function LogIn({ id }: LoginProps) {
       loginAction({
         email,
         password,
-        pseudo: user?.pseudo!,
+        pseudo: user?.pseudo,
         token: '',
-        id,
+        id: user?.id,
       })
     );
   };
-  const { displayModalLogIn } = useSelector(
+  const { displayModalLogIn } = useAppSelector(
     (store: RootState) => store.settings
   );
   const handleDialogDisplay = () =>
@@ -57,13 +59,14 @@ function LogIn({ id }: LoginProps) {
       : dispatch({ type: 'auth/DISPLAY_MODAL_LOGIN' });
 
   return (
-    <>
+    <div>
       {token ? (
         <form>
           <h3 className="welcoming-message">
             <i>👋 Bienvenue {user?.pseudo}!</i>
           </h3>
           <button
+            type="button"
             className="authentification-button"
             onClick={handleDisconnect}
           >
@@ -88,7 +91,7 @@ function LogIn({ id }: LoginProps) {
                   type="password"
                   value={password}
                   onChange={passwordHandleChange}
-                  placeholder="Mot de passe"
+                  placeholder="mot"
                 />
                 <button type="submit">Envoyer</button>
               </form>
