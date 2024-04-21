@@ -3,11 +3,11 @@ import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 
 type LoginActionPayload = {
-  id: number;
+  id: number | undefined;
   email: string;
   password: string;
   pseudo: string | undefined;
-  token: string;
+  token: string | undefined;
 };
 // Action pour se connecter
 export const loginAction = createAsyncThunk(

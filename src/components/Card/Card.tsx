@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './Card.scss';
 
-function Card({ recto, verso }) {
+function Card({ recto, verso }: { recto: string; verso: string }) {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const handleClick = () => {

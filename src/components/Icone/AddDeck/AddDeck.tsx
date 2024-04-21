@@ -27,7 +27,13 @@ function AddDeck() {
   const handleCreateDeck = async () => {
     setIsModalOpen(false);
     setDeckTitle('');
-    const response = await dispatch(deckCreate({ token, title }));
+    const response = await dispatch(
+      deckCreate({
+        token,
+        title,
+        id: undefined,
+      })
+    );
     const newDeck = response.payload;
     const DeckId = newDeck.id;
     navigate(`DeckEditor/${DeckId}`);
@@ -52,12 +58,12 @@ function AddDeck() {
             <div className="modal-content">
               <h2>Votre nouveau Deck</h2>
               <form>
-                <span>Titre</span>
                 <input
                   className="SearchBar"
                   type="text"
                   id="title"
                   value={title}
+                  placeholder="Titre"
                   onChange={titleHandleChange}
                 />
                 <button className="button-modal" onClick={handleCreateDeck}>

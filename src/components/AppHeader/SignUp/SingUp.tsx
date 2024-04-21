@@ -1,23 +1,20 @@
 import { ChangeEvent, useState } from 'react';
 import './SignUp.scss';
-
 import { IoIosCloseCircle } from 'react-icons/io';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
-import { AppDispatch, RootState } from '../../../redux/store';
+import { RootState } from '../../../redux/store';
 import { signUpAction } from '../../../redux/User/action';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-interface SignUpProps {
-  id: number;
-}
-function SignUp({ id }: SignUpProps) {
+function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [pseudo, setPseudo] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const token = Cookies.get('jwtToken');
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const emailHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -61,6 +58,7 @@ function SignUp({ id }: SignUpProps) {
         password,
         pseudo,
         token: '',
+        id: 0,
       })
     );
     toast.success('Votre compte a bien été créé');

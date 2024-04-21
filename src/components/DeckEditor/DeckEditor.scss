@@ -10,6 +10,21 @@
   margin-top: 2vh;
 }
 
+.deck-title-modif {
+  display: flex;
+  align-items: center;
+  font-family: 'Love Ya Like A Sister';
+  font-weight: bold;
+  justify-content: center;
+  width: 13%;
+  margin: auto;
+  border-radius: 10px;
+  background-color: #feeaa1;
+  padding: 5px;
+  font-size: 1.5rem;
+  margin-top: 2vh;
+}
+
 .deck-title-top {
   display: flex;
   align-items: center;
@@ -39,22 +54,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 5vh;
-  margin-left: 11vh;
-  margin-bottom: 4vh;
+  margin-left: auto;
+  margin-right: auto;
   background-color: #feeaa1;
   border-radius: 5px;
   border: 0px;
-  padding: 5px 5px;
   width: 70px;
   height: 70px;
   box-shadow: 3px 3px 30px #18534f;
+  margin-top: 5%;
 }
 
 .shareId {
   font-size: medium;
-  text-align: justify;
-  margin-left: 79vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
   font-family: 'Love Ya Like A Sister';
 }
 
@@ -102,7 +119,7 @@
 .flashcards-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .delete-button {
@@ -113,9 +130,4 @@
 }
 
 @media screen and (max-width: 1400px) {
-  .shareId {
-    margin-left: 33vh;
-    font-size: medium;
-    text-align: justify;
-  }
 }

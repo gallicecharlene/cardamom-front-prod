@@ -2,11 +2,11 @@ import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 
 type DeckActionPayload = {
   title: string;
-  id: number;
+  id: number | undefined;
   user_id?: number;
   shareId?: number;
   updated_at?: string;
-  token: string;
+  token: string | undefined;
 };
 
 export const fetchDeck = createAsyncThunk(

@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import Home from '../Home/Home';
 import Footer from '../Footer/Footer';
 
-function DeckList({ search }) {
+function DeckList({ search }: { search: string }) {
   const deck = useAppSelector((state) => state.decks.list);
 
   const dispatch = useAppDispatch();
@@ -20,7 +20,13 @@ function DeckList({ search }) {
   useEffect(() => {
     if (token) {
       console.log('le useffect pour récupérer les decks se lance');
-      dispatch(fetchDeck({ token }));
+      dispatch(
+        fetchDeck({
+          token,
+          title: '',
+          id: undefined,
+        })
+      );
     }
   }, []);
 

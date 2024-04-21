@@ -1,11 +1,11 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 
 type CardActionPayload = {
-  token: string;
+  token: string | undefined;
   title_front: string;
   title_back: string;
   deck_id: number;
-  id: number;
+  id: number | undefined;
 };
 
 export const fetchCard = createAsyncThunk(

@@ -8,10 +8,7 @@ import { AppDispatch, RootState } from '../../../redux/store';
 import { loginAction } from '../../../redux/User/action';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-interface LoginProps {
-  id: number;
-}
-function LogIn({ id }: LoginProps) {
+function LogIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { user } = useAppSelector((store: RootState) => store.user);
