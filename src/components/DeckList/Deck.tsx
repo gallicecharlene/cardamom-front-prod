@@ -34,29 +34,25 @@ function DeckList({ search }) {
         <div>Loading...</div>
       ) : (
         <div>
-          {list &&
-            list.map((deck: Deck) => {
-              if (
-                deck.title
-                  .toLocaleLowerCase()
-                  .includes(search.toLocaleLowerCase())
-              ) {
-                return (
-                  <div key={deck.id}>
-                    <Link to={`/memoTest/${deck.id}`} className="deck-button">
-                      <h2> {deck.title}</h2>
-                    </Link>
-                    <Link
-                      to={`/deckEditor/${deck.id}`}
-                      className="modif-button"
-                    >
-                      <i className="fa-solid fa-pen" />
-                    </Link>
-                  </div>
-                );
-              }
-              return null;
-            })}
+          {list.map((deck: Deck) => {
+            if (
+              deck.title
+                .toLocaleLowerCase()
+                .includes(search.toLocaleLowerCase())
+            ) {
+              return (
+                <div key={deck.id}>
+                  <Link to={`/memoTest/${deck.id}`} className="deck-button">
+                    <h2>{deck.title}</h2>
+                  </Link>
+                  <Link to={`/deckEditor/${deck.id}`} className="modif-button">
+                    <i className="fa-solid fa-pen" />
+                  </Link>
+                </div>
+              );
+            }
+            return null;
+          })}
         </div>
       )}
     </div>

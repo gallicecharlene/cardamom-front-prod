@@ -16,6 +16,7 @@ import {
   updateDeck,
   updateCard,
 } from '../../redux/Card/action';
+import Card from '../Card/Card';
 
 function DeckEditor() {
   const { id } = useParams();
@@ -268,8 +269,7 @@ function DeckEditor() {
         {deck.flashcards &&
           deck.flashcards.map((card, index) => (
             <div key={index} className="flashcard">
-              <span>{card.title_front} </span>
-              <span> {card.title_back}</span>
+              <Card recto={card.title_front} verso={card.title_back} />
               {isSameUserId && (
                 <>
                   <button onClick={() => handleCardDeleteModal(index)}>
