@@ -8,7 +8,10 @@ import { loginAction } from '../../../redux/User/action';
 import { toast } from 'react-toastify';
 import { useAppSelector } from '../../../hooks/redux';
 
-function LogIn() {
+interface LoginProps {
+  id: number;
+}
+function LogIn({ id }: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { user } = useSelector((store: RootState) => store.user);
@@ -41,6 +44,7 @@ function LogIn() {
         password,
         pseudo: user?.pseudo!,
         token: '',
+        id,
       })
     );
   };

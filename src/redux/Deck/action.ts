@@ -4,8 +4,7 @@ type DeckActionPayload = {
   title: string;
   id: number;
   user_id?: number;
-  shareId?: string;
-  created_at: string;
+  shareId?: number;
   updated_at?: string;
   token: string;
 };

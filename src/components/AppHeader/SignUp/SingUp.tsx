@@ -6,15 +6,16 @@ import { AppDispatch, RootState } from '../../../redux/store';
 import { signUpAction } from '../../../redux/User/action';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
 
-function SignUp() {
+interface SignUpProps {
+  id: number;
+}
+function SignUp({ id }: SignUpProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [pseudo, setPseudo] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const token = Cookies.get('jwtToken');
-  const navigate = useNavigate();
 
   const emailHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -58,6 +59,7 @@ function SignUp() {
         password,
         pseudo,
         token: '',
+        id,
       })
     );
     toast.success('Votre compte a bien été créé');

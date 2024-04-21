@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { fetchDeck, updateDeck, updateDeckTitle } from './action';
+import { fetchDeck, updateDeckTitle } from './action';
 import { Deck } from '../../types';
 import { closeModal, openModal } from './action';
 import { deckCreate } from './action';

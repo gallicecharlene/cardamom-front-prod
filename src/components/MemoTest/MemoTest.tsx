@@ -42,7 +42,15 @@ function MemoTest() {
 
   useEffect(() => {
     if (id && token) {
-      dispatch(fetchCard({ token, deck_id: parseInt(id!) }));
+      dispatch(
+        fetchCard({
+          deck_id: parseInt(id),
+          title_front: '',
+          title_back: '',
+          id: 0,
+          token,
+        })
+      );
     }
   }, [id, token]);
 

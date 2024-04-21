@@ -9,7 +9,10 @@ import DeckEditor from '../DeckEditor/DeckEditor';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function App() {
+interface AppHeaderProps {
+  id: number;
+}
+function App({ id }: AppHeaderProps) {
   // Récupérez le jeton JWT depuis les cookies
   const token = Cookies.get('jwtToken');
   const dispatch = useAppDispatch();
@@ -23,6 +26,7 @@ function App() {
           email: '',
           password: '',
           pseudo: '',
+          id,
         })
       );
       console.log('Connexion réussie');

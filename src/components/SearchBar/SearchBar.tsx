@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import './SearchBar.scss';
 
-function SearchBar({ onSearchSubmit }) {
+type SearchBarProps = {
+  onSearchSubmit: (query: string) => void;
+};
+
+function SearchBar({ onSearchSubmit }: SearchBarProps) {
   const [inputValue, setInputValue] = useState('');
 
-  const handleChangeInput = (event) => {
+  const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setInputValue(newValue);
     onSearchSubmit(newValue);

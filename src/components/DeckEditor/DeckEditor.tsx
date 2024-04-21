@@ -156,7 +156,7 @@ function DeckEditor() {
       return;
     }
     setDeckTitle('');
-    handleCloseDeckModal(false);
+    handleCloseDeckModal();
     dispatch(updateDeck({ token, id: deckId, title: titleDeck }));
     toast.success('Le titre a bien été modifié');
   };
