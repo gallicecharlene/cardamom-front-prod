@@ -4,17 +4,17 @@ import { toast } from 'react-toastify';
 
 type LoginActionPayload = {
   id: number | undefined;
-  email: string;
+  email: string | undefined;
   password: string;
   pseudo: string | undefined;
-  token: string | undefined;
 };
+
 // Action pour se connecter
 export const loginAction = createAsyncThunk(
   'auth/LOGIN',
   // J'envoie les informations saisies dans le formulaire de connection à l'API grâce au payload
   async (payload: LoginActionPayload) => {
-    const response = await fetch('http://localhost:3003/api/auth/login', {
+    const response = await fetch(`http://localhost:3003/api/auth/login`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -39,13 +39,14 @@ export const tokenLoginAction = createAsyncThunk(
   'auth/PROFILE',
   // J'envoie les informations saisies dans le formulaire de connection à l'API grâce au payload
   async (payload: LoginActionPayload) => {
-    const { token } = payload;
+    const token = Cookies.get('jwtToken');
+
     // message d'erreur si pas de token
     if (!token) {
       throw new Error('No token available');
     }
     try {
-      const response = await fetch('http://localhost:3003/api/profile', {
+      const response = await fetch(`http://localhost:3003/api/profile`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -55,6 +56,7 @@ export const tokenLoginAction = createAsyncThunk(
       });
       // Gérer le cas où l'authentification échoue
       if (!response.ok) {
+        Cookies.remove('jwtToken');
         throw new Error('Failed to authenticate');
       }
 
@@ -69,6 +71,37 @@ export const tokenLoginAction = createAsyncThunk(
     }
   }
 );
+//Action mettre à jour le user
+export const updateUser = createAsyncThunk(
+  'auth/PATCH',
+  async (payload: LoginActionPayload) => {
+    const token = Cookies.get('jwtToken');
+    console.log(token, 'le token');
+    const response = await fetch(`http://localhost:3003/api/profile`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+    const profileUpdated = await response.json();
+    return profileUpdated;
+  }
+);
+
+export const deleteUser = createAsyncThunk('auth/DELETE', async () => {
+  const token = Cookies.get('jwtToken');
+  const response = await fetch(`http://localhost:3003/api/profile`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const profileUpdated = await response.json();
+  return profileUpdated;
+});
 // Action pour se déconnecter
 export const disconnectAction = createAction('auth/DISCONNECT');
 
@@ -76,7 +109,7 @@ export const disconnectAction = createAction('auth/DISCONNECT');
 export const signUpAction = createAsyncThunk(
   'auth/SIGNUP',
   async (payload: LoginActionPayload) => {
-    const response = await fetch('http://localhost:3003/api/auth/signup', {
+    const response = await fetch(`http://localhost:3003/api/auth/signup`, {
       method: 'POST',
       headers: {
         // Je précise que j'envoie les données au format JSON
@@ -96,4 +129,6 @@ export default {
   disconnectAction,
   signUpAction,
   tokenLoginAction,
+  updateUser,
+  deleteUser,
 };

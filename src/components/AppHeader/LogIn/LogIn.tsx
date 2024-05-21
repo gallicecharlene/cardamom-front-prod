@@ -1,12 +1,13 @@
 import { ChangeEvent, useState, FormEvent } from 'react';
 import './LogIn.scss';
-
 import { IoIosCloseCircle } from 'react-icons/io';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { loginAction } from '../../../redux/User/action';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { Link } from 'react-router-dom';
+import Logo from '../../../assets/profile.png';
 
 function LogIn() {
   const [email, setEmail] = useState('');
@@ -24,14 +25,7 @@ function LogIn() {
   const passwordHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
-  // Fonction pour se deconnecter en retirant aussi le token du cookie
-  const handleDisconnect = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    dispatch({ type: 'auth/DISCONNECT' });
-    Cookies.remove('jwtToken');
-    console.log('déconnecté', isConnected);
-    toast.success('Vous avez bien été deconnecté');
-  };
+
   // fonction pour envoyer le formulaire de connection à la BDD
 
   const handleConnect = async (event: FormEvent<HTMLFormElement>) => {
@@ -42,10 +36,10 @@ function LogIn() {
         email,
         password,
         pseudo: user?.pseudo,
-        token: '',
         id: user?.id,
       })
     );
+    dispatch({ type: 'auth/HIDE_MODAL_LOGIN' });
   };
   const { displayModalLogIn } = useAppSelector(
     (store: RootState) => store.settings
@@ -58,18 +52,14 @@ function LogIn() {
   return (
     <div>
       {token ? (
-        <form>
-          <h3 className="welcoming-message">
-            <i>👋 Bienvenue {user?.pseudo}!</i>
-          </h3>
-          <button
-            type="button"
-            className="authentification-button"
-            onClick={handleDisconnect}
-          >
-            Déconnexion
-          </button>
-        </form>
+        <h3 className="welcoming-message">
+          <Link to={`/profil/${user?.id}`}>
+            <span className="link-user-pseudo ">
+              Bienvenue {user?.pseudo} !{' '}
+            </span>
+            <img src={Logo} alt="Profile icon" className="user-icon" />
+          </Link>
+        </h3>
       ) : (
         <>
           {displayModalLogIn ? (
@@ -77,20 +67,24 @@ function LogIn() {
               <button id="closeButton" onClick={handleDialogDisplay}>
                 <IoIosCloseCircle className="react_icon" />
               </button>
-              <form onSubmit={handleConnect}>
+              <form className="form-container-login" onSubmit={handleConnect}>
                 <input
+                  className="input-login"
                   type="email"
                   value={email}
                   onChange={emailHandleChange}
                   placeholder="Email"
                 />
                 <input
+                  className="input-login"
                   type="password"
                   value={password}
                   onChange={passwordHandleChange}
                   placeholder="Mot de passe"
                 />
-                <button type="submit">Envoyer</button>
+                <button className="valid-button" type="submit">
+                  Envoyer
+                </button>
               </form>
             </div>
           ) : (

@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
 import Card from '../Card/Card';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import AppHeader from '../AppHeader/AppHeader';
 import Footer from '../Footer/Footer';
 import './MemoTest.scss';
 import { Deck } from '../../types/index';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { fetchCard } from '../../redux/Card/action';
-import Cookies from 'js-cookie';
+
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import HomeButton from '../HomeButton/HomeButton';
 
 function MemoTest() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const token = Cookies.get('jwtToken');
+
   const flashcards = useAppSelector((state) => state.deck.deck?.flashcards);
   const [know, setKnow] = useState(false);
   const [currentCardMemo, setCurrentCardMemo] = useState(0);
@@ -41,18 +42,17 @@ function MemoTest() {
   };
 
   useEffect(() => {
-    if (id && token) {
+    if (id) {
       dispatch(
         fetchCard({
           deck_id: parseInt(id),
           title_front: '',
           title_back: '',
           id: 0,
-          token,
         })
       );
     }
-  }, [id, token]);
+  }, [id]);
 
   useEffect(() => {
     if (
@@ -92,9 +92,7 @@ function MemoTest() {
     <main id="deck_page">
       <div className="memo-test">
         <AppHeader>
-          <Link to="/" className="return-button">
-            ACCUEIL
-          </Link>
+          <HomeButton />
         </AppHeader>
         <span className="deck-title">{currentDeck?.title}</span>
         {currentCard && (

@@ -1,0 +1,48 @@
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 3%;
+  gap: 1.5rem;
+  margin-bottom: 3%;
+}
+.profile-button:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+.profile-button {
+  background-color: #feeaa1;
+  border-radius: 20px;
+  border: 5px solid black;
+  padding: 8px 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  box-shadow: 5px 5px 10px #000000;
+  transition: transform 0.3s ease;
+}
+.profile-section > input::placeholder {
+  color: white;
+  opacity: 0.5;
+}
+.profile-input {
+  text-align: center;
+  border-radius: 30px;
+  color: #feeaa1;
+  background-color: #18534f;
+  border: 10px solid #ecf8f6;
+  padding: 7%;
+  box-shadow: 0px 0px 30px #000000;
+  width: 110%;
+}
+.profile-password {
+  text-align: center;
+  border-radius: 30px;
+  color: #feeaa1;
+  background-color: #18534f;
+  border: 10px solid #ecf8f6;
+  padding: 4%;
+  box-shadow: 0px 0px 30px #000000;
+}

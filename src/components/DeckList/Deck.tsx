@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { RootState } from '../../redux/store';
 import { fetchDeck } from '../../redux/Deck/action';
 import { Deck } from '../../types';
-import './Deck.scss';
+import './DeckList.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
@@ -20,13 +20,7 @@ function DeckList({ search }: { search: string }) {
   useEffect(() => {
     if (token) {
       console.log('le useffect pour récupérer les decks se lance');
-      dispatch(
-        fetchDeck({
-          token,
-          title: '',
-          id: undefined,
-        })
-      );
+      dispatch(fetchDeck());
     }
   }, []);
 
@@ -38,7 +32,7 @@ function DeckList({ search }: { search: string }) {
   return (
     <div className="deck-container">
       {isPending ? (
-        <div>Loading...</div>
+        <div className="deck-pending">Loading...</div>
       ) : (
         <div>
           {list.map((deck: Deck) => {
@@ -53,7 +47,7 @@ function DeckList({ search }: { search: string }) {
                     <h2>{deck.title}</h2>
                   </Link>
                   <Link to={`/deckEditor/${deck.id}`} className="modif-button">
-                    <i className="fa-solid fa-pen" />
+                    <i className="fa-solid fa-pen " />
                   </Link>
                 </div>
               );

@@ -1,6 +1,103 @@
 .welcoming-message {
-  color: #d6955b;
+  color: #ecf8f6;
 }
-.authentification-button {
-  font-family: 'Love Ya Like A Sister';
+.link-user-pseudo {
+  display: inline-block;
+  background-color: #feeaa1;
+  border-radius: 20px;
+  border: 0px;
+  padding: 8px 30px;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  box-shadow: 2px 4px 60px #000000;
+  text-decoration: none;
+  color: #18534f;
+}
+.user-icon {
+  display: none;
+}
+
+.valid-button {
+  background-color: #feeaa1;
+  border-radius: 10px;
+  transition: background-color 0.1s ease;
+  margin-top: 2%;
+  width: 90%;
+  cursor: pointer;
+}
+
+.valid-button:hover {
+  background-color: #bba865;
+}
+
+.input-login {
+  display: flex;
+  margin-right: 30%;
+  width: 120%;
+}
+
+.form-container-login {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 3%;
+  margin-right: 10%;
+}
+
+.Settings {
+  margin-right: 10px;
+  display: flex;
+}
+@media screen and (max-width: 768px) {
+  .link-user-pseudo {
+    display: none;
+  }
+  .user-icon {
+    display: inline-block;
+    background-color: #feeaa1;
+    background-size: cover;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border: #d6955b solid 2px;
+    border-radius: 25px;
+  }
+
+  .valid-button {
+    background-color: #feeaa1;
+    border-radius: 10px;
+    transition: background-color 0.1s ease;
+    margin-top: 0.2%;
+    width: 70%;
+    margin-bottom: 4%;
+  }
+
+  .valid-button:hover {
+    background-color: #bba865;
+  }
+
+  .input-login {
+    display: flex;
+    margin-right: 30%;
+    width: 120%;
+    height: 90%;
+  }
+
+  .form-container-login {
+    margin-right: 40px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 3%;
+    margin-right: -10px;
+  }
+
+  .form-container-login {
+    margin-right: 40px;
+  }
+
+  .Settings {
+    margin-right: 10px;
+    display: flex;
+  }
 }

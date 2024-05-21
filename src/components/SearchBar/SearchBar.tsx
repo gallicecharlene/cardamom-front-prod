@@ -19,7 +19,7 @@ function SearchBar({ onSearchSubmit }: SearchBarProps) {
       <form className="search-bar">
         <input
           className="search-input"
-          placeholder="Rechercher..."
+          placeholder="Rechercher un deck"
           value={inputValue}
           onChange={handleChangeInput}
         />
