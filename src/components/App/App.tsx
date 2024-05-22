@@ -2,6 +2,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Home from '../Home/Home';
 import MemoTest from '../MemoTest/MemoTest';
 import Profile from '../Profile/Profile';
+import ErrorPage from '../404/ErrorPage';
 import { useEffect } from 'react';
 import { tokenLoginAction } from '../../redux/User/action';
 import Cookies from 'js-cookie';
@@ -38,6 +39,7 @@ function App() {
         <Route path="/memoTest/:id" element={<MemoTest />} />
         <Route path="/deckEditor/:id" element={<DeckEditor />} />
         <Route path="/profil/:id" element={<Profile />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
       <ToastContainer />
     </div>
