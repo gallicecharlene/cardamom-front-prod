@@ -12,6 +12,23 @@ const initialState: UserState = {
     email: '',
     password: '',
     pseudo: '',
+    decks: [
+      {
+        id: 0,
+        title: '',
+        share_id: '',
+        user_id: 0,
+        stats_deck: [
+          {
+            nb_card_consulted: 0,
+            nb_card_success: 0,
+            deck_id: 0,
+            stats_id: 0,
+          },
+        ],
+        flashcards: [],
+      },
+    ],
   },
 };
 
@@ -28,6 +45,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isPending = false;
       state.isConnected = true;
       state.user = action.payload.user;
+      console.log(state.user, 'state.user');
     })
 
     // Si authentification est réussie
