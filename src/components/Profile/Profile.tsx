@@ -6,6 +6,7 @@ import { deleteUser, updateUser } from '../../redux/User/action';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import AppHeader from '../AppHeader/AppHeader';
+import Stats from '../Stats/Stats';
 import Footer from '../Footer/Footer';
 import HomeButton from '../HomeButton/HomeButton';
 import { useNavigate } from 'react-router-dom';
@@ -64,6 +65,7 @@ function Profile() {
         password: password.trim() !== '' ? password : passwordCheck,
         pseudo: pseudo.trim() !== '' ? pseudo : user?.pseudo,
         id: user?.id,
+        stats: user?.stats,
       })
     );
   };
@@ -188,7 +190,7 @@ function Profile() {
           </div>
         )}
       <section>
-        <span>Affichage stats</span>
+        <Stats />
       </section>
       <Footer />
     </main>

@@ -11,6 +11,7 @@ import { fetchCard } from '../../redux/Card/action';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import HomeButton from '../HomeButton/HomeButton';
+import { createStats } from '../../redux/Stats/action';
 
 function MemoTest() {
   const dispatch = useAppDispatch();
@@ -20,7 +21,9 @@ function MemoTest() {
   const [know, setKnow] = useState(false);
   const [currentCardMemo, setCurrentCardMemo] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  // constantes pour les stats ()
+  const [nbCardConsulted, setNbCardConsulted] = useState(0); // pour definir la valeur initiale (natif react)
+  const [nbCardSuccess, setNbCardSuccess] = useState(0);
   const { id } = useParams();
 
   const handleRestartSession = () => {
@@ -61,17 +64,31 @@ function MemoTest() {
       currentCardMemo >= flashcards.length
     ) {
       handleOpenModal();
+      //requete api pour créer les stats
+      dispatch(
+        createStats({
+          nb_card_consulted: nbCardConsulted,
+          nb_card_success: nbCardSuccess,
+          deck_id: parseInt(id!),
+          stats_id: undefined,
+        })
+      );
+      setNbCardConsulted(0);
+      setNbCardSuccess(0);
     }
   }, [currentCardMemo, flashcards]);
 
   const handleKnow = () => {
     setKnow(true);
     setCurrentCardMemo(currentCardMemo + 1);
+    setNbCardConsulted(nbCardConsulted + 1);
+    setNbCardSuccess(nbCardSuccess + 1);
   };
 
   const handleUnknow = () => {
     setKnow(false);
     setCurrentCardMemo(currentCardMemo + 1);
+    setNbCardConsulted(nbCardConsulted + 1);
   };
 
   function findDeck(deckList: Deck[], id: number) {

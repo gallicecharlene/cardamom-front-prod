@@ -1,0 +1,20 @@
+.stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 3%;
+}
+.stats {
+  width: 30%;
+  text-align: center;
+  border: solid 2px black;
+  border-radius: 10px;
+  margin: 1%;
+  background-color: #226d68;
+  color: #ecf8f6;
+  font-weight: bold;
+
+  // max-width: 500px;
+  // position: relative;
+}

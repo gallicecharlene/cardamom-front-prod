@@ -1,20 +1,24 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { createStats, fetchStats } from './action';
+import { Deck } from '../../types';
 
 type StatsState = {
-  nb_card_consulted: number;
-  nb_card_success: number;
-  user_id: number;
-  deck_id: number;
-  id: number | undefined;
+  deck: Deck | null;
+  error: string | null;
 };
+
 const initialState: StatsState = {
-  nb_card_consulted: 0,
-  nb_card_success: 0,
-  user_id: 0,
-  deck_id: 0,
-  id: undefined,
+  deck: null,
+  error: null,
 };
+
 const statsReducer = createReducer(initialState, (builder) => {
-  builder;
+  builder.addCase(createStats.fulfilled, (state, action) => {
+    // dans le cas ou  createStats on ça a fonctionné
+    if (state.deck?.stats_deck) {
+      state.deck.stats_deck.push(action.payload);
+      console.log('les stats sont créé!!! Youpi ');
+    }
+  });
 });
 export default statsReducer;

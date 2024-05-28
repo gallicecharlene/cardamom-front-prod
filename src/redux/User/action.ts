@@ -1,12 +1,14 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+import { Deck, Stats } from '../../types';
 
 type LoginActionPayload = {
   id: number | undefined;
   email: string | undefined;
   password: string;
   pseudo: string | undefined;
+  decks: Deck[];
 };
 
 // Action pour se connecter
