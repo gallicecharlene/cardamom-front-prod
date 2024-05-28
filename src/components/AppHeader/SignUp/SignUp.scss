@@ -1,0 +1,46 @@
+.Settings {
+  margin-right: 10px;
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1%;
+  margin-right: -5%;
+}
+
+.input-signup {
+  width: 100%;
+  height: 80%;
+}
+
+.valid-button-signup {
+  background-color: #feeaa1;
+  border-radius: 10px;
+  transition: background-color 0.1s ease;
+  width: 110%;
+  height: 100%;
+  margin-top: -1%;
+  cursor: pointer;
+}
+
+.valid-button-signup:hover {
+  background-color: #bba865;
+}
+
+@media screen and (max-width: 900px) {
+  .form-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1%;
+    margin-right: -5%;
+  }
+  .valid-button-signup {
+    background-color: #feeaa1;
+    border-radius: 10px;
+    transition: background-color 0.1s ease;
+    width: 110%;
+    height: 100%;
+    margin-top: -2%;
+  }
+}
