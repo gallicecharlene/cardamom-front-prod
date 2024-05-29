@@ -37,6 +37,8 @@ function LogIn() {
         password,
         pseudo: user?.pseudo,
         id: user?.id,
+        decks: [], // Add the 'decks' property with an empty array
+        stats: [],
       })
     );
     dispatch({ type: 'auth/HIDE_MODAL_LOGIN' });

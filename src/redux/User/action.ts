@@ -9,6 +9,7 @@ type LoginActionPayload = {
   password: string;
   pseudo: string | undefined;
   decks: Deck[];
+  stats: Stats[];
 };
 
 // Action pour se connecter

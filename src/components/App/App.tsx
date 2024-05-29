@@ -25,6 +25,8 @@ function App() {
           password: '',
           pseudo: '',
           id: 0,
+          decks: [], // Add the 'decks' property with an empty array value
+          stats: [],
         })
       );
       console.log('Connexion réussie');

@@ -58,6 +58,8 @@ function SignUp() {
         password,
         pseudo,
         id: 0,
+        decks: [], // Add the 'decks' property with an empty array value
+        stats: [],
       })
     );
     toast.success('Votre compte a bien été créé');
