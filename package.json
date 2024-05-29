@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "tsc --noEmit && eslint src/**/*.{ts,tsx} --cache --max-warnings=0",
