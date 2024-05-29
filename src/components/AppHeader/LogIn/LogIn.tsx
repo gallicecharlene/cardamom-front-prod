@@ -37,6 +37,7 @@ function LogIn() {
         password,
         pseudo: user?.pseudo,
         id: user?.id,
+        decks: user?.decks,
       })
     );
     dispatch({ type: 'auth/HIDE_MODAL_LOGIN' });

@@ -8,7 +8,7 @@ type LoginActionPayload = {
   email: string | undefined;
   password: string;
   pseudo: string | undefined;
-  decks: Deck[];
+  decks: Deck[] | undefined;
 };
 
 // Action pour se connecter
@@ -40,7 +40,7 @@ export const loginAction = createAsyncThunk(
 export const tokenLoginAction = createAsyncThunk(
   'auth/PROFILE',
   // J'envoie les informations saisies dans le formulaire de connection à l'API grâce au payload
-  async (payload: LoginActionPayload) => {
+  async () => {
     const token = Cookies.get('jwtToken');
 
     // message d'erreur si pas de token
@@ -61,9 +61,7 @@ export const tokenLoginAction = createAsyncThunk(
         Cookies.remove('jwtToken');
         throw new Error('Failed to authenticate');
       }
-
       const userData = await response.json();
-
       toast.success('Connection réussie');
       return userData;
     } catch (error) {

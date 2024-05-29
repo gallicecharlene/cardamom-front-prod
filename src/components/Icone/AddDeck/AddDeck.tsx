@@ -27,13 +27,14 @@ function AddDeck() {
     setDeckTitle('');
     const response = await dispatch(
       deckCreate({
-        title,
+        title: title,
         id: undefined,
       })
     );
     const newDeck = response.payload;
     const DeckId = newDeck.id;
     navigate(`DeckEditor/${DeckId}`);
+
     //window.location.href = `/DeckEditor/${DeckId}`;
     console.log(DeckId, " le deckid après l'api");
     toast.success('Le deck a bien été créé');

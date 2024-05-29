@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import './Profile.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AppDispatch, RootState } from '../../redux/store';
@@ -10,6 +10,7 @@ import Stats from '../Stats/Stats';
 import Footer from '../Footer/Footer';
 import HomeButton from '../HomeButton/HomeButton';
 import { useNavigate } from 'react-router-dom';
+import { fetchStats } from '../../redux/Stats/action';
 
 function Profile() {
   const user = useAppSelector((state) => state.user.user);
@@ -65,7 +66,7 @@ function Profile() {
         password: password.trim() !== '' ? password : passwordCheck,
         pseudo: pseudo.trim() !== '' ? pseudo : user?.pseudo,
         id: user?.id,
-        stats: user?.stats,
+        decks: user?.decks,
       })
     );
   };
@@ -90,7 +91,6 @@ function Profile() {
     navigate('/');
   };
   //Fonction pour récupérer les stats:
-  //  const getStats
 
   return (
     <main id="profil_page" className="profile_container">
@@ -189,9 +189,8 @@ function Profile() {
             </h3>
           </div>
         )}
-      <section>
-        <Stats />
-      </section>
+
+      <section>{user ? <Stats /> : ''}</section>
       <Footer />
     </main>
   );

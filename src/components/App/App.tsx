@@ -19,14 +19,7 @@ function App() {
   useEffect(() => {
     if (token) {
       // Si un jeton est disponible, appelez l'action tokenLoginAction pour effectuer la connexion
-      dispatch(
-        tokenLoginAction({
-          email: '',
-          password: '',
-          pseudo: '',
-          id: 0,
-        })
-      );
+      dispatch(tokenLoginAction());
       console.log('Connexion réussie');
     }
   }, [token]);

@@ -13,7 +13,7 @@ export const fetchStats = createAsyncThunk(
   async (payload: StatsActionPayload) => {
     const token = Cookies.get('jwtToken');
 
-    const response = await fetch(`http://localhost:3003/api/`, {
+    const response = await fetch(`http://localhost:3003/api/stats'`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

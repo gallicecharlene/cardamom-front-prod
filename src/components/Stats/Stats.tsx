@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Stats.scss';
 import { useAppSelector } from '../../hooks/redux';
 
@@ -6,8 +6,8 @@ function Stats() {
   const user = useAppSelector((state) => state.user.user); // on récupère les stats dans notre store (state)
 
   // on affiche les stats du deck selectionné
-
   console.log(user, 'la liste ici');
+
   return (
     <div className="stats-container">
       {user &&
@@ -29,5 +29,4 @@ function Stats() {
     </div>
   );
 }
-
 export default Stats;
