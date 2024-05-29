@@ -11,13 +11,14 @@ type LoginActionPayload = {
   decks: Deck[];
   stats: Stats[];
 };
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 // Action pour se connecter
 export const loginAction = createAsyncThunk(
   'auth/LOGIN',
   // J'envoie les informations saisies dans le formulaire de connection à l'API grâce au payload
   async (payload: LoginActionPayload) => {
-    const response = await fetch(`http://localhost:3003/api/auth/login`, {
+    const response = await fetch(`${VITE_API_URL}/api/auth/login`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -49,7 +50,7 @@ export const tokenLoginAction = createAsyncThunk(
       throw new Error('No token available');
     }
     try {
-      const response = await fetch(`http://localhost:3003/api/profile`, {
+      const response = await fetch(`${VITE_API_URL}/api/profile`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +81,7 @@ export const updateUser = createAsyncThunk(
   async (payload: LoginActionPayload) => {
     const token = Cookies.get('jwtToken');
     console.log(token, 'le token');
-    const response = await fetch(`http://localhost:3003/api/profile`, {
+    const response = await fetch(`${VITE_API_URL}/api/profile`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -95,7 +96,7 @@ export const updateUser = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk('auth/DELETE', async () => {
   const token = Cookies.get('jwtToken');
-  const response = await fetch(`http://localhost:3003/api/profile`, {
+  const response = await fetch(`${VITE_API_URL}/api/profile`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -112,7 +113,7 @@ export const disconnectAction = createAction('auth/DISCONNECT');
 export const signUpAction = createAsyncThunk(
   'auth/SIGNUP',
   async (payload: LoginActionPayload) => {
-    const response = await fetch(`http://localhost:3003/api/auth/signup`, {
+    const response = await fetch(`${VITE_API_URL}/api/auth/signup`, {
       method: 'POST',
       headers: {
         // Je précise que j'envoie les données au format JSON

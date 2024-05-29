@@ -8,13 +8,15 @@ type CardActionPayload = {
   id: number | undefined;
 };
 
+const VITE_API_URL = import.meta.env.VITE_API_URL;
+
 export const fetchCard = createAsyncThunk(
   'cards/FETCH_CARDS',
   async (payload: CardActionPayload) => {
     const token = Cookies.get('jwtToken');
     const id = payload.deck_id;
     console.log("l'id dans fecthcard est:", id);
-    const response = await fetch(`http://localhost:3003/api/decks/${id}`, {
+    const response = await fetch(`${VITE_API_URL}/api/decks/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -33,7 +35,7 @@ export const cardCreate = createAsyncThunk(
   async (payload: CardActionPayload) => {
     const token = Cookies.get('jwtToken');
     try {
-      const response = await fetch(`http://localhost:3003/api/flashcards`, {
+      const response = await fetch(`${VITE_API_URL}/api/flashcards`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +58,7 @@ export const deleteCard = createAsyncThunk(
 
     const { id } = payload;
     console.log(id, "l'id de la carte du payload");
-    const response = await fetch(`http://localhost:3003/api/flashcards/${id}`, {
+    const response = await fetch(`${VITE_API_URL}/api/flashcards/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -75,7 +77,7 @@ export const updateDeck = createAsyncThunk(
     const { id } = payload;
     const token = Cookies.get('jwtToken');
 
-    const response = await fetch(`http://localhost:3003/api/decks/${id}`, {
+    const response = await fetch(`${VITE_API_URL}/api/decks/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -92,7 +94,7 @@ export const updateCard = createAsyncThunk(
   async (payload: CardActionPayload) => {
     const token = Cookies.get('jwtToken');
     const { id } = payload;
-    const response = await fetch(`http://localhost:3003/api/flashcards/${id}`, {
+    const response = await fetch(`${VITE_API_URL}/api/flashcards/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
