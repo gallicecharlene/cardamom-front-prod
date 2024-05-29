@@ -81,38 +81,64 @@ function SignUp() {
       ) : (
         <>
           {displayModalSignUp ? (
-            <div id="Settings">
-              <button id="closeButton" onClick={handleDialogDisplay}>
+            <div id="Settings" role="dialog" aria-modal="true">
+              {/* Aria-modal pour empécher l'utilisateur de sortir de la modal une fois ouverte, avec tabulation */}
+              <button
+                id="closeButton"
+                onClick={handleDialogDisplay}
+                aria-label="Close sign up form"
+              >
                 <IoIosCloseCircle className="react_icon" />
               </button>
               <form className="form-container" onSubmit={handlePasswordCheck}>
+                <label htmlFor="pseudo-input"></label>
+                {/* l'id pseudo input est similaire au htmlFor du label pour les lier entre eux */}
+                {/* Pas de texte dans le label par soucis de place, le placeholder donne déjà des informations*/}
                 <input
+                  id="pseudo-input"
                   className="input-signup"
                   type="text"
                   value={pseudo}
                   onChange={pseudoHandleChange}
                   placeholder="Pseudo"
+                  aria-label="Enter your username "
+                  required
                 />
+                {/* require pour informer que ce champs est requis */}
+                <label htmlFor="email-input"></label>
                 <input
+                  id="email-input"
                   className="input-signup"
                   type="email"
                   value={email}
                   onChange={emailHandleChange}
                   placeholder="Email"
+                  aria-label="Enter your email"
+                  required
                 />
+
+                <label htmlFor="password-input"></label>
                 <input
+                  id="password-input"
                   className="input-signup"
                   type="password"
                   value={password}
                   onChange={passwordHandleChange}
                   placeholder="Mot de passe"
+                  aria-label="Enter your password"
+                  required
                 />
+
+                <label htmlFor="confirm-password-input"></label>
                 <input
+                  id="confirm-password-input"
                   className="input-signup"
                   type="password"
                   value={newPassword}
                   onChange={newPasswordHandleChange}
                   placeholder="Confirmer le mot de passe"
+                  aria-label="Confirm your password"
+                  required
                 />
                 <button className="valid-button-signup" type="submit">
                   Créer un compte
@@ -123,6 +149,7 @@ function SignUp() {
             <button
               type="button"
               className="authentification-button"
+              aria-label="Open sign upform"
               onClick={handleDialogDisplay}
             >
               Sign Up
