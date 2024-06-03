@@ -13,12 +13,15 @@ const initialState: StatsState = {
 };
 
 const statsReducer = createReducer(initialState, (builder) => {
-  builder.addCase(createStats.fulfilled, (state, action) => {
-    // dans le cas ou  createStats on ça a fonctionné
-    if (state.deck?.stats_deck) {
-      state.deck.stats_deck.push(action.payload);
+  builder
+    .addCase(fetchStats.fulfilled, (state, action) => {
+      state.deck = action.payload;
+      console.log(state.deck, 'rentre dans le if');
+    })
+    .addCase(createStats.fulfilled, (state, action) => {
       console.log('les stats sont créé!!! Youpi ');
-    }
-  });
+      state.deck?.stats_deck.push(action.payload);
+      console.log(action.payload, 'les stats sont créé!!! Youpi ');
+    });
 });
 export default statsReducer;

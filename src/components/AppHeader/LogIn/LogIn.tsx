@@ -39,6 +39,7 @@ function LogIn() {
         id: user?.id,
         decks: [], // Add the 'decks' property with an empty array
         stats: [],
+
       })
     );
     dispatch({ type: 'auth/HIDE_MODAL_LOGIN' });
@@ -55,7 +56,10 @@ function LogIn() {
     <div>
       {token ? (
         <h3 className="welcoming-message">
-          <Link to={`/profil/${user?.id}`}>
+          <Link
+            to={`/profil/${user?.id}`}
+            aria-label={`View profile of ${user?.pseudo}`}
+          >
             <span className="link-user-pseudo ">
               Bienvenue {user?.pseudo} !{' '}
             </span>
@@ -65,25 +69,38 @@ function LogIn() {
       ) : (
         <>
           {displayModalLogIn ? (
-            <div id="Settings">
-              <button id="closeButton" onClick={handleDialogDisplay}>
+            <div id="Settings" aria-modal="true" role="dialog">
+              <button
+                id="closeButton"
+                onClick={handleDialogDisplay}
+                aria-label="Close login form"
+              >
                 <IoIosCloseCircle className="react_icon" />
               </button>
               <form className="form-container-login" onSubmit={handleConnect}>
+                <label htmlFor="email-input"></label>
                 <input
+                  id="email-input"
                   className="input-login"
                   type="email"
                   value={email}
                   onChange={emailHandleChange}
                   placeholder="Email"
+                  aria-label="Enter your email"
                 />
+
+                <label htmlFor="password-input"></label>
+
                 <input
+                  id="password-input"
                   className="input-login"
                   type="password"
                   value={password}
                   onChange={passwordHandleChange}
                   placeholder="Mot de passe"
+                  aria-label="Enter your password"
                 />
+
                 <button className="valid-button" type="submit">
                   Envoyer
                 </button>
@@ -93,6 +110,7 @@ function LogIn() {
             <button
               className="authentification-button"
               onClick={handleDialogDisplay}
+              aria-label="Open login form"
             >
               {isConnected ? '' : 'LogIn'}
             </button>

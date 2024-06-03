@@ -45,7 +45,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isPending = false;
       state.isConnected = true;
       state.user = action.payload.user;
-      console.log(state.user, 'state.user');
+      console.log(state.user, 'state.user dans le tokenreducer');
     })
 
     // Si authentification est réussie
@@ -53,6 +53,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isPending = false;
       state.isConnected = true;
       state.user = action.payload.user;
+      console.log(state.user, 'state.user dans le loginreducer');
     })
     // Si authentifiaction a échoué
     .addCase(actions.loginAction.rejected, (state, action) => {

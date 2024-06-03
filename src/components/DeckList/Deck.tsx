@@ -14,7 +14,8 @@ function DeckList({ search }: { search: string }) {
   const deck = useAppSelector((state) => state.decks.list);
 
   const dispatch = useAppDispatch();
-  const { list, isPending } = useSelector((state: RootState) => state.decks);
+  const list = useAppSelector((state) => state.decks.list);
+  const { isPending } = useAppSelector((state) => state.decks);
   const token = Cookies.get('jwtToken');
 
   useEffect(() => {
@@ -27,7 +28,6 @@ function DeckList({ search }: { search: string }) {
   if (!deck) {
     return <Home />;
   }
-  console.log(list, 'la list dans deck');
 
   return (
     <div className="deck-container">

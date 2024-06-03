@@ -15,7 +15,9 @@ export const fetchStats = createAsyncThunk(
   async (payload: StatsActionPayload) => {
     const token = Cookies.get('jwtToken');
 
+
     const response = await fetch(`${VITE_API_URL}/api/`, {
+
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
