@@ -8,12 +8,16 @@ type StatsActionPayload = {
   deck_id: number;
   stats_id: number | undefined;
 };
+const VITE_API_URL = import.meta.env.VITE_API_URL;
+
 export const fetchStats = createAsyncThunk(
   'stats/FETCH_STATS',
   async (payload: StatsActionPayload) => {
     const token = Cookies.get('jwtToken');
 
-    const response = await fetch(`http://localhost:3003/api/stats'`, {
+
+    const response = await fetch(`${VITE_API_URL}/api/`, {
+
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -31,17 +35,14 @@ export const createStats = createAsyncThunk(
   async (payload: any) => {
     const { deck_id } = payload;
     const token = Cookies.get('jwtToken');
-    const response = await fetch(
-      `http://localhost:3003/api/decks/${deck_id}/stats`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      }
-    );
+    const response = await fetch(`${VITE_API_URL}/api/decks/${deck_id}/stats`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
     const statsCreated = await response.json();
     return statsCreated;
   }

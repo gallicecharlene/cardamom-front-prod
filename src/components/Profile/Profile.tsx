@@ -56,7 +56,7 @@ function Profile() {
   const profileUpdate = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     setIsModalOpen(!isModalOpen);
-    if (password != passwordConfirm) {
+    if (password !== passwordConfirm) {
       toast.error('les mots de passes sont différents');
       return;
     }
@@ -66,7 +66,10 @@ function Profile() {
         password: password.trim() !== '' ? password : passwordCheck,
         pseudo: pseudo.trim() !== '' ? pseudo : user?.pseudo,
         id: user?.id,
-        decks: user?.decks,
+
+        decks: [],
+        stats: [], // Add the missing stats property
+
       })
     );
   };

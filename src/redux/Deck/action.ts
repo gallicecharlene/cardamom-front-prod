@@ -9,9 +9,11 @@ type DeckActionPayload = {
   updated_at?: string;
 };
 
+const VITE_API_URL = import.meta.env.VITE_API_URL;
+
 export const fetchDeck = createAsyncThunk('decks/FETCH_DECK', async () => {
   const token = Cookies.get('jwtToken');
-  const response = await fetch(`http://localhost:3003/api/decks`, {
+  const response = await fetch(`${VITE_API_URL}/api/decks`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -27,7 +29,7 @@ export const deckCreate = createAsyncThunk(
   async (payload: DeckActionPayload) => {
     const token = Cookies.get('jwtToken');
     try {
-      const response = await fetch(`http://localhost:3003/api/decks`, {
+      const response = await fetch(`${VITE_API_URL}/api/decks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -49,7 +51,7 @@ export const deleteDeck = createAsyncThunk(
   async (payload: DeckActionPayload) => {
     const token = Cookies.get('jwtToken');
     const { id } = payload;
-    const response = await fetch(`http://localhost:3003/api/decks/${id}`, {
+    const response = await fetch(`${VITE_API_URL}/api/decks/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -69,16 +71,13 @@ export const fetchImportDeck = createAsyncThunk(
   async (payload: DeckActionPayload) => {
     const { shareId } = payload;
     const token = Cookies.get('jwtToken');
-    const response = await fetch(
-      `http://localhost:3003/api/decks/share/${shareId}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`${VITE_API_URL}/api/decks/share/${shareId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     const parsedResponse = await response.json();
 

@@ -19,7 +19,18 @@ function App() {
   useEffect(() => {
     if (token) {
       // Si un jeton est disponible, appelez l'action tokenLoginAction pour effectuer la connexion
-      dispatch(tokenLoginAction());
+
+      dispatch(
+        tokenLoginAction({
+          email: '',
+          password: '',
+          pseudo: '',
+          id: 0,
+          decks: [], // Add the 'decks' property with an empty array value
+          stats: [],
+        })
+      );
+
       console.log('Connexion réussie');
     }
   }, [token]);
